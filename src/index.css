@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+
+/* Contact form styling */
+
+#contact {
+  padding: 20px 0 100px 0;
+}
+
+.contact {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contact h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.contact p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+}
+.contact-form label {
+  font-size: 18px;
+  display: block;
+}
+
+
+  .image-width { 
+    height: 50px;
+    width: 80px;
+  }
+
+  .carousel-primary {
+    
+    left: 100%;
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+  }
+
+  .carousel-primary img {
+    width: 100%;
+    margin-left: 20px;
+    border-radius: 14px;
+  }
+
+  .carousel-primary {
+    animation: scroll-horizontal 3s linear infinite;
+    animation-direction: alternate;
+  }
+
+  @keyframes scroll-horizontal {
+    0% {
+      left: 0%;
+    }
+
+    100% {
+      left: -2%;
+    }
+  }
