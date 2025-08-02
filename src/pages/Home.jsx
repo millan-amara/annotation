@@ -13,9 +13,9 @@ const FloatingShape = ({ className, style }) => (
 );
 
 const LandingPage = () => {
-  useEffect(() => {
-    document.title = "[Your Company Name] - AI Data Infrastructure";
-  }, []);
+  // useEffect(() => {
+  //   document.title = "SpherePulse - AI Data Infrastructure";
+  // }, []);
 
   return (
     <div className="bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white min-h-screen">
@@ -39,7 +39,7 @@ const LandingPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
-            <h1 className="text-3xl md:text-4xl font-extrabold mb-6 leading-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-300 to-white">
+            <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-300 to-white">
               Powering the Next Generation of AI with Structured Human Data
             </h1>
             
@@ -47,7 +47,7 @@ const LandingPage = () => {
             <p className="text-lg md:text-xl mb-8 text-gray-300 max-w-2xl mx-auto">
               SpherePulse provides scalable human-in-the-loop solutions for AI development — from annotation to collection to transcription.
             </p>
-            <button className="bg-white text-slate-950 px-8 py-3 text-lg rounded-2xl shadow-xl hover:bg-slate-200">
+            <button className="text-white bg-purple-600 text-slate-950 px-8 py-2 text-lg rounded-lg shadow-xl hover:bg-purple-400 hover:text-white cursor-pointer">
               Get in Touch
             </button>
           </motion.div>
