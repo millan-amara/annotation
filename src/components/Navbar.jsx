@@ -34,10 +34,10 @@ function Navbar() {
 
             {/* Desktop menu */}
             <nav className="hidden text-sm sm:flex font-medium space-x-6 z-50">
-                <Link to="/" className="text-white hover:text-purple-300">Home</Link>
+                <Link to="/" className="hover:text-purple-300">Home</Link>
                 {/* <Link to="/packages" className="hover:text-purple-300">Packages</Link> */}
-                <Link to="/services" className="hover:text-purple-300">Services</Link>
-                <Link to="/about" className="hover:text-purple-300">About</Link>
+                <Link to="/jobs" className="hover:text-purple-300">Jobs</Link>
+                {/* <Link to="/about" className="hover:text-purple-300">About</Link> */}
                 <Link to="/contact" className="hover:text-purple-300">Contact</Link>
             </nav>
 
@@ -56,9 +56,8 @@ function Navbar() {
 
                 <div className="flex flex-col mx-auto p-6 mt-10 text-base">
                     <Link to="/" onClick={() => setMenuOpen(false)} className="hover:underline py-2 mb-2">Home</Link>
-                    {/* <Link to="/packages" onClick={() => setMenuOpen(false)} className="hover:underline py-2 mb-2">Packages</Link> */}
-                    <Link to="/services" onClick={() => setMenuOpen(false)} className="hover:underline py-2 mb-2">Services</Link>
-                    <Link to="/about" onClick={() => setMenuOpen(false)} className="hover:underline py-2 mb-2">About</Link>
+                    <Link to="/jobs" onClick={() => setMenuOpen(false)} className="hover:underline py-2 mb-2">Jobs</Link>
+                    {/* <Link to="/about" onClick={() => setMenuOpen(false)} className="hover:underline py-2 mb-2">About</Link> */}
                     <Link to="/contact" onClick={() => setMenuOpen(false)} className="hover:underline py-2">Contact</Link>
                 </div>
 

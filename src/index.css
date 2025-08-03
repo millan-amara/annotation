@@ -53,9 +53,7 @@
   }
 
   .carousel-primary {
-    
     left: 100%;
-    width: 100%;
     overflow: hidden;
     position: absolute;
     white-space: nowrap;

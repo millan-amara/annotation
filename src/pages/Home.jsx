@@ -1,7 +1,7 @@
-import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle } from "lucide-react";
 import Navbar from "../components/Navbar";
+import ContactForm from "../components/ContactForm";
 
 const FloatingShape = ({ className, style }) => (
   <motion.div
@@ -12,14 +12,11 @@ const FloatingShape = ({ className, style }) => (
   />
 );
 
-const LandingPage = () => {
-  // useEffect(() => {
-  //   document.title = "SpherePulse - AI Data Infrastructure";
-  // }, []);
+const Home = () => {
 
   return (
     <div className="bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white min-h-screen">
-        <Navbar />
+      <Navbar />
       {/* Hero Section */}
       <section className="relative w-full h-screen flex items-center justify-center overflow-hidden">
         <img
@@ -58,21 +55,21 @@ const LandingPage = () => {
 
       </section>
 
-      <section className="scroll-container my-16 pb-12 w-full">
-            <div className="carousel-primary flex h-24 justify-between">
-                <img className="" src="/logos/centific.jpeg" alt="" />
-                <img src="/logos/hesai.png" alt="" />
-                <img src="/logos/mobvista.png" alt="" />
-                <img className="" src="/logos/centific.jpeg" alt="" />
-                <img src="/logos/hesai.png" alt="" />
-                <img src="/logos/mobvista.png" alt="" />
-            </div> 
+      <section className="scroll-container my-16 pb-12">
+        <div className="carousel-primary flex justify-center items-center h-16">
+          <img className="" src="/logos/centific.jpeg" alt="" />
+          <img src="/logos/hesai.png" alt="" />
+          <img className="" src="/logos/mobvista.png" alt="" />
+          <img className="" src="/logos/oppo.png" alt="" />
+          {/* <img className="h-16" src="/logos/waymo.png" alt="" /> */}
+          {/* <img src="/logos/weride.png" alt="" /> */}
+          <img className="" src="/logos/centific.jpeg" alt="" />
+        </div>
       </section>
-
 
       {/* About Section */}
       <section className="bg-slate-900 py-20 px-6 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-6">About SpherePulse</h2>
+        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-300 to-white">About SpherePulse</h2>
         <p className="max-w-3xl mx-auto text-gray-400 text-lg">
           Founded to bridge the gap between AI ambition and real-world data, we combine technical operations, agile infrastructure, and vetted human teams to fuel AI innovations across vision, voice, and language.
         </p>
@@ -80,9 +77,13 @@ const LandingPage = () => {
 
       {/* Capabilities Section */}
       <section className="container mx-auto px-6 py-20">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-300 to-white">
           Our Capabilities
         </h2>
+            {/* Parallax Floating Shapes */}
+            <FloatingShape className="w-72 h-72 bg-blue-400 left-10 top-20" />
+            <FloatingShape className="w-56 h-56 bg-purple-500 right-10 bottom-32" />
+            <FloatingShape className="w-48 h-48 bg-pink-500 left-1/3 top-1/4" />
         <div className="grid md:grid-cols-3 gap-10">
           {[
             {
@@ -106,7 +107,7 @@ const LandingPage = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.2 }}
-              className="bg-slate-800 p-6 rounded-2xl shadow-lg border border-slate-700"
+              className="bg-slate-800 p-6 rounded-2xl shadow-lg border border-slate-700 text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-300 to-white"
             >
               <h3 className="text-2xl font-semibold mb-3">
                 {service.title}
@@ -119,7 +120,7 @@ const LandingPage = () => {
 
       {/* Infrastructure Section */}
       <section className="text-center px-6 py-20 bg-slate-950">
-        <h2 className="text-4xl font-bold mb-6">Trusted Infrastructure for Human-in-the-Loop AI</h2>
+        <h2 className="text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-300 to-white">Trusted Infrastructure for Human-in-the-Loop AI</h2>
         <p className="text-gray-400 max-w-3xl mx-auto text-lg">
           We help AI-first companies build robust training datasets at scale — with custom pipelines, vetted teams, and consistent delivery.
         </p>
@@ -128,7 +129,7 @@ const LandingPage = () => {
       {/* Why Us Section */}
       <section className="bg-slate-900 py-20 px-6">
         <div className="container mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-10">
+          <h2 className="text-3xl md:text-4xl font-bold mb-10 text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-300 to-white">
             Built for AI-Centric Teams
           </h2>
           <div className="grid md:grid-cols-2 gap-12 text-left">
@@ -151,6 +152,8 @@ const LandingPage = () => {
         </div>
       </section>
 
+      <ContactForm />
+
       {/* Footer */}
       <footer className="py-10 text-center text-gray-400 text-sm">
         &copy; {new Date().getFullYear()} SpherePulse. All rights reserved.
@@ -159,4 +162,5 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+
+export default Home;
