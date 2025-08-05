@@ -47,11 +47,11 @@ function ContactForm() {
         </p>
         <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
           <button className="flex items-center gap-2 px-6 py-3 bg-white text-black rounded-md font-semibold hover:bg-gray-200 transition">
-            <Mail size={18} /> contact@spherepulse.net
+            <Mail size={18} /> contact@spherepulseapp.com
           </button>
-          <button className="flex items-center gap-2 px-6 py-3 bg-white text-black rounded-md font-semibold hover:bg-gray-200 transition">
+          {/* <button className="flex items-center gap-2 px-6 py-3 bg-white text-black rounded-md font-semibold hover:bg-gray-200 transition">
             <Phone size={18} /> +254 700 487 751
-          </button>
+          </button> */}
           <a href='https://www.linkedin.com/company/spherepulse/?viewAsMember=true' className="flex items-center gap-2 px-6 py-3 bg-white text-black rounded-md font-semibold hover:bg-gray-200 transition">
             <Send size={18} /> DM on LinkedIn
           </a>
