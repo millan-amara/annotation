@@ -30,7 +30,7 @@ function Navbar() {
             </button>
 
             {/* Desktop menu */}
-            <nav className="hidden text-base sm:flex space-x-6 z-50">
+            <nav className="hidden text-sm sm:flex space-x-6 z-50">
                 <Link to="/" className="hover:text-purple-400">Home</Link>
                 <Link to="/jobs" className="hover:text-purple-400">Jobs</Link>
                 <Link to="/contact" className="hover:text-purple-400">Contact</Link>

@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import ContactForm from "../components/ContactForm";
 import { GoArrowUpRight } from "react-icons/go";
 import SimpleWorldMap from "../components/SimpleWorldMap";
+import bgImage from "/intelligence.svg";
 
 const stats = [
   { label: "Countries Covered", value: "30+" },
@@ -143,8 +144,13 @@ const Home = () => {
       
 
       {/* About Section */}
-      <section className="bg-white py-20 px-6 text-center">
-        <p className="max-w-4xl mx-auto text-slate-700 text-lg">
+      <section className="bg-white py-20 px-6 text-center md:flex items-center space-x-4">
+        <img
+          src={bgImage}
+          alt="World Map"
+          className="mb-5 md:w-1/3"
+        />
+        <p className="max-w-4xl mx-auto text-lg">
           Founded to bridge the gap between AI ambition and real-world data, we combine technical operations, agile infrastructure, and vetted human teams to fuel AI innovations across vision, voice, and language.
         </p>
       </section>
