@@ -1,10 +1,8 @@
 import React from 'react';
 import { useState } from "react";
 import { Link, useLocation } from 'react-router-dom';
-import { MdEmail } from "react-icons/md";
-import { FaFacebookF, FaBars, FaPhone } from "react-icons/fa6";
-import { FaTiktok, FaWhatsapp, FaTimes, FaInstagram, FaExternalLinkAlt } from "react-icons/fa";
-// import Logo from '../assets/logo.png';
+import { FaBars } from "react-icons/fa6";
+import { FaTimes } from "react-icons/fa";
 
 function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -14,13 +12,12 @@ function Navbar() {
   return (
     <>
         <header
-            className={`px-8 flex justify-between items-center sticky top-6 z-30 text-black transition-all duration-300 ${
-                isHome ? "text-white" : "bg-white shadow-md"
+            className={`px-8 flex justify-between items-center sticky pt-6 pb-2 z-30 text-black transition-all duration-300 ${
+                isHome ? "text-black" : "shadow-md"
             }`}
         >
 
-            <Link to='/' className='flex flex-col items-center text-xl'>
-                {/* <img src={Logo} className='w-16 md:w-20' /> */}
+            <Link to='/' className='flex flex-col items-center text-2xl'>
                 SpherePulse
             </Link>
 
@@ -33,12 +30,14 @@ function Navbar() {
             </button>
 
             {/* Desktop menu */}
-            <nav className="hidden text-sm sm:flex font-medium space-x-6 z-50">
-                <Link to="/" className="hover:text-purple-300">Home</Link>
-                {/* <Link to="/packages" className="hover:text-purple-300">Packages</Link> */}
-                <Link to="/jobs" className="hover:text-purple-300">Jobs</Link>
-                {/* <Link to="/about" className="hover:text-purple-300">About</Link> */}
-                <Link to="/contact" className="hover:text-purple-300">Contact</Link>
+            <nav className="hidden text-base sm:flex space-x-6 z-50">
+                <Link to="/" className="hover:text-purple-400">Home</Link>
+                <Link to="/jobs" className="hover:text-purple-400">Jobs</Link>
+                <Link to="/contact" className="hover:text-purple-400">Contact</Link>
+            </nav>
+
+            <nav className="hidden text-sm sm:flex z-50">
+                <Link to="/login" className="border rounded-full px-4 py-2 text-xs border-slate-200 bg-slate-100 hover:bg-slate-200">Sign In</Link>
             </nav>
 
             {/* Mobile menu */}
@@ -57,7 +56,6 @@ function Navbar() {
                 <div className="flex flex-col mx-auto p-6 mt-10 text-base">
                     <Link to="/" onClick={() => setMenuOpen(false)} className="hover:underline py-2 mb-2">Home</Link>
                     <Link to="/jobs" onClick={() => setMenuOpen(false)} className="hover:underline py-2 mb-2">Jobs</Link>
-                    {/* <Link to="/about" onClick={() => setMenuOpen(false)} className="hover:underline py-2 mb-2">About</Link> */}
                     <Link to="/contact" onClick={() => setMenuOpen(false)} className="hover:underline py-2">Contact</Link>
                 </div>
 

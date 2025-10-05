@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import emailjs from "@emailjs/browser";
-import { Mail, Phone, Send } from "lucide-react";
+import { Mail, Send } from "lucide-react";
 
 function ContactForm() {
     const formRef = useRef();
@@ -72,7 +72,7 @@ function ContactForm() {
                 <textarea id="message" name="message" value={message} placeholder='Your Message' onChange={handleChange} rows="4" required className="focus:outline-none focus:ring-2 appearance-none text-sm"></textarea>
             </div>
             <div>
-                <button id="contact-button" type="submit" className="flex bg-purple-700 hover:bg-purple-800 text-white w-full py-2 rounded-md items-center justify-center">Send Message</button>
+                <button id="contact-button" type="submit" className="flex bg-purple-500 hover:bg-purple-400 text-white w-full py-2 rounded-md items-center justify-center">Send Message</button>
             </div>
             
           </form>
