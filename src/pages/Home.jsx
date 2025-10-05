@@ -148,7 +148,7 @@ const Home = () => {
         <img
           src={bgImage}
           alt="World Map"
-          className="mb-5 md:w-1/3"
+          className="mb-5 md:w-1/3 animate-pulse"
         />
         <p className="max-w-4xl mx-auto text-lg">
           Founded to bridge the gap between AI ambition and real-world data, we combine technical operations, agile infrastructure, and vetted human teams to fuel AI innovations across vision, voice, and language.
