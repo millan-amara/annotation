@@ -29,7 +29,81 @@ const Home = () => {
     <div className="min-h-screen">
       <Navbar />
       {/* Hero Section */}
-      <section className="relative w-full md:h-screen flex-col content-end overflow-hidden">
+      {/* <section className="relative w-full md:h-screen flex-col content-end overflow-hidden">
+
+        
+        <FloatingShape className="w-72 h-72 bg-blue-400 left-10 top-20" />
+        <FloatingShape className="w-56 h-56 bg-purple-500 right-10 bottom-32" />
+        <FloatingShape className="w-48 h-48 bg-pink-500 left-1/3 top-1/4" />
+
+        <div className="relative z-10 container mx-auto px-6 text-center mt-32">
+            <h1 className="text-3xl md:text-5xl font-semibold mb-4 leading-tight bg-clip-text bg-gradient-to-r from-white via-purple-300 to-white">
+              Structured Human Data
+            </h1>
+            <p className="text-base md:text-lg mb-0 max-w-2xl mx-auto">
+              We provide high-quality global AI training data
+            </p>
+            <p className="md:text-lg mb-8 max-w-2xl mx-auto">
+              with deep expertise in African languages, accents, and contexts.
+            </p>
+            <a href="#contact-section" className="px-8 py-2 text-base rounded-full shadow-xl bg-purple-400 hover:bg-purple-500 text-white cursor-pointer">
+              Get in Touch
+            </a>
+        </div>
+        <div className="relative z-10 container mx-auto px-6 text-center mt-28 pb-16">
+          <div className="mb-5 flex justify-between">
+              <h1 className="font-semibold text-xl text-start">Open Roles</h1>
+              <Link to='/jobs' className="flex items-center space-x-1 border border-slate-300 px-4 py-2 rounded-full hover:bg-slate-100 cursor-pointer">
+                <span className="text-sm">View All</span>
+                <GoArrowUpRight />
+              </Link>
+          </div>
+
+<motion.div
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6 }}
+  viewport={{ once: true }}
+  className="group bg-white rounded-2xl p-6 pb-0 border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-5">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdGV_5TfoHlb8PHMBeAS-D_jL_kRfylTg_GsnWAuoA0v4bguw/viewform?usp=sharing&ouid=107805478261826776810" target="_blank" rel="noopener noreferrer" className="border border-slate-200 md:shadow-lg px-2 py-4 rounded-lg hover:bg-slate-50 hover:border-purple-400">
+              <p className="mb-4">Language Projects</p>
+              <p>Remote | Global</p>
+              <p className="flex justify-center items-center mt-2 space-x-1 text-sm">
+                <span>Apply</span>
+                <GoArrowUpRight />
+              </p>
+            </a>
+            <Link className="border border-slate-200 shadow-lg px-2 py-4 rounded-lg hover:bg-slate-50 hover:border-purple-400">
+              <p className="mb-4">Data Annotation Specialist</p>
+              <p>Remote | English</p>
+              <p className="flex justify-center items-center mt-2 space-x-1 text-sm">
+                <span>Apply</span>
+                <GoArrowUpRight />
+              </p>
+            </Link>
+            <Link className="border border-slate-200 shadow-lg px-2 py-4 rounded-lg hover:bg-slate-50 hover:border-purple-400">
+              <p className="mb-4">iPhone Data Collection</p>
+              <p>Remote | Global</p>
+              <p className="flex justify-center items-center mt-2 space-x-1 text-sm">
+                <span>Apply</span>
+                <GoArrowUpRight />
+              </p>
+            </Link>
+            <Link className="border border-slate-200 shadow-lg px-2 py-4 rounded-lg hover:bg-slate-50 hover:border-purple-400">
+              <p className="mb-4">Data Annotator - Maths</p>
+              <p>Remote | Global</p>
+              <p className="flex justify-center items-center mt-2 space-x-1 text-sm">
+                <span>Apply</span>
+                <GoArrowUpRight />
+              </p>
+            </Link>
+          </div>
+          </motion.div>
+        </div>
+      </section> */}
+            <section className="relative w-full md:h-screen flex-col content-end overflow-hidden">
 
         {/* Parallax Floating Shapes */}
         <FloatingShape className="w-72 h-72 bg-blue-400 left-10 top-20" />
@@ -60,38 +134,38 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-5">
-            <Link className="border border-slate-200 md:shadow-lg px-2 py-4 rounded-lg hover:bg-slate-50 hover:border-purple-400">
-              <p className="mb-4">AI Data Annotation</p>
-              <p>Remote | Swahili</p>
+            <a href='https://forms.gle/aypcdEJLNAmzi2RP9' target="_blank" rel="noopener noreferrer" className="border border-slate-200 md:shadow-lg px-2 py-4 rounded-lg hover:bg-slate-50 hover:border-purple-400">
+              <p className="mb-4">Selfie Picture Collection</p>
+              <p>Remote | Multiple</p>
               <p className="flex justify-center items-center mt-2 space-x-1 text-sm">
                 <span>Apply</span>
                 <GoArrowUpRight />
               </p>
-            </Link>
-            <Link className="border border-slate-200 shadow-lg px-2 py-4 rounded-lg hover:bg-slate-50 hover:border-purple-400">
+            </a>
+            <a href="https://forms.gle/TVL776c9M1VtWE1k7" target="_blank" rel="noopener noreferrer" className="border border-slate-200 shadow-lg px-2 py-4 rounded-lg hover:bg-slate-50 hover:border-purple-400">
               <p className="mb-4">Data Annotation Specialist</p>
               <p>Remote | English</p>
               <p className="flex justify-center items-center mt-2 space-x-1 text-sm">
                 <span>Apply</span>
                 <GoArrowUpRight />
               </p>
-            </Link>
-            <Link className="border border-slate-200 shadow-lg px-2 py-4 rounded-lg hover:bg-slate-50 hover:border-purple-400">
+            </a>
+            <a href="https://forms.gle/TVL776c9M1VtWE1k7" target="_blank" rel="noopener noreferrer" className="border border-slate-200 shadow-lg px-2 py-4 rounded-lg hover:bg-slate-50 hover:border-purple-400">
               <p className="mb-4">iPhone Data Collection</p>
               <p>Remote | Global</p>
               <p className="flex justify-center items-center mt-2 space-x-1 text-sm">
                 <span>Apply</span>
                 <GoArrowUpRight />
               </p>
-            </Link>
-            <Link className="border border-slate-200 shadow-lg px-2 py-4 rounded-lg hover:bg-slate-50 hover:border-purple-400">
+            </a>
+            <a href="https://forms.gle/TVL776c9M1VtWE1k7" target="_blank" rel="noopener noreferrer" className="border border-slate-200 shadow-lg px-2 py-4 rounded-lg hover:bg-slate-50 hover:border-purple-400">
               <p className="mb-4">Data Annotator - Maths</p>
               <p>Remote | Global</p>
               <p className="flex justify-center items-center mt-2 space-x-1 text-sm">
                 <span>Apply</span>
                 <GoArrowUpRight />
               </p>
-            </Link>
+            </a>
           </div>
         </div>
       </section>
