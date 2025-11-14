@@ -52,7 +52,7 @@ function ContactForm() {
           {/* <button className="flex items-center gap-2 px-6 py-3 bg-white text-black rounded-md font-semibold hover:bg-gray-200 transition">
             <Phone size={18} /> +254 700 487 751
           </button> */}
-          <a href='https://www.linkedin.com/company/spherepulse/?viewAsMember=true' className="flex items-center gap-2 px-6 py-3 bg-white text-black rounded-md font-semibold hover:bg-gray-200 transition">
+          <a href='https://www.linkedin.com/company/spherepulse' className="flex items-center gap-2 px-6 py-3 bg-white text-black rounded-md font-semibold hover:bg-gray-200 transition">
             <Send size={18} /> DM on LinkedIn
           </a>
         </div>

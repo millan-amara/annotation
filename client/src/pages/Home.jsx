@@ -63,6 +63,55 @@ const SpherePulseLanding = () => {
 
   return (
     <div className="min-h-screen bg-slate-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "SpherePulse",
+            "url": "https://www.spherepulseapp.com",
+            "logo": "https://www.spherepulseapp.com/logo.png"
+          }
+
+        ) }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(
+          {
+            "@context": "https://schema.org",
+            "@type": "SiteNavigationElement",
+            "name": ["Capabilities", "Jobs", "Contact", "Login"],
+            "url": [
+              "https://www.spherepulseapp.com/capabilities",
+              "https://www.spherepulseapp.com/jobs",
+              "https://www.spherepulseapp.com/contact",
+              "https://www.spherepulseapp.com/login"
+            ]
+          }
+        ) }}
+      />
+      
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.spherepulseapp.com"
+              }
+            ]
+          }
+        ) }}
+      />
+
       <style>{`
         @keyframes float {
           0%, 100% { transform: translate(0, 0) rotate(0deg); }

@@ -93,6 +93,43 @@ const ContactPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(
+          {
+            "@context": "https://schema.org",
+            "@type": "ContactPage",
+            "name": "Contact - SpherePulse",
+            "url": "https://www.spherepulseapp.com/contact",
+            "description": "Contact SpherePulse for inquiries about services, partnerships, or support."
+          }
+        ) }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.spherepulseapp.com"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Contact",
+                "item": "https://www.spherepulseapp.com/contact"
+              }
+            ]
+          }
+        ) }}
+      />
+
       <Navbar />
 
       {/* Hero Section */}

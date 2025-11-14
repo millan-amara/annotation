@@ -250,6 +250,44 @@ const JobsPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Jobs - SpherePulse",
+            "url": "https://www.spherepulseapp.com/jobs",
+            "description": "View career opportunities at SpherePulse and join a growing team building modern AI-powered solutions."
+          }
+        ) }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.spherepulseapp.com"
+              },
+              {
+                "@type": "ListItem", 
+                "position": 2,
+                "name": "Jobs",
+                "item": "https://www.spherepulseapp.com/jobs"
+              }
+            ]
+          }
+        ) }}
+      />
+
       <Navbar />
 
       {/* Hero Section */}
