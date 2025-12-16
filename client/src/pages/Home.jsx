@@ -51,10 +51,11 @@ const SpherePulseLanding = () => {
   ];
 
   const openRoles = [
+    { title: "Menu Image Collection", location: "Remote | Global", link: "https://forms.gle/nUN9FeXGgiZWQMDy5" },
     { title: "Selfie Picture Collection", location: "Remote | Multiple", link: "https://forms.gle/aypcdEJLNAmzi2RP9" },
     { title: "Data Annotation Specialist", location: "Remote | English", link: "https://forms.gle/TVL776c9M1VtWE1k7" },
     { title: "iPhone Data Collection", location: "Remote | Global", link: "https://forms.gle/TVL776c9M1VtWE1k7" },
-    { title: "Data Annotator - Maths", location: "Remote | Global", link: "https://forms.gle/TVL776c9M1VtWE1k7" },
+    
   ];
 
   const trustedBy = [

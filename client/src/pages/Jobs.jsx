@@ -6,6 +6,27 @@ import { Menu, X, MapPin, Clock, DollarSign, Users, CheckCircle, ArrowRight, Bri
 const JobsPage = () => {
   const jobs = [
     {
+      id: 5,
+      title: "Restaurant Menu Image Collection",
+      type: "Data Collection",
+      location: "Remote",
+      countries: ["Arabic", "German", "Russian", "French", "Spanish", "Italian", "Indonesian"],
+      compensation: "$12-18/hour",
+      duration: "Ongoing",
+      requirements: [
+        "Quality photos of restaurant menus",
+        "Use of smartphone camera",
+        "Follow submission guidelines",
+      ],
+      description: "Collect menu photos to train AI models for diverse restaurant applications. Participants use their smartphone cameras to capture high-quality images of menus from various restaurants in specified languages.",
+      benefits: [
+        "Quick submission process",
+        "Priority access to future projects",
+        "Flexible participation schedule"
+      ],
+      applyLink: "https://forms.gle/nUN9FeXGgiZWQMDy5"
+    },
+    {
       id: 1,
       title: "Selfie Photo Collection",
       type: "Data Collection",
