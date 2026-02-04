@@ -6,6 +6,100 @@ import { Menu, X, MapPin, Clock, DollarSign, Users, CheckCircle, ArrowRight, Bri
 const JobsPage = () => {
   const jobs = [
     {
+      id: 6,
+      title: "Grading & Annotation Data project",
+      type: "Annotation",
+      location: "Remote",
+      languages: [
+        "English (Australia) — en_AU",
+        "Finnish (Finland) — fi_FI",
+        "Spanish (Mexico) — es_MX",
+        "French (Canada) — fr_CA",
+        "Hebrew (Israel) — he_IL",
+        "Hindi (India – Devanagari) — hi_IN",
+        "Hindi (Latin / Hinglish) — hi_Latn",
+        "Japanese (Japan) — ja_JP",
+        "Korean (South Korea) — ko_KR",
+        "Malay (Malaysia) — ms_MY",
+        "Polish (Poland) — pl_PL",
+        "Russian (Russia) — ru_RU",
+        "Thai (Thailand) — th_TH",
+        "Chinese (Simplified, Mainland China) — zh_CN",
+        "Norwegian (Norway) — no_NO",
+        "Danish (Denmark) — da_DK",
+        "English (United States) — en_US",
+        "English (United Kingdom) — en_GB",
+        "French (France) — fr_FR",
+        "Spanish (Spain) — es_ES",
+        "German (Germany) — de_DE",
+        "Swahili (East Africa) — sw_KE",
+        "Italian (Italy) — it_IT",
+        "Portuguese (Brazil) — pt_BR",
+        "Arabic (Modern Standard) — ar",
+        "Dutch (Netherlands) — nl_NL"
+      ],
+      compensation: "$10-24/hour",
+      duration: "Long-term",
+      requirements: [
+        "Minimum availability of 20–30 hours per week",
+        "Complete a few paid tests",
+        "Be physically based in the desired country",
+      ],
+      description: "The project involves grading and annotating various data types to enhance AI model performance across multiple languages.",
+      benefits: [
+        "Quick submission process",
+        "Priority access to future projects",
+        "Flexible participation schedule"
+      ],
+      applyLink: "https://forms.gle/xt56bQydaCDEmkpE6"
+    },
+    {
+      id: 7,
+      title: "Transcription x Segmentation",
+      type: "Audio Annotation",
+      location: "Remote",
+      languages: [
+        "Arabic",
+        "Czech",
+        "Danish",
+        "Dutch",
+        "English",
+        "Finnish",
+        "French",
+        "German",
+        "Hindi",
+        "Indonesian",
+        "Italian",
+        "Japanese",
+        "Mandarin Chinese (Simplified)",
+        "Norwegian",
+        "Polish",
+        "Portuguese",
+        "Romanian",
+        "Russian",
+        "Spanish",
+        "Swahili",
+        "Swedish",
+        "Thai",
+        "Turkish",
+        "Hungarian",
+        "Korean",
+        "Vietnamese"
+      ],
+      compensation: "$10-24/hour",
+      duration: "Long-term",
+      requirements: [
+        "Minimum availability of 20–30 hours per week",
+      ],
+      description: "This project focuses on enhancing AI capabilities in understanding diverse accents and speech patterns across multiple languages.",
+      benefits: [
+        "Quick submission process",
+        "Priority access to future projects",
+        "Flexible participation schedule"
+      ],
+      applyLink: "https://forms.gle/Tx8jhgbZuCpsKsN79"
+    },
+    {
       id: 5,
       title: "Restaurant Menu Image Collection",
       type: "Data Collection",
@@ -142,7 +236,18 @@ const JobsPage = () => {
       <div className="space-y-2 mb-4">
         <div className="flex items-center gap-2 text-gray-700">
           <MapPin size={16} className="text-purple-500" />
-          <span className="text-sm">{job.location} • {job.countries[0]}{job.countries.length > 1 ? ` +${job.countries.length - 1} more` : ''}</span>
+          <span className="text-sm">
+            {job.location} •{" "}
+            {(() => {
+              const list = job.countries ?? job.languages ?? [];
+              return (
+                <>
+                  {list[0]}
+                  {list.length > 1 && ` +${list.length - 1} more`}
+                </>
+              );
+            })()}
+          </span>
         </div>
         <div className="flex items-center gap-2 text-gray-700">
           <DollarSign size={16} className="text-purple-500" />
@@ -208,20 +313,21 @@ const JobsPage = () => {
             </div>
           </div>
 
-          {/* Countries */}
+          {/* Countries / Languages */}
           <div>
             <h3 className="text-xl font-bold text-gray-900 mb-3">Available In</h3>
             <div className="flex flex-wrap gap-2">
-              {job.countries.map((country, idx) => (
-                <span 
+              {(job.countries ?? job.languages ?? []).map((item, idx) => (
+                <span
                   key={idx}
                   className="px-4 py-2 bg-purple-50 text-purple-700 rounded-full text-sm font-medium"
                 >
-                  {country}
+                  {item}
                 </span>
               ))}
             </div>
           </div>
+
 
           {/* Requirements */}
           <div>
