@@ -1,56 +1,89 @@
-import React from 'react';
-import { useState } from "react";
+import React, { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import { COMPANY } from '../data/company';
+import { useT, useLocalePath } from '../i18n/LocaleContext';
+import LanguageSwitcher from './LanguageSwitcher';
+import { ButtonLink } from './ui/Button';
 
 function Navbar() {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const closeMenu = () => setMobileMenuOpen(false);
+  const t = useT();
+  const lp = useLocalePath();
 
-return (
-    <>
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <a href='/' className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-            SpherePulse
-          </a>
-          
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-8">
-            <a href="/capabilities" className="text-gray-700 hover:text-purple-600 transition">Capabilities</a>
-            <a href="/jobs" className="text-gray-700 hover:text-purple-600 transition">Jobs</a>
-            <a href="/contact" className="text-gray-700 hover:text-purple-600 transition">Contact</a>
-            <button className="px-6 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition">
-              Get Started
-            </button>
-          </div>
+  const navItems = [
+    { label: t('nav.capabilities'), to: lp('/capabilities') },
+    { label: t('nav.company'), to: lp('/company') },
+    { label: t('nav.jobs'), to: lp('/jobs') },
+  ];
 
-          {/* Mobile Menu Button */}
-          <button 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-gray-700"
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+  const linkClasses = ({ isActive }) =>
+    [
+      'text-sm transition-colors',
+      isActive ? 'text-ink-950 font-medium' : 'text-ink-600 hover:text-ink-950',
+    ].join(' ');
+
+  const mobileLinkClasses = ({ isActive }) =>
+    isActive ? 'text-ink-950 font-medium' : 'text-ink-600';
+
+  return (
+    <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 border-b border-ink-200">
+      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <Link to={lp('/')} className="flex items-center gap-2.5" onClick={closeMenu}>
+          <img src="/logo.png" alt="" className="h-7 w-7 rounded" />
+          <span className="font-display text-lg font-semibold text-ink-950 tracking-tight">
+            {COMPANY.name}
+          </span>
+        </Link>
+
+        {/* Desktop menu */}
+        <div className="hidden md:flex items-center gap-8">
+          {navItems.map((item) => (
+            <NavLink key={item.to} to={item.to} end className={linkClasses}>
+              {item.label}
+            </NavLink>
+          ))}
+          <LanguageSwitcher />
+          <ButtonLink to={lp('/contact')}>{t('nav.cta')}</ButtonLink>
         </div>
 
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-200">
-            <div className="px-6 py-4 flex flex-col gap-4">
-              <a href="/capabilities" className="text-gray-700" onClick={() => setMobileMenuOpen(false)}>Capabilities</a>
-              <a href="/jobs" className="text-gray-700" onClick={() => setMobileMenuOpen(false)}>Jobs</a>
-              <a href='/contact' className="text-gray-700" onClick={() => setMobileMenuOpen(false)}>Contact</a>
-              <button className="px-6 py-2 bg-purple-600 text-white rounded-full w-full">
-                Get Started
-              </button>
-            </div>
+        {/* Mobile menu button */}
+        <button
+          type="button"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden text-ink-700"
+          aria-label={mobileMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
+          aria-expanded={mobileMenuOpen}
+        >
+          {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      </div>
+
+      {/* Mobile menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-white border-t border-ink-200">
+          <div className="px-6 py-5 flex flex-col gap-5">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end
+                className={mobileLinkClasses}
+                onClick={closeMenu}
+              >
+                {item.label}
+              </NavLink>
+            ))}
+            <ButtonLink to={lp('/contact')} className="w-full" onClick={closeMenu}>
+              {t('nav.cta')}
+            </ButtonLink>
+            <LanguageSwitcher onNavigate={closeMenu} />
           </div>
-        )}
-      </nav>
-
-    </>
-
-  )
+        </div>
+      )}
+    </nav>
+  );
 }
 
-export default Navbar
+export default Navbar;

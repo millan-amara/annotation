@@ -1,9 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
-import { Menu, X, MapPin, Clock, DollarSign, Users, CheckCircle, ArrowRight, Briefcase } from 'lucide-react';
+import Footer from '../components/Footer';
+import usePageMeta from '../lib/usePageMeta';
+import { X, Check, ArrowRight, ChevronRight } from 'lucide-react';
+import { Container, Section, SectionHeading, Eyebrow } from '../components/ui/Layout';
+import { SpecTable } from '../components/ui/SpecTable';
+import { ButtonLink } from '../components/ui/Button';
 
 
 const JobsPage = () => {
+  usePageMeta({
+    title: 'Open Roles — Remote Data Collection & Annotation | SpherePulse',
+    description:
+      'Paid remote roles in data collection, annotation and transcription across multiple languages and countries. Apply to join the SpherePulse contributor network.',
+    path: '/jobs',
+  });
+
   const jobs = [
     {
       id: 6,
@@ -212,172 +224,160 @@ const JobsPage = () => {
 
   const [selectedJob, setSelectedJob] = useState(null);
 
-  const JobCard = ({ job }) => (
-    <div 
-      className="bg-white border-2 border-gray-200 rounded-2xl p-6 hover:border-purple-500 hover:shadow-lg transition-all cursor-pointer group"
-      onClick={() => setSelectedJob(job)}
-    >
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex-1">
-          <div className="inline-block px-3 py-1 bg-purple-100 text-purple-700 text-xs font-semibold rounded-full mb-3">
+  const JobRow = ({ job }) => {
+    const list = job.countries ?? job.languages ?? [];
+    const coverage = list.length
+      ? list[0] + (list.length > 1 ? ` +${list.length - 1} more` : '')
+      : job.location;
+
+    return (
+      <button
+        type="button"
+        onClick={() => setSelectedJob(job)}
+        className="w-full text-left p-6 bg-white hover:bg-ink-50 transition-colors grid md:grid-cols-12 gap-4 md:gap-6 md:items-center group"
+      >
+        <div className="md:col-span-5">
+          <div className="text-xs font-semibold uppercase tracking-[0.12em] text-accent-600 mb-1.5">
             {job.type}
           </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition">
-            {job.title}
-          </h3>
+          <h3 className="text-lg font-semibold text-ink-950 leading-snug">{job.title}</h3>
         </div>
-        <Briefcase className="text-gray-400 w-8 h-8" />
-      </div>
-
-      <p className="text-gray-600 mb-4 line-clamp-2">
-        {job.description}
-      </p>
-
-      <div className="space-y-2 mb-4">
-        <div className="flex items-center gap-2 text-gray-700">
-          <MapPin size={16} className="text-purple-500" />
-          <span className="text-sm">
-            {job.location} •{" "}
-            {(() => {
-              const list = job.countries ?? job.languages ?? [];
-              return (
-                <>
-                  {list[0]}
-                  {list.length > 1 && ` +${list.length - 1} more`}
-                </>
-              );
-            })()}
-          </span>
+        <div className="md:col-span-3 text-sm text-ink-600">{coverage}</div>
+        <div className="md:col-span-2 text-sm text-ink-600 tabular-nums">
+          {job.compensation}
         </div>
-        <div className="flex items-center gap-2 text-gray-700">
-          <DollarSign size={16} className="text-purple-500" />
-          <span className="text-sm">{job.compensation}</span>
+        <div className="md:col-span-2 flex items-center justify-between md:justify-end gap-3 text-sm text-ink-600">
+          <span>{job.duration}</span>
+          <ChevronRight
+            size={18}
+            className="text-ink-400 group-hover:text-accent-600 transition-colors shrink-0"
+          />
         </div>
-        <div className="flex items-center gap-2 text-gray-700">
-          <Clock size={16} className="text-purple-500" />
-          <span className="text-sm">{job.duration}</span>
-        </div>
-      </div>
-
-      <button className="w-full py-3 bg-purple-600 text-white rounded-full font-semibold hover:bg-purple-700 transition group-hover:shadow-md flex items-center justify-center gap-2">
-        View Details
-        <ArrowRight size={18} />
       </button>
-    </div>
-  );
+    );
+  };
 
-  const JobDetailModal = ({ job, onClose }) => (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div 
-        className="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+  const JobDetailModal = ({ job, onClose }) => {
+    useEffect(() => {
+      const onKeyDown = (e) => {
+        if (e.key === 'Escape') onClose();
+      };
+      document.addEventListener('keydown', onKeyDown);
+      // Stop the page behind the dialog scrolling with it.
+      const previousOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.removeEventListener('keydown', onKeyDown);
+        document.body.style.overflow = previousOverflow;
+      };
+    }, [onClose]);
+
+    return (
+    <div
+      className="fixed inset-0 bg-ink-950/60 z-50 flex items-start md:items-center justify-center p-4 overflow-y-auto"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={job.title}
+    >
+      <div
+        className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto border border-ink-200"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
+        <div className="sticky top-0 bg-white border-b border-ink-200 px-8 py-6 flex items-start justify-between gap-6">
           <div>
-            <div className="inline-block px-3 py-1 bg-purple-100 text-purple-700 text-xs font-semibold rounded-full mb-2">
+            <div className="text-xs font-semibold uppercase tracking-[0.12em] text-accent-600 mb-2">
               {job.type}
             </div>
-            <h2 className="text-3xl font-bold text-gray-900">{job.title}</h2>
+            <h2 className="text-2xl md:text-3xl font-semibold text-ink-950">{job.title}</h2>
           </div>
-          <button 
+          <button
+            type="button"
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition"
+            aria-label="Close"
+            className="text-ink-400 hover:text-ink-700 transition-colors shrink-0"
           >
-            <X size={28} />
+            <X size={24} />
           </button>
         </div>
 
-        <div className="p-6 space-y-6">
-          {/* Overview */}
-          <div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">Overview</h3>
-            <p className="text-gray-700 leading-relaxed">{job.description}</p>
-          </div>
+        <div className="px-8 py-8 space-y-10">
+          <p className="text-lg text-ink-700 leading-relaxed">{job.description}</p>
 
-          {/* Key Details */}
-          <div className="grid md:grid-cols-3 gap-4">
-            <div className="bg-gray-50 rounded-xl p-4">
-              <MapPin className="text-purple-500 mb-2" size={20} />
-              <div className="text-sm text-gray-500 mb-1">Location</div>
-              <div className="font-semibold text-gray-900">{job.location}</div>
-            </div>
-            <div className="bg-gray-50 rounded-xl p-4">
-              <DollarSign className="text-purple-500 mb-2" size={20} />
-              <div className="text-sm text-gray-500 mb-1">Compensation</div>
-              <div className="font-semibold text-gray-900">{job.compensation}</div>
-            </div>
-            <div className="bg-gray-50 rounded-xl p-4">
-              <Clock className="text-purple-500 mb-2" size={20} />
-              <div className="text-sm text-gray-500 mb-1">Duration</div>
-              <div className="font-semibold text-gray-900">{job.duration}</div>
-            </div>
-          </div>
+          <SpecTable
+            rows={[
+              { label: 'Location', value: job.location },
+              { label: 'Compensation', value: job.compensation },
+              { label: 'Duration', value: job.duration },
+            ]}
+          />
 
-          {/* Countries / Languages */}
           <div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">Available In</h3>
-            <div className="flex flex-wrap gap-2">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink-500 mb-4">
+              Available in
+            </h3>
+            <div className="flex flex-wrap gap-x-5 gap-y-2">
               {(job.countries ?? job.languages ?? []).map((item, idx) => (
-                <span
-                  key={idx}
-                  className="px-4 py-2 bg-purple-50 text-purple-700 rounded-full text-sm font-medium"
-                >
+                <span key={idx} className="text-sm text-ink-700">
                   {item}
                 </span>
               ))}
             </div>
           </div>
 
-
-          {/* Requirements */}
           <div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">Requirements</h3>
-            <div className="space-y-2">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink-500 mb-4">
+              Requirements
+            </h3>
+            <ul className="space-y-3">
               {job.requirements.map((req, idx) => (
-                <div key={idx} className="flex items-start gap-3">
-                  <CheckCircle className="text-purple-500 w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">{req}</span>
-                </div>
+                <li key={idx} className="flex items-start gap-3">
+                  <Check className="text-accent-600 w-4 h-4 shrink-0 mt-1" />
+                  <span className="text-ink-700 leading-relaxed">{req}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
-          {/* Benefits */}
           <div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">Benefits</h3>
-            <div className="space-y-2">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink-500 mb-4">
+              What you get
+            </h3>
+            <ul className="space-y-3">
               {job.benefits.map((benefit, idx) => (
-                <div key={idx} className="flex items-start gap-3">
-                  <CheckCircle className="text-green-500 w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">{benefit}</span>
-                </div>
+                <li key={idx} className="flex items-start gap-3">
+                  <Check className="text-accent-600 w-4 h-4 shrink-0 mt-1" />
+                  <span className="text-ink-700 leading-relaxed">{benefit}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
-          {/* Apply Button */}
-          <div className="pt-4">
-            <a
+          <div className="pt-2 border-t border-ink-200">
+            <ButtonLink
               href={job.applyLink}
+              size="lg"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full py-4 bg-purple-600 text-white rounded-full font-semibold hover:bg-purple-700 transition shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-lg"
+              className="mt-8 w-full sm:w-auto"
             >
-              Apply Now
-              <ArrowRight size={20} />
-            </a>
-            <p className="text-center text-gray-500 text-sm mt-3">
-              Applications reviewed within 48 hours
+              Apply for this role
+              <ArrowRight size={18} />
+            </ButtonLink>
+            <p className="text-sm text-ink-500 mt-4">
+              Applications are usually reviewed within two business days. We never charge a
+              fee to apply.
             </p>
           </div>
         </div>
       </div>
     </div>
-  );
+    );
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      
+    <div className="min-h-screen bg-white">
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(
@@ -405,7 +405,7 @@ const JobsPage = () => {
                 "item": "https://www.spherepulseapp.com"
               },
               {
-                "@type": "ListItem", 
+                "@type": "ListItem",
                 "position": 2,
                 "name": "Jobs",
                 "item": "https://www.spherepulseapp.com/jobs"
@@ -417,70 +417,62 @@ const JobsPage = () => {
 
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-12 px-6 bg-gradient-to-br from-purple-900 via-gray-900 to-black text-white">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm text-white rounded-full text-sm font-medium mb-6">
-            <Users className="inline w-4 h-4 mr-2" />
-            Join 1,200+ Contributors Worldwide
+      {/* Hero */}
+      <Section size="hero" tone="dark">
+        <Container>
+          <div className="max-w-3xl">
+            <Eyebrow tone="dark">Work with us</Eyebrow>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.05] text-white">
+              Open roles
+            </h1>
+            <p className="mt-8 text-xl text-ink-300 leading-relaxed">
+              Paid remote work in data collection, annotation and transcription. You are
+              contracted and paid by us directly, and we never charge a fee to apply.
+            </p>
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Open Opportunities
-          </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-            Shape the future of AI while earning competitive compensation. Flexible, remote work with projects that matter.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <div className="px-6 py-3 bg-white/10 backdrop-blur-sm rounded-full">
-              <span className="text-gray-300 text-sm">🌍 30+ Countries</span>
-            </div>
-            <div className="px-6 py-3 bg-white/10 backdrop-blur-sm rounded-full">
-              <span className="text-gray-300 text-sm">💰 Competitive Pay</span>
-            </div>
-            <div className="px-6 py-3 bg-white/10 backdrop-blur-sm rounded-full">
-              <span className="text-gray-300 text-sm">⚡ Quick Onboarding</span>
-            </div>
-          </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
-      {/* Jobs Grid */}
-      <section className="py-16 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Current Openings</h2>
-            <p className="text-gray-600">Click on any position to view full details and requirements</p>
-          </div>
+      {/* Roles */}
+      <Section>
+        <Container>
+          <SectionHeading
+            title="Current openings"
+            lede="Select a role for full requirements and the application link."
+          />
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="mt-10 border border-ink-200 rounded-lg divide-y divide-ink-200 overflow-hidden">
             {jobs.map((job) => (
-              <JobCard key={job.id} job={job} />
+              <JobRow key={job.id} job={job} />
             ))}
           </div>
+        </Container>
+      </Section>
 
-          {/* CTA Section */}
-          <div className="mt-16 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-12 text-center text-white">
-            <h3 className="text-3xl font-bold mb-4">Don't See Your Role?</h3>
-            <p className="text-lg mb-6 opacity-90">
-              We're always looking for talented contributors. Send us your profile and we'll reach out when relevant opportunities arise.
-            </p>
-            <a
+      {/* General application */}
+      <Section tone="muted" size="compact">
+        <Container>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <SectionHeading
+              title="Nothing matching your language?"
+              lede="We open new locales whenever a client project needs them. Register your languages and country and we will contact you when something fits."
+              className="mb-0"
+            />
+            <ButtonLink
               href="https://forms.gle/aypcdEJLNAmzi2RP9"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-purple-600 rounded-full font-semibold hover:bg-gray-100 transition shadow-lg"
+              className="shrink-0"
             >
-              Submit General Application
-              <ArrowRight size={20} />
-            </a>
+              Register your languages
+              <ArrowRight size={16} />
+            </ButtonLink>
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
       {/* Footer */}
-      <footer className="py-10 px-6 bg-gray-900 text-gray-400 text-center border-t border-gray-800">
-        <p>&copy; {new Date().getFullYear()} SpherePulse. All rights reserved.</p>
-      </footer>
+      <Footer />
 
       {/* Job Detail Modal */}
       {selectedJob && (

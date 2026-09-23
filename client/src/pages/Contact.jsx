@@ -1,10 +1,28 @@
 import React, { useState, useRef } from 'react';
-import emailjs from "@emailjs/browser";
+import { Check, ArrowRight } from 'lucide-react';
 import Navbar from '../components/Navbar';
-import { Mail, Linkedin, MapPin, Clock, Send, CheckCircle, MessageSquare, Phone } from 'lucide-react';
+import Footer from '../components/Footer';
+import { sendContactForm, buildMailtoFallback, CONTACT_EMAIL } from '../lib/contact';
+import usePageMeta from '../lib/usePageMeta';
+import { COMPANY } from '../data/company';
+import { Container, Section, SectionHeading, Eyebrow } from '../components/ui/Layout';
+import { SpecTable } from '../components/ui/SpecTable';
+import { Button, ButtonLink } from '../components/ui/Button';
 
+const fieldClasses =
+  'w-full px-4 py-3 rounded-md border border-ink-300 text-ink-900 placeholder-ink-400 ' +
+  'focus:outline-none focus:border-accent-600 focus:ring-1 focus:ring-accent-600 transition-colors';
+
+const labelClasses = 'block text-sm font-medium text-ink-700 mb-2';
 
 const ContactPage = () => {
+  usePageMeta({
+    title: 'Contact SpherePulse — Scope a Data Project',
+    description:
+      'Tell us the languages, volume and timeline you need. SpherePulse replies within one business day. Based in Nairobi, Kenya, delivering globally.',
+    path: '/contact',
+  });
+
   const formRef = useRef();
   const [formData, setFormData] = useState({
     name: '',
@@ -13,6 +31,7 @@ const ContactPage = () => {
     message: '',
   });
   const [submitStatus, setSubmitStatus] = useState(null); // 'success', 'error', or null
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { name, email, company, message } = formData;
 
@@ -23,199 +42,128 @@ const ContactPage = () => {
     });
   };
 
-    const onSubmit = (e) => {
-      e.preventDefault()
-      emailjs.sendForm('service_pm4kpg1', 'template_qdgkji2', form.current, {
-        publicKey: 'FfC2jgC2scsnjnV9p'
-      })
-      .then(function(response) {
-        console.log('SUCCESS!', response.status, response.text);
-        setFormData({
-          name: '',
-          email: '',
-          company: '',
-          message: '',
-        })
-      })
-      .catch((error) => {
-        console.log('FAILED...', error);
-      });    
-    }
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (isSubmitting) return;
 
+    setIsSubmitting(true);
+    setSubmitStatus(null);
 
-  const contactMethods = [
-    {
-      icon: Mail,
-      title: "Email Us",
-      details: "contact@spherepulseapp.com",
-      description: "For general inquiries and project discussions",
-      link: "mailto:contact@spherepulseapp.com",
-      color: "from-blue-500 to-cyan-500"
-    },
-    {
-      icon: Linkedin,
-      title: "LinkedIn",
-      details: "Connect with our team",
-      description: "For professional networking and updates",
-      link: "https://www.linkedin.com/company/spherepulse",
-      color: "from-purple-500 to-pink-500"
-    },
-    {
-      icon: MessageSquare,
-      title: "Direct Message",
-      details: "Quick response guaranteed",
-      description: "For urgent project requirements",
-      link: "#contact-form",
-      color: "from-green-500 to-emerald-500"
+    try {
+      await sendContactForm(formRef.current);
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', company: '', message: '' });
+    } catch (error) {
+      console.error('Contact form submission failed:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
     }
+  };
+
+  const reachUs = [
+    { label: 'Email', value: COMPANY.email },
+    { label: 'LinkedIn', value: 'linkedin.com/company/spherepulse' },
+    { label: 'Based in', value: `${COMPANY.city}, ${COMPANY.country}` },
+    { label: 'Working hours', value: '9:00–18:00 EAT', detail: 'Monday to Friday' },
   ];
 
-  const officeInfo = [
+  const whatHappens = [
     {
-      icon: MapPin,
-      title: "Headquarters",
-      details: "Nairobi, Kenya",
-      description: "East Africa Hub"
+      label: 'Within 1 business day',
+      value: 'We reply',
+      detail: 'A real answer about whether we can staff it, not an acknowledgement.',
     },
     {
-      icon: Clock,
-      title: "Response Time",
-      details: "Within 24 hours",
-      description: "Monday - Friday"
+      label: 'Within a week',
+      value: 'Staffing plan and quote',
+      detail: 'What we can recruit per locale, at what volume, over what timeline.',
     },
     {
-      icon: Phone,
-      title: "Availability",
-      details: "9 AM - 6 PM EAT",
-      description: "Global timezone support"
-    }
+      label: 'Before volume',
+      value: 'A paid pilot batch',
+      detail: 'You check quality against your own acceptance criteria first.',
+    },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(
-          {
-            "@context": "https://schema.org",
-            "@type": "ContactPage",
-            "name": "Contact - SpherePulse",
-            "url": "https://www.spherepulseapp.com/contact",
-            "description": "Contact SpherePulse for inquiries about services, partnerships, or support."
-          }
-        ) }}
-      />
-
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://www.spherepulseapp.com"
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Contact",
-                "item": "https://www.spherepulseapp.com/contact"
-              }
-            ]
-          }
-        ) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'ContactPage',
+            name: 'Contact - SpherePulse',
+            url: 'https://www.spherepulseapp.com/contact',
+            description:
+              'Contact SpherePulse for inquiries about services, partnerships, or support.',
+          }),
+        }}
       />
 
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 bg-gradient-to-br from-gray-900 via-purple-900 to-black text-white">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium mb-6">
-            <MessageSquare className="inline w-4 h-4 mr-2" />
-            Let's Talk About Your AI Project
+      {/* Hero */}
+      <Section size="hero" tone="dark">
+        <Container>
+          <div className="max-w-3xl">
+            <Eyebrow tone="dark">Contact</Eyebrow>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.05] text-white">
+              Tell us what you need staffed
+            </h1>
+            <p className="mt-8 text-xl text-ink-300 leading-relaxed">
+              Send the languages, volume and timeline. We come back with what we can
+              recruit and at what rate — or tell you plainly that we cannot.
+            </p>
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-            Get in Touch
-          </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-            Ready to build better AI? Whether you need custom datasets, have questions about our capabilities, or want to discuss a project—we're here to help.
-          </p>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
-      {/* Contact Methods */}
-      <section className="py-16 px-6 -mt-10 relative z-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-6">
-            {contactMethods.map((method, idx) => {
-              const Icon = method.icon;
-              return (
-                <a
-                  key={idx}
-                  href={method.link}
-                  target={method.link.startsWith('http') ? '_blank' : undefined}
-                  rel={method.link.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition group border border-gray-200"
-                >
-                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${method.color} flex items-center justify-center mb-4 group-hover:scale-110 transition`}>
-                    <Icon className="text-white" size={24} />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition">
-                    {method.title}
-                  </h3>
-                  <div className="text-purple-600 font-semibold mb-2">
-                    {method.details}
-                  </div>
-                  <p className="text-gray-600 text-sm">
-                    {method.description}
-                  </p>
-                </a>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Main Contact Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div id="contact-form" className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                Send Us a Message
-              </h2>
-              <p className="text-gray-600 mb-8">
-                Fill out the form below and we'll get back to you within 24 hours
+      {/* Form + details */}
+      <Section>
+        <Container>
+          <div className="grid lg:grid-cols-12 gap-14">
+            {/* Form */}
+            <div className="lg:col-span-7" id="contact-form">
+              <h2 className="text-2xl font-semibold text-ink-950 mb-2">Send a message</h2>
+              <p className="text-ink-600 mb-8">
+                The more specific the locales and volumes, the more useful our reply.
               </p>
 
               {submitStatus === 'success' && (
-                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl flex items-center gap-3">
-                  <CheckCircle className="text-green-600" size={24} />
+                <div className="mb-8 border border-green-300 bg-green-50 rounded-md p-5 flex gap-4">
+                  <Check className="text-green-700 shrink-0 mt-0.5" size={20} />
                   <div>
-                    <div className="font-semibold text-green-900">Message sent successfully!</div>
-                    <div className="text-green-700 text-sm">We'll get back to you soon.</div>
+                    <div className="font-semibold text-green-900">Message sent</div>
+                    <div className="text-green-800 text-sm mt-1">
+                      We reply within one business day.
+                    </div>
                   </div>
                 </div>
               )}
 
               {submitStatus === 'error' && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+                <div className="mb-8 border border-red-300 bg-red-50 rounded-md p-5">
                   <div className="font-semibold text-red-900">Something went wrong</div>
-                  <div className="text-red-700 text-sm">Please try again or email us directly.</div>
+                  <div className="text-red-800 text-sm mt-1">
+                    Please try again, or{' '}
+                    <a
+                      href={buildMailtoFallback(formData)}
+                      className="underline font-medium"
+                    >
+                      send this message by email instead
+                    </a>
+                    . You can also write to {CONTACT_EMAIL} directly.
+                  </div>
                 </div>
               )}
 
-              <div ref={formRef}>
-                <div className="space-y-6">
+              <form ref={formRef} onSubmit={onSubmit}>
+                <div className="grid sm:grid-cols-2 gap-5">
                   <div>
-                    <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">
-                      Name *
+                    <label htmlFor="name" className={labelClasses}>
+                      Name <span className="text-ink-400">*</span>
                     </label>
                     <input
                       type="text"
@@ -223,15 +171,14 @@ const ContactPage = () => {
                       name="name"
                       value={name}
                       onChange={handleChange}
-                      placeholder="John Doe"
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                      className={fieldClasses}
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">
-                      Email *
+                    <label htmlFor="email" className={labelClasses}>
+                      Work email <span className="text-ink-400">*</span>
                     </label>
                     <input
                       type="email"
@@ -239,160 +186,117 @@ const ContactPage = () => {
                       name="email"
                       value={email}
                       onChange={handleChange}
-                      placeholder="john@company.com"
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                      className={fieldClasses}
                     />
                   </div>
-
-                  <div>
-                    <label htmlFor="company" className="block text-gray-700 font-semibold mb-2">
-                      Company
-                    </label>
-                    <input
-                      type="text"
-                      id="company"
-                      name="company"
-                      value={company}
-                      onChange={handleChange}
-                      placeholder="Your Company Name"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="message" className="block text-gray-700 font-semibold mb-2">
-                      Message *
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={message}
-                      onChange={handleChange}
-                      placeholder="Tell us about your project..."
-                      rows="6"
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition resize-none"
-                    />
-                  </div>
-
-                  <button
-                    onClick={onSubmit}
-                    className="w-full py-4 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-lg"
-                  >
-                    <Send size={20} />
-                    Send Message
-                  </button>
                 </div>
-              </div>
+
+                <div className="mt-5">
+                  <label htmlFor="company" className={labelClasses}>
+                    Company
+                  </label>
+                  <input
+                    type="text"
+                    id="company"
+                    name="company"
+                    value={company}
+                    onChange={handleChange}
+                    className={fieldClasses}
+                  />
+                </div>
+
+                <div className="mt-5">
+                  <label htmlFor="message" className={labelClasses}>
+                    Languages, volume and timeline{' '}
+                    <span className="text-ink-400">*</span>
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={message}
+                    onChange={handleChange}
+                    placeholder="e.g. 40 hours of conversational Swahili audio with transcripts, native speakers in Kenya, delivered over six weeks."
+                    rows="7"
+                    required
+                    className={`${fieldClasses} resize-y`}
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  size="lg"
+                  loading={isSubmitting}
+                  className="mt-7 w-full sm:w-auto"
+                >
+                  {isSubmitting ? 'Sending' : 'Send message'}
+                </Button>
+
+                <p className="mt-4 text-sm text-ink-500 leading-relaxed">
+                  Please don&apos;t send confidential information or sample data through
+                  this form. Ask us for an NDA first and we will sign one.
+                </p>
+              </form>
             </div>
 
-            {/* Info Sidebar */}
-            <div className="space-y-8">
-              {/* Office Info Cards */}
-              <div className="space-y-4">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                  Contact Information
-                </h3>
-                {officeInfo.map((info, idx) => {
-                  const Icon = info.icon;
-                  return (
-                    <div 
-                      key={idx}
-                      className="bg-white rounded-xl p-6 shadow-md border border-gray-200"
+            {/* Details */}
+            <div className="lg:col-span-5">
+              <div className="lg:sticky lg:top-24 space-y-12">
+                <div>
+                  <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink-500 mb-2">
+                    Reach us directly
+                  </h2>
+                  <SpecTable rows={reachUs} />
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    <ButtonLink href={'mailto:' + COMPANY.email} variant="secondary">
+                      Email us
+                    </ButtonLink>
+                    <ButtonLink
+                      href={COMPANY.linkedin}
+                      variant="secondary"
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
-                      <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0">
-                          <Icon className="text-purple-600" size={24} />
-                        </div>
-                        <div>
-                          <h4 className="font-bold text-gray-900 mb-1">
-                            {info.title}
-                          </h4>
-                          <div className="text-purple-600 font-semibold mb-1">
-                            {info.details}
-                          </div>
-                          <p className="text-gray-600 text-sm">
-                            {info.description}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Why Contact Us */}
-              <div className="bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl p-8 text-white">
-                <h3 className="text-2xl font-bold mb-4">
-                  Why Work With Us?
-                </h3>
-                <div className="space-y-3">
-                  {[
-                    "Expert consultation for your AI data needs",
-                    "Flexible engagement models and pricing",
-                    "Proven track record with enterprise clients",
-                    "Deep African language and cultural expertise"
-                  ].map((point, idx) => (
-                    <div key={idx} className="flex items-start gap-3">
-                      <CheckCircle className="text-purple-200 flex-shrink-0 mt-0.5" size={20} />
-                      <span className="text-purple-50">{point}</span>
-                    </div>
-                  ))}
+                      LinkedIn
+                    </ButtonLink>
+                  </div>
                 </div>
-              </div>
 
-              {/* Quick Stats */}
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
-                <h3 className="text-xl font-bold text-gray-900 mb-6">
-                  By the Numbers
-                </h3>
-                <div className="grid grid-cols-2 gap-4">
-                  {[
-                    { value: "30+", label: "Countries" },
-                    { value: "25+", label: "Languages" },
-                    { value: "1,200+", label: "Contributors" },
-                    { value: "24hrs", label: "Response Time" }
-                  ].map((stat, idx) => (
-                    <div key={idx} className="text-center">
-                      <div className="text-3xl font-bold text-purple-600 mb-1">
-                        {stat.value}
-                      </div>
-                      <div className="text-gray-600 text-sm">
-                        {stat.label}
-                      </div>
-                    </div>
-                  ))}
+                <div>
+                  <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink-500 mb-2">
+                    What happens next
+                  </h2>
+                  <SpecTable rows={whatHappens} />
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
-      {/* FAQ Quick Links */}
-      <section className="py-16 px-6 bg-gray-100">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Have Questions?
-          </h2>
-          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-            Check out our capabilities page for detailed information about our services, process, and frequently asked questions.
-          </p>
-          <a 
-            href="/capabilities#faq"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-purple-600 border-2 border-purple-600 rounded-full font-semibold hover:bg-purple-600 hover:text-white transition shadow-md"
-          >
-            View FAQs & Capabilities
-            <Send size={20} />
-          </a>
-        </div>
-      </section>
+      {/* Procurement pointer */}
+      <Section tone="muted" size="compact">
+        <Container>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <SectionHeading
+              title="Running supplier diligence?"
+              lede="Entity details, workforce contracts, data protection posture and commercial terms are set out on the company page. Send us your questionnaire and we will return it completed within one business day."
+              className="mb-0"
+            />
+            <div className="flex flex-wrap gap-3 shrink-0">
+              <ButtonLink to="/company" variant="secondary">
+                Company &amp; compliance
+                <ArrowRight size={16} />
+              </ButtonLink>
+              <ButtonLink to="/capabilities#faq" variant="secondary">
+                FAQs
+              </ButtonLink>
+            </div>
+          </div>
+        </Container>
+      </Section>
 
-      {/* Footer */}
-      <footer className="py-10 px-6 bg-gray-900 text-gray-400 text-center border-t border-gray-800">
-        <p>&copy; {new Date().getFullYear()} SpherePulse. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 };

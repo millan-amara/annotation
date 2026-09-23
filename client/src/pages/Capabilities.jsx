@@ -1,9 +1,22 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
-import { Menu, X, Database, Mic, Image, FileText, Globe, Shield, Zap, Users, CheckCircle, ArrowRight, ChevronDown, ChevronUp, Target, Workflow, Brain, Languages } from 'lucide-react';
+import Footer from '../components/Footer';
+import usePageMeta from '../lib/usePageMeta';
+import { COMPLIANCE, COMPANY } from '../data/company';
+import { Container, Section, SectionHeading, Eyebrow } from '../components/ui/Layout';
+import { StepList } from '../components/ui/SpecTable';
+import { ButtonLink } from '../components/ui/Button';
+import { Database, Mic, Image, FileText, Shield, Zap, Users, ArrowRight, ChevronDown, ChevronUp, Target } from 'lucide-react';
 
 
 const CapabilitiesPage = () => {
+  usePageMeta({
+    title: 'Capabilities — Speech, Image and Text Data | SpherePulse',
+    description:
+      'Data modalities we deliver: speech collection and transcription, image and video annotation, text and NLP annotation, and multimodal datasets — with African language coverage and multi-tier QA.',
+    path: '/capabilities',
+  });
+
   const [expandedFaq, setExpandedFaq] = useState(null);
 
   const dataModalities = [
@@ -16,15 +29,15 @@ const CapabilitiesPage = () => {
         "Semantic segmentation",
         "Pose estimation",
         "OCR and document digitization",
-        "Facial recognition datasets",
-        "Medical imaging annotation"
+        "Face and selfie image collection, with documented consent",
+        "In-the-wild image capture to spec"
       ],
-      color: "from-blue-500 to-cyan-500"
+      color: "bg-accent-50 text-accent-600"
     },
     {
       icon: Mic,
       title: "Speech & Audio",
-      description: "Voice data collection and transcription across 25+ languages and dialects",
+      description: "Voice data collection and transcription, with native-speaker recruitment per language and dialect",
       capabilities: [
         "Native speaker recordings",
         "Accent and dialect diversity",
@@ -33,7 +46,7 @@ const CapabilitiesPage = () => {
         "Emotion and sentiment tagging",
         "Background noise variation"
       ],
-      color: "from-purple-500 to-pink-500"
+      color: "bg-accent-50 text-accent-600"
     },
     {
       icon: FileText,
@@ -47,7 +60,7 @@ const CapabilitiesPage = () => {
         "Translation and localization",
         "Conversational AI datasets"
       ],
-      color: "from-green-500 to-emerald-500"
+      color: "bg-accent-50 text-accent-600"
     },
     {
       icon: Database,
@@ -61,7 +74,7 @@ const CapabilitiesPage = () => {
         "Sensor fusion datasets",
         "Cross-modal retrieval"
       ],
-      color: "from-orange-500 to-red-500"
+      color: "bg-accent-50 text-accent-600"
     }
   ];
 
@@ -155,12 +168,12 @@ const CapabilitiesPage = () => {
       description: "Cultural context-aware annotation for social media, e-commerce, and digital platform safety."
     },
     {
-      title: "Healthcare AI",
-      description: "Medical imaging annotation and clinical text processing with HIPAA-compliant workflows."
+      title: "Search & Recommendation",
+      description: "Relevance grading and side-by-side comparison work across multiple locales, to your rubric."
     },
     {
-      title: "Financial Services",
-      description: "Document digitization, fraud detection datasets, and multilingual customer interaction data."
+      title: "Document & Menu Capture",
+      description: "Structured image collection in the field — menus, signage, receipts and forms — with metadata and consent captured at source."
     },
     {
       title: "E-commerce",
@@ -168,43 +181,63 @@ const CapabilitiesPage = () => {
     }
   ];
 
-  const qualityMetrics = [
-    { metric: "Accuracy Rate", value: "98.5%", description: "Average annotation accuracy" },
-    { metric: "Inter-Annotator Agreement", value: "95%+", description: "Consistency across teams" },
-    { metric: "Delivery Time", value: "2-4 weeks", description: "Typical project turnaround" },
-    { metric: "Data Coverage", value: "30+ countries", description: "Geographic diversity" }
+  const qualitySteps = [
+    {
+      step: "01",
+      metric: "Qualification",
+      description: "Every contributor passes a paid qualification task against your guidelines before joining the roster."
+    },
+    {
+      step: "02",
+      metric: "In-flight sampling",
+      description: "Work is sampled while collection is running, not only at the end, so drift is caught in days rather than at delivery."
+    },
+    {
+      step: "03",
+      metric: "Peer review",
+      description: "A second qualified contributor reviews sampled output, and disagreements are escalated to the project lead."
+    },
+    {
+      step: "04",
+      metric: "Final pass",
+      description: "We check the batch against your spec and rework anything that misses it before it reaches you."
+    }
   ];
 
   const faqs = [
     {
-      question: "What makes your African language expertise unique?",
-      answer: "We have native speakers and cultural experts for 25+ African languages, not just translators. Our teams understand local contexts, idioms, and cultural nuances that are critical for authentic AI training data. We're based in Africa with deep community connections, ensuring data authenticity and ethical collection practices."
+      question: "Which languages can you actually staff?",
+      answer: "We recruit native speakers rather than translators, and we confirm coverage per project rather than claiming a fixed list. Our base is East Africa, where sourcing is fastest — Swahili and the major Kenyan, Tanzanian and Ugandan languages. For languages outside that base we run a recruitment round first and tell you what we can staff, at what volume, before you commit. If we cannot source a language to your standard, we say so."
+    },
+    {
+      question: "Who employs the contributors?",
+      answer: "We do. We recruit them, contract them directly, train them, pay them and handle day-to-day support. Every contributor signs confidentiality and IP assignment terms before touching project data. You contract one supplier and receive one invoice, rather than managing dozens of individual freelancers across jurisdictions."
     },
     {
       question: "How do you ensure data quality?",
-      answer: "We implement multi-tier quality assurance: initial training and certification for all contributors, spot-checks during collection, peer review processes, automated validation tools, and final expert review. Every project includes inter-annotator agreement metrics and revision cycles until quality thresholds are met."
+      answer: "Four checkpoints: a paid qualification task before anyone joins the roster, sampling while collection is running, peer review of sampled output by a second qualified contributor, and a final pass against your spec before delivery. We report results against your acceptance criteria on each batch and rework what misses."
     },
     {
       question: "What's your typical project timeline?",
-      answer: "Small projects (1,000-10,000 data points) typically take 1-2 weeks. Medium projects (10,000-100,000 points) take 2-4 weeks. Large-scale projects (100,000+ points) take 4-8 weeks. We can accelerate timelines by scaling our contributor network for urgent needs."
+      answer: "It depends on volume and how hard the language is to source. Recruiting and qualifying a team usually takes a few days to two weeks depending on the locale; collection and annotation run from there. We give you a dated plan with a pilot batch before full delivery, so you can check quality early rather than at the end."
     },
     {
-      question: "Do you handle sensitive or regulated data?",
-      answer: "Yes. We have experience with HIPAA-compliant healthcare data, financial information under PCI-DSS, and PII under GDPR. We implement appropriate security measures, sign BAAs and NDAs, and can work within your existing compliance frameworks."
+      question: "Do you handle personal data?",
+      answer: `Yes, under documented consent. ${COMPLIANCE.gdpr} ${COMPLIANCE.kenya} ${COMPLIANCE.contracts} ${COMPLIANCE.notCertified} If your project requires a certification we do not hold, we will tell you rather than take the work.`
     },
     {
-      question: "Can you scale for enterprise requirements?",
-      answer: "Absolutely. Our network of 1,200+ contributors can scale to thousands for large projects. We've delivered projects ranging from 10,000 to 1M+ data points. Our infrastructure supports parallel workflows and we can onboard additional teams within days."
+      question: "How large a project can you take on?",
+      answer: "We staff 10–40 contributors per engagement and grow the roster as volume increases. We would rather run a pilot, show you the delivery, and scale from there than promise a headcount we have not recruited. Ask us for a reference on a comparable project and we will put you in touch."
     },
     {
       question: "What data formats do you deliver?",
-      answer: "We support all standard formats: JSON, CSV, XML, COCO, Pascal VOC, YOLO, TFRecord, and custom formats. For audio: WAV, FLAC, MP3 with timestamps. For images: JPEG, PNG with metadata. We also provide detailed documentation and schema definitions."
+      answer: "Standard formats: JSON, CSV, XML, COCO, Pascal VOC, YOLO and custom schemas. Audio as WAV, FLAC or MP3 with timestamps; images as JPEG or PNG with metadata. We deliver with documentation and a schema definition, and we will match an existing pipeline format if you send the spec."
     }
   ];
 
   return (
     <div className="min-h-screen bg-white">
-      
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(
@@ -237,7 +270,7 @@ const CapabilitiesPage = () => {
                 "name": "Capabilities",
                 "item": "https://www.spherepulseapp.com/capabilities"
               }
-            ] 
+            ]
           }
         ) }}
       />
@@ -245,72 +278,63 @@ const CapabilitiesPage = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 bg-gradient-to-br from-gray-900 via-purple-900 to-black text-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="max-w-4xl">
-            <div className="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium mb-6">
-              <Brain className="inline w-4 h-4 mr-2" />
-              Enterprise AI Infrastructure
-            </div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-              World-Class Data Operations for AI Excellence
+      <Section size="hero" tone="dark">
+        <Container>
+          <div className="max-w-3xl">
+            <Eyebrow tone="dark">Capabilities</Eyebrow>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold mb-8 leading-[1.05]">
+              What we collect, annotate and deliver
             </h1>
-            <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-              We combine technical expertise, cultural understanding, and operational scale to deliver the training data that powers breakthrough AI systems.
+            <p className="text-xl text-ink-300 mb-8 leading-relaxed max-w-2xl">
+              The data types we handle, the languages we recruit for, how a project runs,
+              and how quality is controlled at each stage.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <a 
-                href="#contact" 
-                className="px-8 py-4 bg-purple-600 text-white rounded-full font-semibold hover:bg-purple-700 transition shadow-lg inline-flex items-center justify-center gap-2"
-              >
-                Discuss Your Project
-                <ArrowRight size={20} />
-              </a>
-              <a 
-                href="#workflow" 
-                className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white rounded-full font-semibold hover:bg-white/20 transition inline-flex items-center justify-center"
-              >
-                See Our Process
-              </a>
+              <ButtonLink to="/contact" size="lg">
+                Discuss your project
+                <ArrowRight size={18} />
+              </ButtonLink>
+              <ButtonLink href="#workflow" variant="ghostOnDark" size="lg">
+                See the process
+              </ButtonLink>
             </div>
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
-      {/* Data Modalities */}
-      <section className="py-20 px-6 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Comprehensive Data Capabilities
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From computer vision to NLP to multimodal datasets—we handle the full spectrum of AI training data needs
-            </p>
-          </div>
+      {/* Data modalities */}
+      <Section tone="muted">
+        <Container>
+          <SectionHeading
+            eyebrow="Data types"
+            title="What we collect and annotate"
+            lede="Four modalities, and the specific tasks we staff within each."
+          />
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="mt-12 divide-y divide-ink-300 border-t border-ink-300">
             {dataModalities.map((modality, idx) => {
               const Icon = modality.icon;
               return (
-                <div 
+                <div
                   key={idx}
-                  className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition border border-gray-200"
+                  className="py-10 grid md:grid-cols-12 gap-6 md:gap-10"
                 >
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${modality.color} flex items-center justify-center mb-6`}>
-                    <Icon className="text-white" size={32} />
+                  <div className="md:col-span-5">
+                    <div className="flex items-center gap-3 mb-3">
+                      <Icon size={20} className="text-accent-600 shrink-0" />
+                      <h3 className="text-xl font-semibold text-ink-950">
+                        {modality.title}
+                      </h3>
+                    </div>
+                    <p className="text-ink-600 leading-relaxed">
+                      {modality.description}
+                    </p>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                    {modality.title}
-                  </h3>
-                  <p className="text-gray-600 mb-6">
-                    {modality.description}
-                  </p>
-                  <div className="space-y-2">
+                  <div className="md:col-span-7 grid sm:grid-cols-2 gap-x-8 gap-y-2.5 md:pt-1">
                     {modality.capabilities.map((cap, capIdx) => (
-                      <div key={capIdx} className="flex items-center gap-2">
-                        <CheckCircle size={16} className="text-green-500 flex-shrink-0" />
-                        <span className="text-gray-700 text-sm">{cap}</span>
+                      <div key={capIdx} className="flex items-start gap-2.5">
+                        <span className="text-accent-600 mt-2 h-1 w-1 rounded-full bg-accent-600 shrink-0" />
+                        <span className="text-ink-700 text-sm leading-relaxed">{cap}</span>
                       </div>
                     ))}
                   </div>
@@ -318,246 +342,215 @@ const CapabilitiesPage = () => {
               );
             })}
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
-      {/* African Language Expertise */}
-      <section className="py-20 px-6 bg-gradient-to-br from-purple-600 via-purple-700 to-blue-600 text-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <Languages className="w-16 h-16 mx-auto mb-6 opacity-90" />
-            <h2 className="text-4xl font-bold mb-4">
-              Deep African Language Expertise
+      {/* Languages we recruit for */}
+      <Section tone="accent">
+        <Container>
+          <div className="max-w-3xl mb-12">
+            <div className="text-xs font-semibold uppercase tracking-[0.14em] text-accent-200 mb-4">
+              Languages
+            </div>
+            <h2 className="text-3xl md:text-4xl font-semibold mb-4">
+              African languages we recruit for
             </h2>
-            <p className="text-xl text-purple-100 max-w-3xl mx-auto">
-              Native speakers, authentic accents, and cultural context for underrepresented languages
+            <p className="text-lg text-accent-100 leading-relaxed">
+              Native speakers, authentic accents and cultural context for underrepresented
+              languages. We confirm what we can staff, and at what volume, before you commit.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {africanExpertise.map((lang, idx) => (
-              <div 
-                key={idx}
-                className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition"
-              >
-                <h3 className="text-2xl font-bold mb-2">{lang.language}</h3>
-                <div className="text-purple-200 text-sm mb-3">{lang.speakers} speakers</div>
-                <div className="flex flex-wrap gap-2">
-                  {lang.regions.map((region, rIdx) => (
-                    <span 
-                      key={rIdx}
-                      className="px-3 py-1 bg-white/20 rounded-full text-xs font-medium"
-                    >
-                      {region}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b border-white/25">
+                  <th scope="col" className="py-3 pr-6 text-xs font-semibold uppercase tracking-[0.12em] text-accent-200">
+                    Language
+                  </th>
+                  <th scope="col" className="py-3 pr-6 text-xs font-semibold uppercase tracking-[0.12em] text-accent-200 whitespace-nowrap">
+                    Speakers
+                  </th>
+                  <th scope="col" className="py-3 text-xs font-semibold uppercase tracking-[0.12em] text-accent-200">
+                    Spoken in
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/15">
+                {africanExpertise.map((lang) => (
+                  <tr key={lang.language}>
+                    <th scope="row" className="py-4 pr-6 font-display text-base font-semibold text-white align-top">
+                      {lang.language}
+                    </th>
+                    <td className="py-4 pr-6 text-sm text-accent-100 tabular-nums align-top whitespace-nowrap">
+                      {lang.speakers}
+                    </td>
+                    <td className="py-4 text-sm text-accent-100 align-top">
+                      {lang.regions.join(', ')}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
 
-          <div className="mt-12 text-center">
-            <p className="text-purple-100 mb-6">
-              Plus: French, Arabic, Portuguese, and 15+ additional African languages
+          <div className="mt-12 max-w-2xl">
+            <p className="text-accent-100 leading-relaxed mb-6">
+              We also recruit for French, Arabic and Portuguese, and for languages outside
+              this list on request. Tell us the locale and we will come back with what we
+              can staff, at what volume, and how long recruitment will take.
             </p>
-            <a 
-              href="#contact" 
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-purple-600 rounded-full font-semibold hover:bg-gray-100 transition shadow-lg"
-            >
-              Request Language Capabilities Sheet
-              <ArrowRight size={20} />
-            </a>
+            <ButtonLink href="#contact" variant="onDark">
+              Ask about a language
+              <ArrowRight size={16} />
+            </ButtonLink>
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
-      {/* Workflow Process */}
-      <section id="workflow" className="py-20 px-6 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <Workflow className="w-16 h-16 mx-auto mb-6 text-purple-600" />
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Our Proven Workflow
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              A structured approach that ensures quality, speed, and scalability at every stage
-            </p>
-          </div>
+      {/* Process */}
+      <Section id="workflow">
+        <Container>
+          <SectionHeading
+            eyebrow="Process"
+            title="How a project runs"
+            lede="Five stages from first call to delivered dataset."
+          />
+          <div className="mt-12">
 
-          <div className="space-y-8">
-            {workflowSteps.map((step, idx) => {
-              const Icon = step.icon;
-              return (
-                <div 
-                  key={idx}
-                  className="flex flex-col md:flex-row gap-6 items-start md:items-center bg-gray-50 rounded-2xl p-8 hover:shadow-lg transition"
-                >
-                  <div className="flex items-center gap-6 md:w-1/3">
-                    <div className="text-6xl font-bold text-purple-200">
-                      {step.number}
-                    </div>
-                    <div className="w-12 h-12 rounded-xl bg-purple-600 flex items-center justify-center flex-shrink-0">
-                      <Icon className="text-white" size={24} />
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                      {step.title}
-                    </h3>
-                    <p className="text-gray-600 text-lg">
-                      {step.description}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
+            <StepList steps={workflowSteps} />
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
       {/* Use Cases */}
-      <section className="py-20 px-6 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Industries We Serve
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Trusted data infrastructure across diverse AI applications
-            </p>
-          </div>
+      <Section tone="muted">
+        <Container>
+          <SectionHeading
+            eyebrow="Applications"
+            title="Where this work is used"
+            lede="Project types we have delivered or can staff for."
+          />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-9">
             {useCases.map((useCase, idx) => (
-              <div 
-                key={idx}
-                className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition border border-gray-200"
-              >
-                <h3 className="text-xl font-bold text-gray-900 mb-3">
+              <div key={idx} className="border-t border-ink-300 pt-5">
+                <h3 className="text-base font-semibold text-ink-950 mb-2">
                   {useCase.title}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-sm text-ink-600 leading-relaxed">
                   {useCase.description}
                 </p>
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
-      {/* Quality Metrics */}
-      <section className="py-20 px-6 bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <Shield className="w-16 h-16 mx-auto mb-6 text-purple-400" />
-            <h2 className="text-4xl font-bold mb-4">
-              Quality You Can Measure
-            </h2>
-            <p className="text-xl text-gray-300">
-              Transparent metrics that demonstrate our commitment to excellence
-            </p>
+      {/* Quality */}
+      <Section tone="dark">
+        <Container>
+          <SectionHeading
+            tone="dark"
+            eyebrow="Quality"
+            title="How quality is controlled"
+            lede="Four checkpoints between a contributor and your dataset."
+          />
+
+          <div className="mt-12 border-t border-white/10">
+            <StepList
+              tone="dark"
+              steps={qualitySteps.map((item) => ({
+                title: item.metric,
+                description: item.description,
+              }))}
+            />
           </div>
 
-          <div className="grid md:grid-cols-4 gap-8">
-            {qualityMetrics.map((item, idx) => (
-              <div 
-                key={idx}
-                className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10"
-              >
-                <div className="text-5xl font-bold text-purple-400 mb-3">
-                  {item.value}
-                </div>
-                <div className="text-xl font-semibold mb-2">
-                  {item.metric}
-                </div>
-                <div className="text-gray-400 text-sm">
-                  {item.description}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+          <p className="max-w-3xl text-ink-400 mt-12 leading-relaxed">
+            We report accuracy against your acceptance criteria on every batch. We do not
+            publish a single headline accuracy figure, because the only number that means
+            anything is the one measured on your spec, by your reviewers.
+          </p>
+        </Container>
+      </Section>
 
-      {/* FAQ Section */}
-      <section className="py-20 px-6 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-xl text-gray-600">
-              Everything you need to know about working with us
-            </p>
-          </div>
+      {/* FAQ */}
+      <Section id="faq">
+        <Container width="narrow">
+          <SectionHeading
+            eyebrow="Questions"
+            title="Frequently asked"
+            lede="The things buyers ask before scoping a project."
+          />
 
-          <div className="space-y-4">
-            {faqs.map((faq, idx) => (
-              <div 
-                key={idx}
-                className="border border-gray-200 rounded-xl overflow-hidden hover:border-purple-300 transition"
-              >
-                <button
-                  onClick={() => setExpandedFaq(expandedFaq === idx ? null : idx)}
-                  className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition"
-                >
-                  <span className="text-lg font-semibold text-gray-900 pr-4">
-                    {faq.question}
-                  </span>
-                  {expandedFaq === idx ? (
-                    <ChevronUp className="text-purple-600 flex-shrink-0" size={24} />
-                  ) : (
-                    <ChevronDown className="text-gray-400 flex-shrink-0" size={24} />
+          <div className="mt-12 border-t border-ink-200">
+            {faqs.map((faq, idx) => {
+              const isOpen = expandedFaq === idx;
+              return (
+                <div key={idx} className="border-b border-ink-200">
+                  <button
+                    type="button"
+                    onClick={() => setExpandedFaq(isOpen ? null : idx)}
+                    aria-expanded={isOpen}
+                    className="w-full py-5 flex items-start justify-between gap-6 text-left group"
+                  >
+                    <span className="font-display text-lg font-semibold text-ink-950 group-hover:text-accent-600 transition-colors">
+                      {faq.question}
+                    </span>
+                    {isOpen ? (
+                      <ChevronUp className="text-accent-600 shrink-0 mt-1" size={20} />
+                    ) : (
+                      <ChevronDown className="text-ink-400 shrink-0 mt-1" size={20} />
+                    )}
+                  </button>
+                  {isOpen && (
+                    <div className="pb-6 pr-10 text-ink-600 leading-relaxed">
+                      {faq.answer}
+                    </div>
                   )}
-                </button>
-                {expandedFaq === idx && (
-                  <div className="px-6 pb-4 text-gray-600 leading-relaxed">
-                    {faq.answer}
-                  </div>
-                )}
+                </div>
+              );
+            })}
+          </div>
+        </Container>
+      </Section>
+
+      {/* Contact */}
+      <Section id="contact" tone="accent">
+        <Container>
+          <div className="grid md:grid-cols-12 gap-10 md:items-end">
+            <div className="md:col-span-7">
+              <div className="text-xs font-semibold uppercase tracking-[0.14em] text-accent-200 mb-4">
+                Next step
               </div>
-            ))}
+              <h2 className="text-3xl md:text-4xl font-semibold mb-4">
+                Send us a locale and a volume
+              </h2>
+              <p className="text-lg text-accent-100 leading-relaxed">
+                We reply within one business day with what we can staff, how long
+                recruitment takes, and what it costs. If we cannot do it, we say so.
+              </p>
+            </div>
+            <div className="md:col-span-5 flex flex-wrap gap-3 md:justify-end">
+              <ButtonLink to="/contact" variant="onDark" size="lg">
+                Start a project
+                <ArrowRight size={18} />
+              </ButtonLink>
+              <ButtonLink
+                href={'mailto:' + COMPANY.email}
+                variant="ghostOnDark"
+                size="lg"
+              >
+                Email us
+              </ButtonLink>
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section id="contact" className="py-20 px-6 bg-gradient-to-br from-purple-600 via-purple-700 to-blue-600 text-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Ready to Build Better AI?
-          </h2>
-          <p className="text-xl text-purple-100 mb-12">
-            Let's discuss how our data infrastructure can accelerate your AI initiatives
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <a 
-              href="mailto:contact@spherepulseapp.com"
-              className="px-8 py-4 bg-white text-purple-600 rounded-full font-semibold hover:bg-gray-100 transition shadow-lg"
-            >
-              contact@spherepulseapp.com
-            </a>
-            <a 
-              href="https://www.linkedin.com/company/spherepulse"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white rounded-full font-semibold hover:bg-white/20 transition border-2 border-white/30"
-            >
-              Connect on LinkedIn
-            </a>
-          </div>
-
-          <p className="text-purple-200">
-            Typical response time: Within 24 hours
-          </p>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
       {/* Footer */}
-      <footer className="py-10 px-6 bg-gray-900 text-gray-400 text-center border-t border-gray-800">
-        <p>&copy; {new Date().getFullYear()} SpherePulse. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 };

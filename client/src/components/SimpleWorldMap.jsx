@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+
 import worldMap from "/world.svg";
 
 const locations = [
