@@ -85,3 +85,53 @@
     outline-offset: 2px;
   }
 }
+
+/**
+ * Hero signal graphic (components/HeroSignal.jsx).
+ *
+ * Only transform, opacity and stroke-dashoffset are animated, so the
+ * compositor handles all of it without repaints.
+ */
+@keyframes hero-signal-travel {
+  0%       { stroke-dashoffset: 300; opacity: 0; }
+  12%      { opacity: 0.75; }
+  70%      { opacity: 0.75; }
+  100%     { stroke-dashoffset: 0; opacity: 0; }
+}
+
+@keyframes hero-signal-node {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 0.85; }
+}
+
+@keyframes hero-signal-ring {
+  0%   { transform: scale(1);   opacity: 0.45; }
+  100% { transform: scale(3.4); opacity: 0; }
+}
+
+.hero-signal__pulse {
+  stroke: var(--color-accent-600);
+  stroke-dasharray: 26 300;
+  animation: hero-signal-travel 4.2s cubic-bezier(0.4, 0, 0.5, 1) infinite;
+}
+
+.hero-signal__node {
+  animation: hero-signal-node 4.2s ease-in-out infinite;
+}
+
+.hero-signal__ring {
+  transform-origin: 296px 210px;
+  animation: hero-signal-ring 4.2s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+}
+
+/* Static, legible diagram for anyone who has asked for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-signal__pulse,
+  .hero-signal__node,
+  .hero-signal__ring {
+    animation: none;
+  }
+  .hero-signal__pulse { opacity: 0; }
+  .hero-signal__node  { opacity: 0.55; }
+  .hero-signal__ring  { opacity: 0.2; }
+}

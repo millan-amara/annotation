@@ -3,6 +3,7 @@ import { ArrowRight, Check } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import QuickContactForm from '../components/QuickContactForm';
+import HeroSignal from '../components/HeroSignal';
 import usePageMeta from '../lib/usePageMeta';
 import {
   PROVENANCE,
@@ -85,24 +86,30 @@ const SpherePulseLanding = () => {
       {/* Hero */}
       <Section size="hero">
         <Container>
-          <div className="max-w-4xl">
-            <Eyebrow>AI training data</Eyebrow>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold text-ink-950 leading-[1.05]">
-              Managed data teams for multilingual AI
-            </h1>
-            <p className="mt-8 text-xl md:text-2xl text-ink-600 leading-relaxed max-w-3xl">
-              English-language annotation, transcription and model-alignment work at
-              volume, plus native-speaker coverage in African languages, delivered by
-              teams we recruit, contract, pay and quality-check ourselves.
-            </p>
-            <div className="mt-10 flex flex-col sm:flex-row gap-3">
-              <ButtonLink to="/contact" size="lg">
-                Start a project
-                <ArrowRight size={18} />
-              </ButtonLink>
-              <ButtonLink to="/capabilities" variant="secondary" size="lg">
-                See capabilities
-              </ButtonLink>
+          <div className="grid lg:grid-cols-12 gap-14 lg:gap-10 lg:items-center">
+            <div className="lg:col-span-7">
+              <Eyebrow>AI training data</Eyebrow>
+              <h1 className="text-5xl md:text-6xl font-semibold text-ink-950 leading-[1.05]">
+                Managed data teams for multilingual AI
+              </h1>
+              <p className="mt-8 text-xl text-ink-600 leading-relaxed">
+                English-language annotation, transcription and model-alignment work at
+                volume, plus native-speaker coverage in African languages, delivered by
+                teams we recruit, contract, pay and quality-check ourselves.
+              </p>
+              <div className="mt-10 flex flex-col sm:flex-row gap-3">
+                <ButtonLink to="/contact" size="lg">
+                  Start a project
+                  <ArrowRight size={18} />
+                </ButtonLink>
+                <ButtonLink to="/capabilities" variant="secondary" size="lg">
+                  See capabilities
+                </ButtonLink>
+              </div>
+            </div>
+
+            <div className="hidden lg:flex lg:col-span-5 justify-center">
+              <HeroSignal />
             </div>
           </div>
         </Container>
