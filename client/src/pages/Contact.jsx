@@ -17,7 +17,7 @@ const labelClasses = 'block text-sm font-medium text-ink-700 mb-2';
 
 const ContactPage = () => {
   usePageMeta({
-    title: 'Contact SpherePulse — Scope a Data Project',
+    title: 'Contact: Scope a Data Project | SpherePulse',
     description:
       'Tell us the languages, volume and timeline you need. SpherePulse replies within one business day. Based in Nairobi, Kenya, delivering globally.',
     path: '/contact',
@@ -114,7 +114,7 @@ const ContactPage = () => {
             </h1>
             <p className="mt-8 text-xl text-ink-300 leading-relaxed">
               Send the languages, volume and timeline. We come back with what we can
-              recruit and at what rate — or tell you plainly that we cannot.
+              recruit and at what rate, or tell you plainly that we cannot.
             </p>
           </div>
         </Container>

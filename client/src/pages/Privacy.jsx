@@ -5,7 +5,7 @@ import { COMPANY } from '../data/company';
 
 const Privacy = () => {
   usePageMeta({
-    title: 'Privacy Policy — SpherePulse',
+    title: 'Privacy Policy | SpherePulse',
     description:
       'How SpherePulse collects, uses, shares and protects personal data, and the rights available to data subjects under the Kenya Data Protection Act and the GDPR.',
     path: '/privacy',
@@ -34,10 +34,10 @@ const Privacy = () => {
       body: [
         'We process personal data for the following purposes:',
         [
-          'To respond to your enquiry and discuss a possible project — on the basis of steps taken at your request prior to entering a contract.',
-          'To assess applications and manage our contributor roster — on the basis of our legitimate interest in staffing projects, and of contract performance once you are engaged.',
-          'To pay contributors and meet our tax and accounting obligations — on the basis of contract performance and legal obligation.',
-          'To deliver client projects — on the basis of contract, and on documented consent where project data is collected from an individual.',
+          'To respond to your enquiry and discuss a possible project, on the basis of steps taken at your request prior to entering a contract.',
+          'To assess applications and manage our contributor roster, on the basis of our legitimate interest in staffing projects, and of contract performance once you are engaged.',
+          'To pay contributors and meet our tax and accounting obligations, on the basis of contract performance and legal obligation.',
+          'To deliver client projects, on the basis of contract, and on documented consent where project data is collected from an individual.',
         ],
         'Where we rely on consent, you may withdraw it at any time without affecting the lawfulness of processing before withdrawal.',
       ],
@@ -59,7 +59,7 @@ const Privacy = () => {
       heading: 'International transfers',
       body: [
         'We are based in Kenya and our clients are often outside Kenya. Delivering a project therefore usually involves transferring personal data across borders.',
-        'Where we transfer personal data out of Kenya or the European Economic Area, we do so under the safeguards required by the Kenya Data Protection Act, 2019 and, where applicable, the GDPR — typically standard contractual clauses in our agreement with the client, or the data subject’s explicit and informed consent for that project.',
+        'Where we transfer personal data out of Kenya or the European Economic Area, we do so under the safeguards required by the Kenya Data Protection Act, 2019 and, where applicable, the GDPR: typically standard contractual clauses in our agreement with the client, or the data subject’s explicit and informed consent for that project.',
       ],
     },
     {
@@ -89,7 +89,7 @@ const Privacy = () => {
     {
       heading: 'Complaints',
       body: [
-        'If you believe we have handled your personal data improperly, please raise it with us first — most issues are quickest to resolve directly.',
+        'If you believe we have handled your personal data improperly, please raise it with us first, since most issues are quickest to resolve directly.',
         'You also have the right to complain to the Office of the Data Protection Commissioner in Kenya, or, if you are in the European Economic Area or the United Kingdom, to your local supervisory authority.',
       ],
     },
@@ -104,7 +104,7 @@ const Privacy = () => {
   return (
     <LegalPage
       title="Privacy Policy"
-      intro="How we collect, use, share and protect personal data — for website visitors, applicants, contributors and the people whose data we collect on behalf of clients."
+      intro="How we collect, use, share and protect personal data, for website visitors, applicants, contributors and the people whose data we collect on behalf of clients."
       lastUpdated="23 September 2026"
       sections={sections}
     />

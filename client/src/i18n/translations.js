@@ -5,7 +5,7 @@
  * missing from another locale, so a partially translated locale degrades to
  * English rather than showing raw keys.
  *
- * The zh entries below cover navigation and footer chrome only — enough to
+ * The zh entries below cover navigation and footer chrome only: enough to
  * prove the plumbing works. No page copy has been translated, and none should
  * be published until a native business-Chinese speaker has reviewed it. Pay
  * particular attention to industry terms (数据标注, 语音采集, 转写, 质检):

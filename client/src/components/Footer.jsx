@@ -41,15 +41,15 @@ const Footer = () => {
 
   return (
     <footer className="bg-ink-950 text-ink-400 border-t border-ink-800">
-      <div className="max-w-7xl mx-auto px-6 py-14">
+      <div className="max-w-6xl mx-auto px-6 py-14">
         <div className="grid gap-10 md:grid-cols-4">
           {/* Brand */}
           <div className="md:col-span-2">
             <Link
               to={lp('/')}
-              className="inline-flex items-center gap-3 text-xl font-bold text-white mb-4"
+              className="inline-flex items-center gap-3 text-lg font-semibold text-white mb-4"
             >
-              <img src="/logo.png" alt="" className="h-8 w-8 rounded" />
+              <img src="/logo.svg" alt="" className="h-8 w-8" />
               {COMPANY.name}
             </Link>
             <p className="text-sm leading-relaxed max-w-sm mb-6">{t('footer.blurb')}</p>

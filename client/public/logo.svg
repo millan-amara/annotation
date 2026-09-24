@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="SpherePulse">
+  <!--
+    SpherePulse mark: a sphere with a pulse propagating outward from it.
+
+    Deliberately asymmetric. Full concentric rings read as a bullseye — a
+    generic "target" symbol that says aim rather than signal. Opening the rings
+    into arcs on one side turns the same geometry into something propagating.
+
+    Built to survive 16px: three elements, generous gaps, round caps. The outer
+    arc is the first thing to soften at small sizes and the mark still reads as
+    dot-plus-arc when it does.
+
+    The filled tile guarantees contrast on both light and dark browser chrome,
+    which a bare violet mark on a dark tab bar does not.
+  -->
+  <rect width="64" height="64" rx="14" fill="#6d28d9" />
+  <circle cx="22" cy="32" r="8" fill="#fff" />
+  <path
+    d="M 31.18 18.89 A 16 16 0 0 1 31.18 45.11"
+    fill="none"
+    stroke="#fff"
+    stroke-width="6"
+    stroke-linecap="round"
+  />
+  <path
+    d="M 36.91 10.70 A 26 26 0 0 1 36.91 53.30"
+    fill="none"
+    stroke="#fff"
+    stroke-width="4.5"
+    stroke-linecap="round"
+    opacity="0.6"
+  />
+</svg>

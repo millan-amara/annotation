@@ -31,7 +31,7 @@ function Navbar() {
     <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 border-b border-ink-200">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link to={lp('/')} className="flex items-center gap-2.5" onClick={closeMenu}>
-          <img src="/logo.png" alt="" className="h-7 w-7 rounded" />
+          <img src="/logo.svg" alt="" className="h-7 w-7" />
           <span className="font-display text-lg font-semibold text-ink-950 tracking-tight">
             {COMPANY.name}
           </span>

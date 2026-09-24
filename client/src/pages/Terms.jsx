@@ -5,7 +5,7 @@ import { COMPANY } from '../data/company';
 
 const Terms = () => {
   usePageMeta({
-    title: 'Terms of Use — SpherePulse',
+    title: 'Terms of Use | SpherePulse',
     description:
       'The terms that govern use of the SpherePulse website, including job listings, submitted enquiries and intellectual property.',
     path: '/terms',
@@ -44,7 +44,7 @@ const Terms = () => {
       body: [
         'Roles listed on this site are opportunities to be engaged as an independent contributor on a specific project. A listing is not an offer of employment, and applying does not create an employment relationship, a contract or a guarantee of work.',
         'Availability, pay rates and durations shown in a listing are as advertised at the time and may change before a project starts. Terms for any engagement are set out in the contributor agreement you sign before starting work.',
-        'We never ask applicants to pay a fee at any stage. If someone asks you to pay to apply, work for or be paid by us, it is not us — please report it to ' + COMPANY.email + '.',
+        'We never ask applicants to pay a fee at any stage. If someone asks you to pay to apply, work for or be paid by us, it is not us. Please report it to ' + COMPANY.email + '.',
       ],
     },
     {

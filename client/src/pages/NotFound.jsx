@@ -4,7 +4,7 @@ import usePageMeta from '../lib/usePageMeta';
 
 const NotFound = () => {
   usePageMeta({
-    title: 'Page not found — SpherePulse',
+    title: 'Page not found | SpherePulse',
     description: 'The page you were looking for does not exist.',
   });
 
@@ -13,8 +13,8 @@ const NotFound = () => {
       <Navbar />
       <main className="flex-1 flex items-center justify-center px-6 pt-32 pb-20">
         <div className="max-w-xl text-center">
-          <div className="text-6xl font-bold text-accent-600 mb-4">404</div>
-          <h1 className="text-3xl font-bold text-ink-900 mb-4">Page not found</h1>
+          <div className="font-display text-6xl font-semibold text-accent-600 mb-4">404</div>
+          <h1 className="text-3xl font-semibold text-ink-950 mb-4">Page not found</h1>
           <p className="text-ink-600 mb-8">
             That link does not exist, or it has moved. Try one of these instead.
           </p>

@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import usePageMeta from '../lib/usePageMeta';
-import { COMPLIANCE, COMPANY } from '../data/company';
+import {
+  COMPLIANCE,
+  COMPANY,
+  ACCEPTANCE,
+  AFRICAN_LANGUAGES_DELIVERED,
+} from '../data/company';
 import { Container, Section, SectionHeading, Eyebrow } from '../components/ui/Layout';
 import { StepList } from '../components/ui/SpecTable';
 import { ButtonLink } from '../components/ui/Button';
@@ -11,9 +16,9 @@ import { Database, Mic, Image, FileText, Shield, Zap, Users, ArrowRight, Chevron
 
 const CapabilitiesPage = () => {
   usePageMeta({
-    title: 'Capabilities — Speech, Image and Text Data | SpherePulse',
+    title: 'Capabilities: Speech, Image and Text Data | SpherePulse',
     description:
-      'Data modalities we deliver: speech collection and transcription, image and video annotation, text and NLP annotation, and multimodal datasets — with African language coverage and multi-tier QA.',
+      'Data modalities we deliver: speech collection and transcription, image and video annotation, text and NLP annotation, and multimodal datasets, with African language coverage and multi-tier QA.',
     path: '/capabilities',
   });
 
@@ -29,7 +34,7 @@ const CapabilitiesPage = () => {
         "Semantic segmentation",
         "Pose estimation",
         "OCR and document digitization",
-        "Face and selfie image collection, with documented consent",
+        "Object and product image collection to spec",
         "In-the-wild image capture to spec"
       ],
       color: "bg-accent-50 text-accent-600"
@@ -65,13 +70,13 @@ const CapabilitiesPage = () => {
     {
       icon: Database,
       title: "Multimodal Data",
-      description: "Complex datasets combining vision, text, audio, and sensor data",
+      description: "Complex datasets combining vision, text and audio",
       capabilities: [
         "Video + audio synchronization",
         "Image captioning datasets",
         "Document understanding",
         "AR/VR training data",
-        "Sensor fusion datasets",
+        "Cross-modal alignment",
         "Cross-modal retrieval"
       ],
       color: "bg-accent-50 text-accent-600"
@@ -173,7 +178,7 @@ const CapabilitiesPage = () => {
     },
     {
       title: "Document & Menu Capture",
-      description: "Structured image collection in the field — menus, signage, receipts and forms — with metadata and consent captured at source."
+      description: "Structured image collection in the field (menus, signage, receipts and forms) with metadata captured at source."
     },
     {
       title: "E-commerce",
@@ -207,11 +212,15 @@ const CapabilitiesPage = () => {
   const faqs = [
     {
       question: "Which languages can you actually staff?",
-      answer: "We recruit native speakers rather than translators, and we confirm coverage per project rather than claiming a fixed list. Our base is East Africa, where sourcing is fastest — Swahili and the major Kenyan, Tanzanian and Ugandan languages. For languages outside that base we run a recruitment round first and tell you what we can staff, at what volume, before you commit. If we cannot source a language to your standard, we say so."
+      answer: "We recruit native speakers rather than translators, and we confirm coverage per project rather than claiming a fixed list. Our base is East Africa, where sourcing is fastest: Swahili and the major Kenyan, Tanzanian and Ugandan languages. For languages outside that base we run a recruitment round first and tell you what we can staff, at what volume, before you commit. If we cannot source a language to your standard, we say so."
     },
     {
       question: "Who employs the contributors?",
       answer: "We do. We recruit them, contract them directly, train them, pay them and handle day-to-day support. Every contributor signs confidentiality and IP assignment terms before touching project data. You contract one supplier and receive one invoice, rather than managing dozens of individual freelancers across jurisdictions."
+    },
+    {
+      question: "What happens if a batch does not meet spec?",
+      answer: ACCEPTANCE.qaGate + ' ' + ACCEPTANCE.selection
     },
     {
       question: "How do you ensure data quality?",
@@ -219,7 +228,7 @@ const CapabilitiesPage = () => {
     },
     {
       question: "What's your typical project timeline?",
-      answer: "It depends on volume and how hard the language is to source. Recruiting and qualifying a team usually takes a few days to two weeks depending on the locale; collection and annotation run from there. We give you a dated plan with a pilot batch before full delivery, so you can check quality early rather than at the end."
+      answer: "Delivery has run from a few days on a focused batch to a couple of months on a large programme. It depends on volume and how hard the locale is to source. Recruiting and qualifying a team usually takes a few days to two weeks. We give you a dated plan with a pilot batch before full delivery, so you can check quality early rather than at the end."
     },
     {
       question: "Do you handle personal data?",
@@ -227,7 +236,7 @@ const CapabilitiesPage = () => {
     },
     {
       question: "How large a project can you take on?",
-      answer: "We staff 10–40 contributors per engagement and grow the roster as volume increases. We would rather run a pilot, show you the delivery, and scale from there than promise a headcount we have not recruited. Ask us for a reference on a comparable project and we will put you in touch."
+      answer: "We have run teams from ten contributors on a focused batch up to 150 on a single project, and have delivered roughly 20,000 audio hours and over 100,000 collected items since 2017. For a new locale we would still rather run a pilot, show you the delivery, and scale from there than promise a headcount we have not yet recruited. Ask us for a reference on a comparable project and we will put you in touch."
     },
     {
       question: "What data formats do you deliver?",
@@ -357,7 +366,9 @@ const CapabilitiesPage = () => {
             </h2>
             <p className="text-lg text-accent-100 leading-relaxed">
               Native speakers, authentic accents and cultural context for underrepresented
-              languages. We confirm what we can staff, and at what volume, before you commit.
+              languages. The table separates what we have already delivered in from what we
+              would run a recruitment round for. We confirm what we can staff, and at what
+              volume, before you commit.
             </p>
           </div>
 
@@ -371,8 +382,11 @@ const CapabilitiesPage = () => {
                   <th scope="col" className="py-3 pr-6 text-xs font-semibold uppercase tracking-[0.12em] text-accent-200 whitespace-nowrap">
                     Speakers
                   </th>
-                  <th scope="col" className="py-3 text-xs font-semibold uppercase tracking-[0.12em] text-accent-200">
+                  <th scope="col" className="py-3 pr-6 text-xs font-semibold uppercase tracking-[0.12em] text-accent-200">
                     Spoken in
+                  </th>
+                  <th scope="col" className="py-3 text-xs font-semibold uppercase tracking-[0.12em] text-accent-200 whitespace-nowrap">
+                    Status
                   </th>
                 </tr>
               </thead>
@@ -385,8 +399,15 @@ const CapabilitiesPage = () => {
                     <td className="py-4 pr-6 text-sm text-accent-100 tabular-nums align-top whitespace-nowrap">
                       {lang.speakers}
                     </td>
-                    <td className="py-4 text-sm text-accent-100 align-top">
+                    <td className="py-4 pr-6 text-sm text-accent-100 align-top">
                       {lang.regions.join(', ')}
+                    </td>
+                    <td className="py-4 text-sm align-top whitespace-nowrap">
+                      {AFRICAN_LANGUAGES_DELIVERED.includes(lang.language) ? (
+                        <span className="text-white font-medium">Delivered</span>
+                      ) : (
+                        <span className="text-accent-200">Recruit on request</span>
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -467,11 +488,16 @@ const CapabilitiesPage = () => {
             />
           </div>
 
-          <p className="max-w-3xl text-ink-400 mt-12 leading-relaxed">
-            We report accuracy against your acceptance criteria on every batch. We do not
-            publish a single headline accuracy figure, because the only number that means
-            anything is the one measured on your spec, by your reviewers.
-          </p>
+          <div className="max-w-3xl mt-12 space-y-4 text-ink-400 leading-relaxed">
+            <p>
+              Rework happens on our side, before delivery, rather than after a rejection.
+              We report results against your acceptance criteria on every batch.
+            </p>
+            <p>
+              We would rather decline a project at scoping than deliver one we cannot
+              staff to the standard it needs.
+            </p>
+          </div>
         </Container>
       </Section>
 

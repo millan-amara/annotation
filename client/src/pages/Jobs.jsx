@@ -10,9 +10,9 @@ import { ButtonLink } from '../components/ui/Button';
 
 const JobsPage = () => {
   usePageMeta({
-    title: 'Open Roles — Remote Data Collection & Annotation | SpherePulse',
+    title: 'Work We Staff For | SpherePulse',
     description:
-      'Paid remote roles in data collection, annotation and transcription across multiple languages and countries. Apply to join the SpherePulse contributor network.',
+      'Paid remote work in data collection, annotation and transcription. Register your languages and country to join the SpherePulse contributor roster.',
     path: '/jobs',
   });
 
@@ -23,32 +23,32 @@ const JobsPage = () => {
       type: "Annotation",
       location: "Remote",
       languages: [
-        "English (Australia) — en_AU",
-        "Finnish (Finland) — fi_FI",
-        "Spanish (Mexico) — es_MX",
-        "French (Canada) — fr_CA",
-        "Hebrew (Israel) — he_IL",
-        "Hindi (India – Devanagari) — hi_IN",
-        "Hindi (Latin / Hinglish) — hi_Latn",
-        "Japanese (Japan) — ja_JP",
-        "Korean (South Korea) — ko_KR",
-        "Malay (Malaysia) — ms_MY",
-        "Polish (Poland) — pl_PL",
-        "Russian (Russia) — ru_RU",
-        "Thai (Thailand) — th_TH",
-        "Chinese (Simplified, Mainland China) — zh_CN",
-        "Norwegian (Norway) — no_NO",
-        "Danish (Denmark) — da_DK",
-        "English (United States) — en_US",
-        "English (United Kingdom) — en_GB",
-        "French (France) — fr_FR",
-        "Spanish (Spain) — es_ES",
-        "German (Germany) — de_DE",
-        "Swahili (East Africa) — sw_KE",
-        "Italian (Italy) — it_IT",
-        "Portuguese (Brazil) — pt_BR",
-        "Arabic (Modern Standard) — ar",
-        "Dutch (Netherlands) — nl_NL"
+        "English (Australia) · en_AU",
+        "Finnish (Finland) · fi_FI",
+        "Spanish (Mexico) · es_MX",
+        "French (Canada) · fr_CA",
+        "Hebrew (Israel) · he_IL",
+        "Hindi (India – Devanagari) · hi_IN",
+        "Hindi (Latin / Hinglish) · hi_Latn",
+        "Japanese (Japan) · ja_JP",
+        "Korean (South Korea) · ko_KR",
+        "Malay (Malaysia) · ms_MY",
+        "Polish (Poland) · pl_PL",
+        "Russian (Russia) · ru_RU",
+        "Thai (Thailand) · th_TH",
+        "Chinese (Simplified, Mainland China) · zh_CN",
+        "Norwegian (Norway) · no_NO",
+        "Danish (Denmark) · da_DK",
+        "English (United States) · en_US",
+        "English (United Kingdom) · en_GB",
+        "French (France) · fr_FR",
+        "Spanish (Spain) · es_ES",
+        "German (Germany) · de_DE",
+        "Swahili (East Africa) · sw_KE",
+        "Italian (Italy) · it_IT",
+        "Portuguese (Brazil) · pt_BR",
+        "Arabic (Modern Standard) · ar",
+        "Dutch (Netherlands) · nl_NL"
       ],
       compensation: "$10-24/hour",
       duration: "Long-term",
@@ -133,28 +133,6 @@ const JobsPage = () => {
       applyLink: "https://forms.gle/nUN9FeXGgiZWQMDy5"
     },
     {
-      id: 1,
-      title: "Selfie Photo Collection",
-      type: "Data Collection",
-      location: "Remote",
-      countries: ["South Africa", "Mexico", "US", "Canada", "India", "Japan"],
-      compensation: "$20 per submission",
-      duration: "Ongoing",
-      requirements: [
-        "Access to iPhone or iPad device",
-        "Submit minimum of 9 high-quality selfie photos",
-        "Follow photo submission guidelines",
-        "Must be 18 years or older"
-      ],
-      description: "Help improve AI facial recognition systems by submitting selfie image data. Each participant submits a minimum of 9 photos taken using an iPhone or iPad.",
-      benefits: [
-        "Quick submission process",
-        "Priority access to future projects",
-        "Flexible participation schedule"
-      ],
-      applyLink: "https://forms.gle/aypcdEJLNAmzi2RP9"
-    },
-    {
       id: 2,
       title: "Data Annotation Specialist",
       type: "Annotation",
@@ -177,48 +155,26 @@ const JobsPage = () => {
       applyLink: "https://forms.gle/aypcdEJLNAmzi2RP9"
     },
     {
-      id: 3,
-      title: "Voice Recording Contributor",
-      type: "Audio Collection",
-      location: "Remote",
-      countries: ["Africa", "Asia", "Latin America"],
-      compensation: "$15-25 per session",
-      duration: "Project-based",
-      requirements: [
-        "Native speaker of target language",
-        "Quiet recording environment",
-        "Clear speech with authentic accent",
-        "Complete 100+ utterances per session"
-      ],
-      description: "Record voice samples in your native language to help build diverse speech recognition datasets. We're especially seeking contributors from underrepresented regions and languages.",
-      benefits: [
-        "Multiple language bonuses available",
-        "Recurring opportunities",
-        "Contribute to language preservation"
-      ],
-      applyLink: "https://forms.gle/aypcdEJLNAmzi2RP9"
-    },
-    {
       id: 4,
-      title: "iPhone Sensor Data Collection",
+      title: "Object & Product Image Collection",
       type: "Data Collection",
       location: "Remote",
       countries: ["Global"],
       compensation: "$30 per task",
-      duration: "Ongoing",
+      duration: "Project-based",
       requirements: [
-        "iPhone 12 or newer model",
-        "Willingness to complete specific movement tasks",
-        "Follow data collection protocols",
-        "Submit data within 48 hours"
+        "Smartphone with a good camera",
+        "Willingness to follow a framing and lighting specification",
+        "Access to the object categories requested for the batch",
+        "Submit within the agreed window"
       ],
-      description: "Collect sensor data from iPhone devices to improve motion detection and environmental awareness AI models. Tasks involve recording various movement patterns and environmental conditions.",
+      description: "Photograph everyday objects (toys, furniture, utensils, footwear, bags and similar categories) to a client's framing, lighting and metadata specification. No people are photographed and no personal data is collected.",
       benefits: [
-        "Higher pay for complex tasks",
-        "Detailed task instructions",
+        "Clear per-item specification",
+        "Higher pay for harder categories",
         "Quick approval process"
       ],
-      applyLink: "https://forms.gle/aypcdEJLNAmzi2RP9"
+      applyLink: "https://forms.gle/TVL776c9M1VtWE1k7"
     }
   ];
 
@@ -361,12 +317,13 @@ const JobsPage = () => {
               rel="noopener noreferrer"
               className="mt-8 w-full sm:w-auto"
             >
-              Apply for this role
+              Register for this work
               <ArrowRight size={18} />
             </ButtonLink>
             <p className="text-sm text-ink-500 mt-4">
-              Applications are usually reviewed within two business days. We never charge a
-              fee to apply.
+              Registering adds you to our roster for this kind of work. It is not an
+              application to a project running today. We contact you when one starts, and we
+              never charge a fee at any stage.
             </p>
           </div>
         </div>
@@ -423,11 +380,17 @@ const JobsPage = () => {
           <div className="max-w-3xl">
             <Eyebrow tone="dark">Work with us</Eyebrow>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.05] text-white">
-              Open roles
+              Join our roster
             </h1>
             <p className="mt-8 text-xl text-ink-300 leading-relaxed">
               Paid remote work in data collection, annotation and transcription. You are
               contracted and paid by us directly, and we never charge a fee to apply.
+            </p>
+            <p className="mt-6 text-ink-400 leading-relaxed border-l-2 border-accent-300 pl-5">
+              We are not running an intake for a specific project right now. The work below
+              is the kind we staff for. Register your languages and country, and we will
+              contact you when a matching project starts. Rates shown are indicative of past
+              projects, not an offer.
             </p>
           </div>
         </Container>
@@ -437,8 +400,8 @@ const JobsPage = () => {
       <Section>
         <Container>
           <SectionHeading
-            title="Current openings"
-            lede="Select a role for full requirements and the application link."
+            title="Work we staff for"
+            lede="Select any of these for the requirements it usually carries."
           />
 
           <div className="mt-10 border border-ink-200 rounded-lg divide-y divide-ink-200 overflow-hidden">
@@ -459,7 +422,7 @@ const JobsPage = () => {
               className="mb-0"
             />
             <ButtonLink
-              href="https://forms.gle/aypcdEJLNAmzi2RP9"
+              href="https://forms.gle/TVL776c9M1VtWE1k7"
               target="_blank"
               rel="noopener noreferrer"
               className="shrink-0"

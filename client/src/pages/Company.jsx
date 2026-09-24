@@ -3,7 +3,14 @@ import { ShieldCheck, FileSignature, Users, Wallet, ArrowRight } from 'lucide-re
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import usePageMeta from '../lib/usePageMeta';
-import { COMPANY, COMPLIANCE, DELIVERED_FOR } from '../data/company';
+import {
+  COMPANY,
+  COMPLIANCE,
+  PROVENANCE,
+  TRACK_RECORD,
+  CASE_STUDIES,
+  LOCALES_DELIVERED,
+} from '../data/company';
 import { Container, Section, SectionHeading, Eyebrow } from '../components/ui/Layout';
 import { SpecTable } from '../components/ui/SpecTable';
 import { ButtonLink } from '../components/ui/Button';
@@ -15,7 +22,7 @@ import { ButtonLink } from '../components/ui/Button';
  */
 const CompanyPage = () => {
   usePageMeta({
-    title: 'Company & Compliance — SpherePulse',
+    title: 'Company & Compliance | SpherePulse',
     description:
       'Supplier information for SpherePulse: legal entity, workforce contracts, data protection posture and commercial terms for AI training data projects.',
     path: '/company',
@@ -37,8 +44,8 @@ const CompanyPage = () => {
       icon: Users,
       title: 'Workforce',
       points: [
-        'Contributors are recruited, trained and managed directly by us — not resold from a third-party freelancer pool.',
-        'We staff 10–40 contributors per engagement and adjust the roster as volume changes.',
+        'Contributors are recruited, trained and managed directly by us, not resold from a third-party freelancer pool.',
+        'We have staffed from ten contributors on a focused batch to 150 on a single project, and adjust the roster as volume changes.',
         'We pay contributors ourselves, on our own schedule, and carry that cost between your invoice cycles.',
         'Project leads are named at kickoff, so you know who is accountable for delivery.',
       ],
@@ -83,8 +90,8 @@ const CompanyPage = () => {
             </h1>
             <p className="mt-8 text-xl text-ink-300 leading-relaxed">
               Everything a vendor management team usually asks for, in one place. If you
-              need something that is not here — a certificate, a reference, a signed
-              questionnaire — email {COMPANY.email} and we will send it.
+              need something that is not here (a certificate, a reference, a signed
+              questionnaire), email {COMPANY.email} and we will send it.
             </p>
           </div>
         </Container>
@@ -142,20 +149,52 @@ const CompanyPage = () => {
       </Section>
 
       {/* Delivery history */}
-      {DELIVERED_FOR.length > 0 && (
-        <Section>
-          <Container width="narrow">
-            <SectionHeading eyebrow="Track record" title="Delivery history" />
-            <p className="mt-6 text-lg text-ink-600 leading-relaxed">
-              We have delivered collection and annotation programs through global data
-              providers including {DELIVERED_FOR.join(', ')}. These were subcontracted
-              engagements rather than direct contracts with the end client whose model the
-              data trained. We can describe scope, volume and duration under NDA, and can
-              put you in touch with a reference on request.
-            </p>
-          </Container>
-        </Section>
-      )}
+      <Section>
+        <Container>
+          <SectionHeading
+            eyebrow="Track record"
+            title="Delivery history"
+            lede={PROVENANCE + ' The clients were subcontracting intermediaries covered by NDA, so they are not named here. We can describe scope, volume and duration under NDA on request.'}
+          />
+
+          <div className="mt-12 border-t border-ink-200">
+            <SpecTable
+              rows={TRACK_RECORD.map((item) => ({
+                label: item.label,
+                value: item.value,
+                detail: item.detail,
+              }))}
+            />
+          </div>
+
+          <div className="mt-12 grid md:grid-cols-3 gap-x-10 gap-y-10">
+            {CASE_STUDIES.map((study) => (
+              <div key={study.title} className="border-t border-ink-300 pt-6">
+                <div className="text-xs font-semibold uppercase tracking-[0.14em] text-accent-600 mb-3">
+                  {study.discipline}
+                </div>
+                <h3 className="text-base font-semibold text-ink-950 mb-3 leading-snug">
+                  {study.title}
+                </h3>
+                <ul className="space-y-2">
+                  {study.facts.map((fact) => (
+                    <li key={fact.label} className="text-sm text-ink-600 leading-relaxed">
+                      <span className="text-ink-500">{fact.label}:</span> {fact.value}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 pt-8 border-t border-ink-200 flex flex-col md:flex-row md:items-baseline gap-3 md:gap-10">
+            <div className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-500 shrink-0">
+              Locales delivered in
+            </div>
+            <p className="text-ink-700">{LOCALES_DELIVERED.join(' · ')}</p>
+          </div>
+        </Container>
+      </Section>
 
       {/* CTA */}
       <Section tone="dark" size="compact">

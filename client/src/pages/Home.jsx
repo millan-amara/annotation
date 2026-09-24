@@ -4,29 +4,36 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import QuickContactForm from '../components/QuickContactForm';
 import usePageMeta from '../lib/usePageMeta';
-import { DELIVERED_FOR, OPERATING_MODEL, COMPANY } from '../data/company';
+import {
+  PROVENANCE,
+  TRACK_RECORD,
+  CASE_STUDIES,
+  LOCALES_DELIVERED,
+  OPERATING_MODEL,
+  COMPANY,
+} from '../data/company';
 import { Container, Section, SectionHeading, Eyebrow } from '../components/ui/Layout';
 import { SpecTable } from '../components/ui/SpecTable';
 import { ButtonLink } from '../components/ui/Button';
 
 const SpherePulseLanding = () => {
   usePageMeta({
-    title: 'SpherePulse — African Language Data Collection & Annotation',
+    title: 'Managed Data Teams for Multilingual AI | SpherePulse',
     description:
-      'Native-speaker teams across Africa delivering speech, image and text training data for AI. Managed recruitment, collection, annotation and QA from Nairobi, Kenya.',
+      'English-language annotation, transcription and model-alignment work at volume, plus native-speaker coverage in African languages. Teams recruited, contracted and managed from Nairobi, Kenya.',
     path: '/',
   });
 
   const capabilities = [
     {
-      title: 'Native speakers, not translators',
+      title: 'Two lanes, one supplier',
       description:
-        'We recruit contributors who grew up with the language and brief them on the cultural context each task needs. Every recording and label comes from someone the data is actually about.',
+        'English-language annotation, transcription, moderation and model-alignment work at volume, and native-speaker collection in African languages. You can hand us either without onboarding a second vendor.',
     },
     {
       title: 'Teams assembled per project',
       description:
-        'We recruit, train and manage 10–40 contributors for each engagement, and grow or shrink the roster as your volume changes.',
+        'We recruit, train and manage the contributors for each engagement, from ten on a focused batch to 150 at peak on a single project, and grow or shrink the roster as your volume changes.',
     },
     {
       title: 'QA built into delivery',
@@ -36,22 +43,22 @@ const SpherePulseLanding = () => {
     {
       title: 'One supplier, whole workforce',
       description:
-        'We handle recruitment, contracts, payment and day-to-day support for every contributor. You manage one relationship instead of forty.',
+        'We handle recruitment, contracts, payment and day-to-day support for every contributor. You manage one relationship instead of a hundred and fifty.',
     },
   ];
 
   const assurances = [
-    'Delivery experience across speech, image and text projects',
-    'Contributors recruited, contracted and paid by us — not subcontracted on',
+    'We only take on work we can staff to standard, and say so at scoping when we cannot',
+    'Batches are QA-ed against your spec by us, and reworked on our side before delivery',
+    'Contributors recruited, contracted and paid by us, not subcontracted on',
     'Signed confidentiality and IP assignment with every contributor',
-    'Documented QA passes, with sample-level tracking you can audit',
   ];
 
   const openRoles = [
     { title: 'Menu Image Collection', location: 'Remote · Global', link: 'https://forms.gle/nUN9FeXGgiZWQMDy5' },
-    { title: 'Selfie Picture Collection', location: 'Remote · Multiple', link: 'https://forms.gle/aypcdEJLNAmzi2RP9' },
+    { title: 'Object & Product Imaging', location: 'Remote · Global', link: 'https://forms.gle/TVL776c9M1VtWE1k7' },
     { title: 'Data Annotation Specialist', location: 'Remote · English', link: 'https://forms.gle/TVL776c9M1VtWE1k7' },
-    { title: 'iPhone Data Collection', location: 'Remote · Global', link: 'https://forms.gle/TVL776c9M1VtWE1k7' },
+    { title: 'Transcription & Segmentation', location: 'Remote · Multilingual', link: 'https://forms.gle/TVL776c9M1VtWE1k7' },
   ];
 
   return (
@@ -79,13 +86,14 @@ const SpherePulseLanding = () => {
       <Section size="hero">
         <Container>
           <div className="max-w-4xl">
-            <Eyebrow>AI training data · Nairobi, Kenya</Eyebrow>
+            <Eyebrow>AI training data</Eyebrow>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold text-ink-950 leading-[1.05]">
-              Managed data teams for African languages
+              Managed data teams for multilingual AI
             </h1>
             <p className="mt-8 text-xl md:text-2xl text-ink-600 leading-relaxed max-w-3xl">
-              Speech, image and text training data collected and annotated by native
-              speakers — recruited, contracted, paid and quality-checked by us.
+              English-language annotation, transcription and model-alignment work at
+              volume, plus native-speaker coverage in African languages, delivered by
+              teams we recruit, contract, pay and quality-check ourselves.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-3">
               <ButtonLink to="/contact" size="lg">
@@ -100,20 +108,21 @@ const SpherePulseLanding = () => {
         </Container>
       </Section>
 
-      {/* Credential line */}
+      {/* Track record */}
       <Section tone="muted" size="compact">
         <Container>
-          <div className="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-10">
-            <div className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-500 shrink-0">
-              Delivered on programs for
-            </div>
-            <div className="flex flex-wrap items-baseline gap-x-8 gap-y-2">
-              {DELIVERED_FOR.map((name) => (
-                <span key={name} className="font-display text-lg text-ink-800">
-                  {name}
-                </span>
-              ))}
-            </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
+            {TRACK_RECORD.map((item) => (
+              <div key={item.label}>
+                <div className="font-display text-2xl md:text-3xl font-semibold text-ink-950">
+                  {item.value}
+                </div>
+                <div className="mt-1 text-sm font-medium text-ink-700">{item.label}</div>
+                <div className="mt-1 text-sm text-ink-500 leading-relaxed">
+                  {item.detail}
+                </div>
+              </div>
+            ))}
           </div>
         </Container>
       </Section>
@@ -160,6 +169,50 @@ const SpherePulseLanding = () => {
         </Container>
       </Section>
 
+      {/* Case studies */}
+      <Section>
+        <Container>
+          <SectionHeading
+            eyebrow="Selected work"
+            title="What we have delivered"
+            lede={PROVENANCE + ' Clients are covered by NDA and are not named, but we can describe scope, volume and duration under NDA.'}
+          />
+
+          <div className="mt-14 divide-y divide-ink-200 border-t border-ink-200">
+            {CASE_STUDIES.map((study) => (
+              <article key={study.title} className="py-10 grid lg:grid-cols-12 gap-6 lg:gap-12">
+                <div className="lg:col-span-5">
+                  <div className="text-xs font-semibold uppercase tracking-[0.14em] text-accent-600 mb-3">
+                    {study.discipline}
+                  </div>
+                  <h3 className="text-xl font-semibold text-ink-950 mb-4 leading-snug">
+                    {study.title}
+                  </h3>
+                  <p className="text-ink-600 leading-relaxed">{study.summary}</p>
+                </div>
+                <dl className="lg:col-span-7 lg:pt-1 divide-y divide-ink-100">
+                  {study.facts.map((fact) => (
+                    <div key={fact.label} className="py-3 grid sm:grid-cols-3 gap-1 sm:gap-6">
+                      <dt className="text-sm font-medium text-ink-500">{fact.label}</dt>
+                      <dd className="sm:col-span-2 text-sm text-ink-800 leading-relaxed">
+                        {fact.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-12 pt-8 border-t border-ink-200 flex flex-col md:flex-row md:items-baseline gap-3 md:gap-10">
+            <div className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-500 shrink-0">
+              Locales delivered in
+            </div>
+            <p className="text-ink-700">{LOCALES_DELIVERED.join(' · ')}</p>
+          </div>
+        </Container>
+      </Section>
+
       {/* Assurances */}
       <Section tone="dark">
         <Container>
@@ -183,18 +236,18 @@ const SpherePulseLanding = () => {
         </Container>
       </Section>
 
-      {/* Open roles */}
+      {/* Work we staff for */}
       <Section id="jobs">
         <Container>
           <div className="flex flex-wrap items-end justify-between gap-6 mb-12">
             <SectionHeading
               eyebrow="Join the network"
-              title="Open roles"
-              lede="Paid remote work in data collection and annotation."
+              title="Work we staff for"
+              lede="We build the roster before a project starts. Register your languages and country and we will contact you when work matching them comes in."
               className="mb-0"
             />
             <ButtonLink to="/jobs" variant="secondary">
-              View all roles
+              See all work types
               <ArrowRight size={16} />
             </ButtonLink>
           </div>
@@ -213,7 +266,7 @@ const SpherePulseLanding = () => {
                 </h3>
                 <p className="text-sm text-ink-500 mb-6">{role.location}</p>
                 <span className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-600">
-                  Apply
+                  Register interest
                   <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
                 </span>
               </a>

@@ -21,7 +21,7 @@ const tones = {
   plain: 'bg-white text-ink-800',
   // Adjacent band, used to separate two light sections without a rule.
   muted: 'bg-ink-50 text-ink-800',
-  // Inverted band. Used sparingly — once or twice per page at most.
+  // Inverted band. Used sparingly: once or twice per page at most.
   dark: 'bg-ink-950 text-ink-200',
   // Accent band. At most once per page, for the section that matters most.
   accent: 'bg-accent-700 text-white',
@@ -85,7 +85,7 @@ export function SectionHeading({
 }
 
 /**
- * Bordered panel. Flat by default — elevation is reserved for things that
+ * Bordered panel. Flat by default: elevation is reserved for things that
  * genuinely float, which on this site is nothing.
  */
 export function Panel({ children, className = '', tone = 'light' }) {
