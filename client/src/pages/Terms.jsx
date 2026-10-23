@@ -5,9 +5,9 @@ import { COMPANY } from '../data/company';
 
 const Terms = () => {
   usePageMeta({
-    title: 'Terms of Use | SpherePulse',
+    title: 'Terms of Use | Peskaya',
     description:
-      'The terms that govern use of the SpherePulse website, including job listings, submitted enquiries and intellectual property.',
+      'The terms that govern use of the Peskaya website, including job listings, submitted enquiries and intellectual property.',
     path: '/terms',
   });
 
@@ -83,6 +83,7 @@ const Terms = () => {
       title="Terms of Use"
       intro="The terms that apply when you use this website. Delivered work is governed by the contract signed for that project."
       lastUpdated="23 September 2026"
+      path="/terms"
       sections={sections}
     />
   );

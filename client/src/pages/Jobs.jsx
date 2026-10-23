@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
+import { BreadcrumbJsonLd } from '../components/StructuredData';
 import Footer from '../components/Footer';
 import usePageMeta from '../lib/usePageMeta';
 import { X, Check, ArrowRight, ChevronRight } from 'lucide-react';
@@ -10,9 +11,9 @@ import { ButtonLink } from '../components/ui/Button';
 
 const JobsPage = () => {
   usePageMeta({
-    title: 'Work We Staff For | SpherePulse',
+    title: 'Work We Staff For | Peskaya',
     description:
-      'Paid remote work in data collection, annotation and transcription. Register your languages and country to join the SpherePulse contributor roster.',
+      'Paid remote work in data collection, annotation and transcription. Register your languages and country to join the Peskaya contributor roster.',
     path: '/jobs',
   });
 
@@ -335,42 +336,7 @@ const JobsPage = () => {
   return (
     <div className="min-h-screen bg-white">
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(
-          {
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            "name": "Jobs - SpherePulse",
-            "url": "https://www.spherepulseapp.com/jobs",
-            "description": "View career opportunities at SpherePulse and join a growing team building modern AI-powered solutions."
-          }
-        ) }}
-      />
-
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://www.spherepulseapp.com"
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Jobs",
-                "item": "https://www.spherepulseapp.com/jobs"
-              }
-            ]
-          }
-        ) }}
-      />
+      <BreadcrumbJsonLd trail={[{ name: 'Work we staff for', path: '/jobs' }]} />
 
       <Navbar />
 

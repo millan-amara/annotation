@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Check, ArrowRight } from 'lucide-react';
 import Navbar from '../components/Navbar';
+import { BreadcrumbJsonLd } from '../components/StructuredData';
 import Footer from '../components/Footer';
 import { sendContactForm, buildMailtoFallback, CONTACT_EMAIL } from '../lib/contact';
 import usePageMeta from '../lib/usePageMeta';
@@ -17,9 +18,9 @@ const labelClasses = 'block text-sm font-medium text-ink-700 mb-2';
 
 const ContactPage = () => {
   usePageMeta({
-    title: 'Contact: Scope a Data Project | SpherePulse',
+    title: 'Contact: Scope a Data Project | Peskaya',
     description:
-      'Tell us the languages, volume and timeline you need. SpherePulse replies within one business day. Based in Nairobi, Kenya, delivering globally.',
+      'Tell us the languages, volume and timeline you need. Peskaya replies within one business day. Based in Nairobi, Kenya, delivering globally.',
     path: '/contact',
   });
 
@@ -63,7 +64,10 @@ const ContactPage = () => {
 
   const reachUs = [
     { label: 'Email', value: COMPANY.email },
-    { label: 'LinkedIn', value: 'linkedin.com/company/spherepulse' },
+    { label: 'Phone', value: COMPANY.phone },
+    ...(COMPANY.linkedin
+      ? [{ label: 'LinkedIn', value: COMPANY.linkedin.replace(/^https?:\/\/(www\.)?/, '') }]
+      : []),
     { label: 'Based in', value: `${COMPANY.city}, ${COMPANY.country}` },
     { label: 'Working hours', value: '9:00–18:00 EAT', detail: 'Monday to Friday' },
   ];
@@ -88,19 +92,7 @@ const ContactPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'ContactPage',
-            name: 'Contact - SpherePulse',
-            url: 'https://www.spherepulseapp.com/contact',
-            description:
-              'Contact SpherePulse for inquiries about services, partnerships, or support.',
-          }),
-        }}
-      />
+      <BreadcrumbJsonLd trail={[{ name: 'Contact', path: '/contact' }]} />
 
       <Navbar />
 
@@ -251,14 +243,16 @@ const ContactPage = () => {
                     <ButtonLink href={'mailto:' + COMPANY.email} variant="secondary">
                       Email us
                     </ButtonLink>
-                    <ButtonLink
-                      href={COMPANY.linkedin}
-                      variant="secondary"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      LinkedIn
-                    </ButtonLink>
+                    {COMPANY.linkedin && (
+                      <ButtonLink
+                        href={COMPANY.linkedin}
+                        variant="secondary"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        LinkedIn
+                      </ButtonLink>
+                    )}
                   </div>
                 </div>
 

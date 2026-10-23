@@ -61,15 +61,17 @@ const Footer = () => {
                 <Mail size={16} />
                 {COMPANY.email}
               </a>
-              <a
-                href={COMPANY.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 hover:text-white transition"
-              >
-                <Linkedin size={16} />
-                LinkedIn
-              </a>
+              {COMPANY.linkedin && (
+                <a
+                  href={COMPANY.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 hover:text-white transition"
+                >
+                  <Linkedin size={16} />
+                  LinkedIn
+                </a>
+              )}
               <div className="flex items-center gap-2">
                 <MapPin size={16} />
                 {COMPANY.city}, {COMPANY.country}

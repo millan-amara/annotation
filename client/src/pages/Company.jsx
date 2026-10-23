@@ -1,6 +1,7 @@
 import React from 'react';
 import { ShieldCheck, FileSignature, Users, Wallet, ArrowRight } from 'lucide-react';
 import Navbar from '../components/Navbar';
+import { BreadcrumbJsonLd } from '../components/StructuredData';
 import Footer from '../components/Footer';
 import usePageMeta from '../lib/usePageMeta';
 import {
@@ -22,21 +23,23 @@ import { ButtonLink } from '../components/ui/Button';
  */
 const CompanyPage = () => {
   usePageMeta({
-    title: 'Company & Compliance | SpherePulse',
+    title: 'Company & Compliance | Peskaya',
     description:
-      'Supplier information for SpherePulse: legal entity, workforce contracts, data protection posture and commercial terms for AI training data projects.',
+      'Supplier information for Peskaya: legal entity, workforce contracts, data protection posture and commercial terms for AI training data projects.',
     path: '/company',
   });
 
   const entityRows = [
-    { label: 'Trading name', value: COMPANY.name },
     { label: 'Registered name', value: COMPANY.legalName },
     { label: 'Company registration number', value: COMPANY.registrationNumber },
     { label: 'Tax identification (KRA PIN)', value: COMPANY.taxId },
+    { label: 'Entity type', value: 'Private limited company' },
     { label: 'Country of registration', value: COMPANY.country },
-    { label: 'Principal place of business', value: COMPANY.city + ', ' + COMPANY.country },
+    { label: 'Incorporated', value: COMPANY.incorporated },
+    { label: 'Registered office', value: COMPANY.registeredOffice },
     { label: 'Data protection registration', value: COMPANY.dataProtectionRegistration },
     { label: 'Contact for procurement', value: COMPANY.email },
+    { label: 'Telephone', value: COMPANY.phone },
   ];
 
   const sections = [
@@ -78,6 +81,7 @@ const CompanyPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <BreadcrumbJsonLd trail={[{ name: 'Company & compliance', path: '/company' }]} />
       <Navbar />
 
       {/* Hero */}
@@ -105,7 +109,7 @@ const CompanyPage = () => {
               <SectionHeading
                 eyebrow="Entity"
                 title="Legal entity"
-                lede="Registered in Kenya. Anything not shown here is available on request."
+                lede="A private limited company registered in Kenya. Anything not shown here is available on request."
               />
             </div>
             <div className="lg:col-span-8">

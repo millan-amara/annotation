@@ -4,7 +4,7 @@ import usePageMeta from '../lib/usePageMeta';
 
 const NotFound = () => {
   usePageMeta({
-    title: 'Page not found | SpherePulse',
+    title: 'Page not found | Peskaya',
     description: 'The page you were looking for does not exist.',
   });
 

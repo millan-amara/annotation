@@ -5,8 +5,9 @@ import {
   DEFAULT_LOCALE,
   ENABLED_LOCALES,
 } from '../i18n/LocaleContext';
+import { COMPANY } from '../data/company';
 
-const SITE_URL = 'https://www.spherepulseapp.com';
+const SITE_URL = COMPANY.siteUrl;
 const LOCALES = ENABLED_LOCALES;
 
 function setMetaTag(attr, key, value) {

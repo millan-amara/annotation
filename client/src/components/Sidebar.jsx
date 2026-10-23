@@ -14,7 +14,7 @@ const Sidebar = () => {
   return (
     <aside className="fixed top-0 left-0 h-screen w-64 bg-white border-r border-gray-200 flex flex-col justify-between">
       <div>
-        <div className="p-6 text-xl font-semibold">SpherePulse</div>
+        <div className="p-6 text-xl font-semibold">Peskaya</div>
 
         <nav className="mt-4">
           {navItems.map((item) => (

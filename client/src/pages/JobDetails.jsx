@@ -18,7 +18,7 @@ export default function JobDetails() {
       setJob({
         id,
         title: "Data Annotation Specialist",
-        company: "SpherePulse",
+        company: "Peskaya",
         rate: "$10/hr",
         type: "Remote",
         duration: "3 months",

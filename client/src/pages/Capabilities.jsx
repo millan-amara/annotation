@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
+import { BreadcrumbJsonLd } from '../components/StructuredData';
 import Footer from '../components/Footer';
 import usePageMeta from '../lib/usePageMeta';
 import {
@@ -16,7 +17,7 @@ import { Database, Mic, Image, FileText, Shield, Zap, Users, ArrowRight, Chevron
 
 const CapabilitiesPage = () => {
   usePageMeta({
-    title: 'Capabilities: Speech, Image and Text Data | SpherePulse',
+    title: 'Capabilities: Speech, Image and Text Data | Peskaya',
     description:
       'Data modalities we deliver: speech collection and transcription, image and video annotation, text and NLP annotation, and multimodal datasets, with African language coverage and multi-tier QA.',
     path: '/capabilities',
@@ -247,42 +248,7 @@ const CapabilitiesPage = () => {
   return (
     <div className="min-h-screen bg-white">
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(
-          {
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            "name": "Capabilities - SpherePulse",
-            "url": "https://www.spherepulseapp.com/capabilities",
-            "description": "Explore SpherePulse's capabilities in AI, automation, systems integration, and enterprise solutions."
-          }
-        ) }}
-      />
-
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://www.spherepulseapp.com"
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Capabilities",
-                "item": "https://www.spherepulseapp.com/capabilities"
-              }
-            ]
-          }
-        ) }}
-      />
+      <BreadcrumbJsonLd trail={[{ name: 'Capabilities', path: '/capabilities' }]} />
 
       <Navbar />
 

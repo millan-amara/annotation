@@ -1,13 +1,15 @@
 import React from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import { BreadcrumbJsonLd } from './StructuredData';
 
 /**
  * Shared layout for the policy pages. Plain typography on purpose: these are
  * read by procurement and legal teams, not browsed.
  */
-const LegalPage = ({ title, intro, lastUpdated, sections }) => (
+const LegalPage = ({ title, intro, lastUpdated, sections, path }) => (
   <div className="min-h-screen bg-white flex flex-col">
+    {path && <BreadcrumbJsonLd trail={[{ name: title, path }]} />}
     <Navbar />
 
     <section className="pt-32 pb-16 md:pt-40 md:pb-20 px-6 bg-ink-950 text-white">

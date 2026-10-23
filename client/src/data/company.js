@@ -8,21 +8,27 @@
  */
 
 export const COMPANY = {
-  name: 'SpherePulse',
-  email: 'contact@spherepulseapp.com',
-  linkedin: 'https://www.linkedin.com/company/spherepulse',
+  name: 'Peskaya',
+  email: 'support@peskaya.com',
+  linkedin: 'https://www.linkedin.com/company/peskaya',
   city: 'Nairobi',
   country: 'Kenya',
-  siteUrl: 'https://www.spherepulseapp.com',
+  siteUrl: 'https://www.peskaya.com',
 
-  // CONFIRM: fill from your certificate of incorporation before publishing
-  // the Company page. Leave a field as null and it is hidden rather than
-  // shown blank.
-  legalName: null,           // e.g. 'SpherePulse Limited'
-  registrationNumber: null,  // e.g. 'PVT-XXXXXXX'
-  taxId: null,               // KRA PIN
+  // From the certificate of incorporation (verified against the BRS record).
+  legalName: 'Peskaya Limited',
+  registrationNumber: 'PVT-XYULQD3Y',
+  taxId: 'P052404427W',
+  incorporated: '12 February 2025',
+  phone: '+254 700 487 761',
+  // The registered office as filed. Market-facing copy says Nairobi, which is
+  // the metro this sits in; procurement wants the address on the register.
+  registeredOffice:
+    'Silver Pearl Apartments, High Point, Juja, Kiambu County; P.O. Box 8560-00100 G.P.O. Nairobi',
+
   // CONFIRM: registration with the Office of the Data Protection
-  // Commissioner (Kenya). Set to the certificate number once issued.
+  // Commissioner (Kenya). Set to the certificate number once issued, and file
+  // it in the company's name rather than any business name.
   dataProtectionRegistration: null,
 };
 
@@ -40,7 +46,7 @@ export const DELIVERED_FOR = [];
  * PROVENANCE: read before editing anything below.
  *
  * This record was earned by Hughes personally, as an independent contractor to
- * global data providers, BEFORE SpherePulse existed as a company. SpherePulse
+ * global data providers, BEFORE Peskaya existed as a company. Peskaya
  * has no corporate delivery history of its own yet.
  *
  * That distinction must stay visible on the site. Incorporation dates are
@@ -53,7 +59,7 @@ export const DELIVERED_FOR = [];
  * wherever the record appears.
  */
 export const PROVENANCE =
-  'SpherePulse was formed to put a company around work its founder has been ' +
+  'Peskaya was formed to put a company around work its founder has been ' +
   'delivering since 2017 as an independent contractor to global data providers. ' +
   'The record below is that work. References are personal rather than corporate, ' +
   'and we say so when we make the introduction.';
@@ -69,7 +75,7 @@ export const PROVENANCE =
  *
  * NOTE ON SCOPE: nothing here should describe collecting personal or biometric
  * data from people. The object-imaging programme photographed objects, not
- * faces, and SpherePulse is not yet registered with the ODPC. Do not add face,
+ * faces, and Peskaya is not yet registered with the ODPC. Do not add face,
  * selfie, voice-collection or sensor-data claims until that registration and
  * the consent framework in docs/contributor-consent.md are both in place.
  */

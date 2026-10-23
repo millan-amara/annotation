@@ -1,4 +1,5 @@
 import emailjs from "@emailjs/browser";
+import { COMPANY } from "../data/company";
 
 // EmailJS credentials. The public key is safe to ship in the bundle, but these
 // are read from env first so they can be rotated without a code change.
@@ -9,7 +10,7 @@ export const EMAILJS_TEMPLATE_ID =
 export const EMAILJS_PUBLIC_KEY =
   import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "FfC2jgC2scsnjnV9p";
 
-export const CONTACT_EMAIL = "contact@spherepulseapp.com";
+export const CONTACT_EMAIL = COMPANY.email;
 
 /**
  * Submit a contact <form> element through EmailJS.

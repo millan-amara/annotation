@@ -5,9 +5,9 @@ import { COMPANY } from '../data/company';
 
 const Privacy = () => {
   usePageMeta({
-    title: 'Privacy Policy | SpherePulse',
+    title: 'Privacy Policy | Peskaya',
     description:
-      'How SpherePulse collects, uses, shares and protects personal data, and the rights available to data subjects under the Kenya Data Protection Act and the GDPR.',
+      'How Peskaya collects, uses, shares and protects personal data, and the rights available to data subjects under the Kenya Data Protection Act and the GDPR.',
     path: '/privacy',
   });
 
@@ -106,6 +106,7 @@ const Privacy = () => {
       title="Privacy Policy"
       intro="How we collect, use, share and protect personal data, for website visitors, applicants, contributors and the people whose data we collect on behalf of clients."
       lastUpdated="23 September 2026"
+      path="/privacy"
       sections={sections}
     />
   );

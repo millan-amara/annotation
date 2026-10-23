@@ -17,9 +17,9 @@ import { Container, Section, SectionHeading, Eyebrow } from '../components/ui/La
 import { SpecTable } from '../components/ui/SpecTable';
 import { ButtonLink } from '../components/ui/Button';
 
-const SpherePulseLanding = () => {
+const PeskayaLanding = () => {
   usePageMeta({
-    title: 'Managed Data Teams for Multilingual AI | SpherePulse',
+    title: 'Managed Data Teams for Multilingual AI | Peskaya',
     description:
       'English-language annotation, transcription and model-alignment work at volume, plus native-speaker coverage in African languages. Teams recruited, contracted and managed from Nairobi, Kenya.',
     path: '/',
@@ -72,10 +72,10 @@ const SpherePulseLanding = () => {
             '@type': 'SiteNavigationElement',
             name: ['Capabilities', 'Company', 'Jobs', 'Contact'],
             url: [
-              'https://www.spherepulseapp.com/capabilities',
-              'https://www.spherepulseapp.com/company',
-              'https://www.spherepulseapp.com/jobs',
-              'https://www.spherepulseapp.com/contact',
+              'https://www.peskaya.com/capabilities',
+              'https://www.peskaya.com/company',
+              'https://www.peskaya.com/jobs',
+              'https://www.peskaya.com/contact',
             ],
           }),
         }}
@@ -297,14 +297,16 @@ const SpherePulseLanding = () => {
                 <a href={'mailto:' + COMPANY.email} className="block hover:text-white transition-colors">
                   {COMPANY.email}
                 </a>
-                <a
-                  href={COMPANY.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block hover:text-white transition-colors"
-                >
-                  LinkedIn
-                </a>
+                {COMPANY.linkedin && (
+                  <a
+                    href={COMPANY.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block hover:text-white transition-colors"
+                  >
+                    LinkedIn
+                  </a>
+                )}
               </div>
             </div>
             <div className="lg:col-span-7">
@@ -319,4 +321,4 @@ const SpherePulseLanding = () => {
   );
 };
 
-export default SpherePulseLanding;
+export default PeskayaLanding;
