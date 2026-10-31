@@ -222,9 +222,10 @@ create table public.submissions (
     check (status in ('pending', 'accepted', 'partial', 'rejected')),
   minutes_accepted numeric(7, 1) check (minutes_accepted >= 0),
   amount numeric(10, 2) check (amount >= 0),
-  currency text not null default 'KES',
+  currency text not null default 'USD',
   feedback text,
   reviewed_at timestamptz,
+  pay_period text check (pay_period ~ '^\d{4}-\d{2}$'),  -- 'YYYY-MM', set on acceptance
   created_at timestamptz not null default now()
 );
 
@@ -243,11 +244,23 @@ begin
       new.amount := null;
       new.feedback := null;
       new.reviewed_at := null;
+      new.pay_period := null;
     end if;
   elsif new.status is distinct from old.status
     or new.minutes_accepted is distinct from old.minutes_accepted
     or new.amount is distinct from old.amount then
     new.reviewed_at := now();
+  end if;
+
+  -- The pay period is the month (Nairobi time) the work was first accepted.
+  -- It is set once, so editing a review later never moves earnings into a
+  -- different month; an admin can still change it deliberately.
+  if new.status in ('accepted', 'partial') then
+    if new.pay_period is null then
+      new.pay_period := to_char(now() at time zone 'Africa/Nairobi', 'YYYY-MM');
+    end if;
+  else
+    new.pay_period := null;
   end if;
   return new;
 end;
@@ -340,10 +353,15 @@ create table public.payments (
   -- request and has to be dealt with deliberately.
   user_id uuid not null references public.profiles (id) on delete restrict,
   amount numeric(10, 2) not null check (amount > 0),
-  currency text not null default 'KES',
+  currency text not null default 'USD',
   method text not null default 'M-Pesa',  -- 'M-Pesa' or 'Bank transfer'
   reference text,
   paid_on date not null default current_date,
+  period text check (period ~ '^\d{4}-\d{2}$'),  -- the pay period this settles
+  local_amount numeric(12, 2) check (local_amount > 0),  -- what was sent, e.g. KES
+  local_currency text,
+  exchange_rate numeric(12, 4) check (exchange_rate > 0),
+  rate_source text,
   note text,
   created_at timestamptz not null default now()
 );

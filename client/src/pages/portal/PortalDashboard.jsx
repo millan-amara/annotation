@@ -5,13 +5,14 @@ import {
   applicationFor,
   applicationMessage,
   hasConsented,
+  formatAmounts,
   formatHours,
-  formatMoney,
 } from "../../lib/portal";
 import { useContributorData } from "../../lib/usePortalData";
 import { PROJECTS } from "../../data/portal";
 import PortalLayout from "../../components/portal/PortalLayout";
 import { GettingStarted, HelpCard } from "../../components/portal/DashboardAside";
+import { NextPaymentStat } from "../../components/portal/Money";
 import { Notice, Panel, Stat, StatusPill } from "../../components/portal/Controls";
 import { ButtonLink } from "../../components/ui/Button";
 
@@ -128,8 +129,8 @@ export default function PortalDashboard() {
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <Stat label="Submitted" value={formatHours(totals.minutesSubmitted)} />
           <Stat label="Accepted" value={formatHours(totals.minutesAccepted)} hint="after review" />
-          <Stat label="Earned" value={formatMoney(totals.earned)} />
-          <Stat label="Balance due" value={formatMoney(totals.earned - totals.paid)} hint="not yet paid" />
+          <Stat label="Earned" value={formatAmounts(totals.earned)} hint="all time" />
+          <NextPaymentStat totals={totals} />
         </div>
       )}
 

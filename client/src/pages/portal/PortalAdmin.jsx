@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { supabase } from "../../lib/supabase";
-import { describePayout, formatDate, formatHours, formatMoney } from "../../lib/portal";
+import { describePayout, formatAmounts, formatDate, formatHours, formatMoney, periodLabel } from "../../lib/portal";
 import { summarise } from "../../lib/usePortalData";
-import { PROJECTS, findProject } from "../../data/portal";
+import { PAYMENT_TERMS, PROJECTS, findProject } from "../../data/portal";
 import PortalLayout from "../../components/portal/PortalLayout";
 import { Field, Input, Notice, Panel, Select, Spinner, StatusPill, Textarea } from "../../components/portal/Controls";
 import { Button } from "../../components/ui/Button";
@@ -241,6 +241,7 @@ function ReviewRow({ submission, contributor, onSaved }) {
         status: values.status,
         minutes_accepted: values.status === "rejected" ? 0 : Number(values.minutes_accepted),
         amount: values.amount === "" ? null : Number(values.amount),
+        currency: PAYMENT_TERMS.currency,
         feedback: values.feedback.trim() || null,
       })
       .eq("id", s.id);
@@ -276,8 +277,8 @@ function ReviewRow({ submission, contributor, onSaved }) {
         <Field label="Minutes accepted">
           <Input type="number" min="0" step="0.5" value={values.minutes_accepted} onChange={set("minutes_accepted")} disabled={values.status === "rejected"} />
         </Field>
-        <Field label="Amount (KES)">
-          <Input type="number" min="0" step="1" value={values.amount} onChange={set("amount")} />
+        <Field label={`Amount (${PAYMENT_TERMS.currency})`}>
+          <Input type="number" min="0" step="0.01" value={values.amount} onChange={set("amount")} />
         </Field>
       </div>
       <div className="mt-3">
@@ -321,38 +322,69 @@ function ReviewTab({ submissions, byId, reload }) {
 
 /* ------------------------------------------------------------------------ */
 
-const EMPTY_PAYMENT = { user_id: "", amount: "", reference: "", paid_on: "", note: "" };
+const EMPTY_PAYMENT = {
+  user_id: "",
+  period: "",
+  amount: "",
+  local_amount: "",
+  local_currency: "KES",
+  rate_source: "CBK mean rate",
+  reference: "",
+  paid_on: "",
+  note: "",
+};
 
+/**
+ * Payday view. "Owed" lists each contributor's closed months that aren't
+ * fully paid (open months are shown but can't be paid yet). Recording a
+ * payment ties it to a month, in USD, with the local amount actually sent and
+ * the rate used, which the contributor sees on their statement.
+ */
 function PaymentsTab({ profiles, submissions, payments, payouts, byId, reload }) {
   const [form, setForm] = useState(EMPTY_PAYMENT);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const set = (key) => (e) => setForm({ ...form, [key]: e.target.value });
+  const payee = payouts[form.user_id];
 
-  const balances = useMemo(
+  const owed = useMemo(
     () =>
       profiles
-        .map((p) => {
-          const totals = summarise(
+        .flatMap((p) =>
+          summarise(
             submissions.filter((s) => s.user_id === p.id),
             payments.filter((x) => x.user_id === p.id)
-          );
-          return { profile: p, ...totals, due: totals.earned - totals.paid };
-        })
-        .filter((b) => b.earned > 0 || b.paid > 0)
-        .sort((a, b) => b.due - a.due),
+          ).statement
+            .filter((l) => l.status !== "paid")
+            .map((l) => ({ profile: p, ...l }))
+        )
+        .sort((a, b) => (a.period === b.period ? 0 : a.period < b.period ? -1 : 1)),
     [profiles, submissions, payments]
   );
+  const dueTotals = {};
+  for (const l of owed) {
+    if (l.status === "due") dueTotals[l.currency] = (dueTotals[l.currency] || 0) + l.outstanding;
+  }
 
-  const payee = payouts[form.user_id];
+  const rate =
+    Number(form.amount) > 0 && Number(form.local_amount) > 0
+      ? Number(form.local_amount) / Number(form.amount)
+      : null;
 
   const save = async (e) => {
     e.preventDefault();
     setBusy(true);
+    const local = form.local_amount !== "";
     const { error: insertError } = await supabase.from("payments").insert({
       user_id: form.user_id,
-      method: payee?.method === "bank" ? "Bank transfer" : "M-Pesa",
+      period: form.period,
       amount: Number(form.amount),
+      currency: PAYMENT_TERMS.currency,
+      method: payee?.method === "bank" ? "Bank transfer" : "M-Pesa",
+      local_amount: local ? Number(form.local_amount) : null,
+      local_currency: local ? form.local_currency : null,
+      exchange_rate: local && rate ? Number(rate.toFixed(4)) : null,
+      rate_source: local ? form.rate_source.trim() || null : null,
       reference: form.reference.trim().toUpperCase() || null,
       paid_on: form.paid_on || undefined,
       note: form.note.trim() || null,
@@ -367,24 +399,41 @@ function PaymentsTab({ profiles, submissions, payments, payouts, byId, reload })
 
   return (
     <>
-      <Panel title="Balances">
-        {balances.length === 0 ? (
-          <p className="text-sm text-ink-500">No reviewed earnings yet.</p>
+      <Panel
+        title="Owed"
+        action={<span className="text-sm text-ink-600">Due now: {formatAmounts(dueTotals)}</span>}
+      >
+        {owed.length === 0 ? (
+          <p className="text-sm text-ink-500">Nothing owed.</p>
         ) : (
           <ul className="divide-y divide-ink-100">
-            {balances.map((b) => (
-              <li key={b.profile.id} className="flex flex-wrap items-center justify-between gap-3 py-3 first:pt-0 last:pb-0">
+            {owed.map((l) => (
+              <li key={`${l.profile.id}-${l.period}-${l.currency}`} className="flex flex-wrap items-center justify-between gap-3 py-3 first:pt-0 last:pb-0">
                 <div>
-                  <p className="text-sm font-medium text-ink-900">{b.profile.full_name}</p>
+                  <p className="text-sm font-medium text-ink-900">
+                    {l.profile.full_name} · {periodLabel(l.period)}
+                  </p>
                   <p className="text-xs text-ink-500">
-                    Earned {formatMoney(b.earned)} · paid {formatMoney(b.paid)} ·{" "}
-                    {payouts[b.profile.id] ? describePayout(payouts[b.profile.id]) : "no payment details yet"}
+                    {l.status === "due" ? `Due by ${formatDate(l.payDate)}` : "Month still open"} ·{" "}
+                    {payouts[l.profile.id] ? describePayout(payouts[l.profile.id]) : "no payment details yet"}
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="font-display font-semibold tabular-nums text-ink-950">{formatMoney(b.due)}</span>
-                  {b.due > 0 && (
-                    <Button variant="secondary" onClick={() => setForm({ ...EMPTY_PAYMENT, user_id: b.profile.id, amount: String(b.due) })}>
+                  <span className="font-display font-semibold tabular-nums text-ink-950">
+                    {formatMoney(l.outstanding, l.currency)}
+                  </span>
+                  {l.status === "due" && (
+                    <Button
+                      variant="secondary"
+                      onClick={() =>
+                        setForm({
+                          ...EMPTY_PAYMENT,
+                          user_id: l.profile.id,
+                          period: l.period,
+                          amount: l.outstanding.toFixed(2),
+                        })
+                      }
+                    >
                       Pay
                     </Button>
                   )}
@@ -397,14 +446,19 @@ function PaymentsTab({ profiles, submissions, payments, payouts, byId, reload })
 
       <Panel title="Record a payment">
         <form onSubmit={save} className="space-y-4">
-          <Field label="Contributor">
-            <Select required value={form.user_id} onChange={set("user_id")}>
-              <option value="">Choose</option>
-              {profiles.filter((p) => p.full_name).map((p) => (
-                <option key={p.id} value={p.id}>{p.full_name}</option>
-              ))}
-            </Select>
-          </Field>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label="Contributor">
+              <Select required value={form.user_id} onChange={set("user_id")}>
+                <option value="">Choose</option>
+                {profiles.filter((p) => p.full_name).map((p) => (
+                  <option key={p.id} value={p.id}>{p.full_name}</option>
+                ))}
+              </Select>
+            </Field>
+            <Field label="For the month of">
+              <Input type="month" required value={form.period} onChange={set("period")} />
+            </Field>
+          </div>
           {form.user_id && (
             <Notice tone={payee ? "info" : "error"}>
               {payee
@@ -413,8 +467,29 @@ function PaymentsTab({ profiles, submissions, payments, payouts, byId, reload })
             </Notice>
           )}
           <div className="grid gap-4 sm:grid-cols-3">
-            <Field label="Amount (KES)">
-              <Input type="number" required min="1" step="1" value={form.amount} onChange={set("amount")} />
+            <Field label={`Amount (${PAYMENT_TERMS.currency})`}>
+              <Input type="number" required min="0.01" step="0.01" value={form.amount} onChange={set("amount")} />
+            </Field>
+            <Field label="Amount sent" hint="What actually went out, if not in USD." optional>
+              <Input type="number" min="1" step="1" value={form.local_amount} onChange={set("local_amount")} />
+            </Field>
+            <Field label="Sent in">
+              <Select value={form.local_currency} onChange={set("local_currency")}>
+                <option value="KES">KES</option>
+                <option value="UGX">UGX</option>
+                <option value="TZS">TZS</option>
+                <option value="NGN">NGN</option>
+              </Select>
+            </Field>
+          </div>
+          {rate && (
+            <p className="text-sm text-ink-600">
+              Rate: 1 {PAYMENT_TERMS.currency} = {rate.toFixed(2)} {form.local_currency}
+            </p>
+          )}
+          <div className="grid gap-4 sm:grid-cols-3">
+            <Field label="Rate source" hint="Shown to the contributor.">
+              <Input value={form.rate_source} onChange={set("rate_source")} />
             </Field>
             <Field label={payee?.method === "bank" ? "Bank reference" : "M-Pesa code"}>
               <Input value={form.reference} onChange={set("reference")} placeholder={payee?.method === "bank" ? "" : "e.g. SJK3XXXXXX"} />
@@ -423,8 +498,8 @@ function PaymentsTab({ profiles, submissions, payments, payouts, byId, reload })
               <Input type="date" value={form.paid_on} onChange={set("paid_on")} />
             </Field>
           </div>
-          <Field label="Note to contributor">
-            <Input value={form.note} onChange={set("note")} placeholder="e.g. Batches logged 1–7 Nov" />
+          <Field label="Note to contributor" optional>
+            <Input value={form.note} onChange={set("note")} />
           </Field>
           <Notice tone="error">{error}</Notice>
           <Button type="submit" loading={busy}>Record payment</Button>
@@ -440,9 +515,15 @@ function PaymentsTab({ profiles, submissions, payments, payouts, byId, reload })
               <li key={p.id} className="flex justify-between gap-3 py-2.5 text-sm first:pt-0 last:pb-0">
                 <span className="text-ink-800">
                   {formatDate(p.paid_on)} · {byId[p.user_id]?.full_name}
+                  {p.period && <span className="text-ink-500"> · {periodLabel(p.period)}</span>}
                   {p.reference && <span className="text-ink-500"> · {p.reference}</span>}
                 </span>
-                <span className="font-medium tabular-nums">{formatMoney(p.amount, p.currency)}</span>
+                <span className="text-right">
+                  <span className="font-medium tabular-nums">{formatMoney(p.amount, p.currency)}</span>
+                  {p.local_amount && (
+                    <span className="block text-xs text-ink-500">{formatMoney(p.local_amount, p.local_currency)}</span>
+                  )}
+                </span>
               </li>
             ))}
           </ul>

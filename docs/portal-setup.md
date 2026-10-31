@@ -26,6 +26,8 @@ that came after it, in order, the same way (SQL Editor -> paste -> Run).
 - `002_applications.sql` moves approval, Drive folders and project answers
   from the profile to per-project applications, carrying existing profiles
   over as applications to the first video project.
+- `003_pay_periods.sql` adds monthly pay periods and USD amounts, with the
+  local amount, exchange rate and rate source on each payment.
 
 ## 2. Configure sign-in
 
@@ -97,11 +99,18 @@ agree again before logging more work.
 4. **Review**: Admin -> Review lists pending batches. Open the files, check
    each clip against the spec, then record minutes accepted, amount earned and
    feedback. The contributor sees this immediately.
-5. **Pay**: Admin -> Payments shows balances due and where each person wants
-   to be paid. For M-Pesa, check that the name M-Pesa shows matches the
-   registered name they gave before confirming. Then record the payment with
-   the M-Pesa code or bank reference. The contributor sees the reference
-   and can match it to their M-Pesa message or bank statement.
+5. **Pay, monthly**: work counts towards the month you accept it in review,
+   and each month is paid by the 15th of the next (`PAYMENT_TERMS` in
+   `client/src/data/portal.js`). Amounts are in USD.
+   - Admin -> Payments -> **Owed** lists each contributor's unpaid months.
+     Closed months have a **Pay** button; the current month is shown but
+     can't be paid yet.
+   - Convert at the Central Bank of Kenya mean rate on the day, and send.
+     For M-Pesa, check that the name M-Pesa shows matches the registered
+     name they gave before confirming.
+   - Record the payment: the USD amount, the amount actually sent in KES,
+     the rate source, and the M-Pesa code or bank reference. The rate is
+     worked out for you. The contributor sees all of it on their statement.
 
 ## Data protection notes
 

@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { useAuth, describePayout, formatDate, formatMoney } from "../../lib/portal";
+import { useAuth, describePayout, formatAmounts, formatDate, formatMoney, periodLabel } from "../../lib/portal";
 import { useContributorData } from "../../lib/usePortalData";
+import { PAYMENT_TERMS } from "../../data/portal";
 import PortalLayout from "../../components/portal/PortalLayout";
 import PayoutForm from "../../components/portal/PayoutForm";
+import { NextPaymentStat, Statement } from "../../components/portal/Money";
 import { Notice, Panel, Spinner, Stat } from "../../components/portal/Controls";
 import { Button } from "../../components/ui/Button";
 
@@ -45,27 +47,33 @@ function PayoutPanel() {
 }
 
 export default function PortalPayments() {
-  const { profile, payout } = useAuth();
+  const { profile } = useAuth();
   const { payments, totals, loaded, error } = useContributorData(profile.id);
 
   return (
     <PortalLayout title="Payments">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-        <Stat label="Earned" value={formatMoney(totals.earned)} hint="from accepted footage" />
-        <Stat label="Paid" value={formatMoney(totals.paid)} />
-        <Stat label="Balance due" value={formatMoney(totals.earned - totals.paid)} />
+        <NextPaymentStat totals={totals} />
+        <Stat label="Earned" value={formatAmounts(totals.earned)} hint="all time" />
+        <Stat label="Paid" value={formatAmounts(totals.paid)} hint="all time" />
       </div>
+
+      <Notice tone="error">{error}</Notice>
+
+      <Panel title="How you're paid">
+        <div className="space-y-2 text-sm text-ink-700 leading-relaxed">
+          <p>{PAYMENT_TERMS.summary}</p>
+          <p>{PAYMENT_TERMS.conversion}</p>
+        </div>
+      </Panel>
+
+      <Panel title="Monthly statement">
+        {!loaded ? <Spinner /> : <Statement lines={totals.statement} />}
+      </Panel>
 
       <PayoutPanel />
 
       <Panel title="Payment history">
-        <Notice tone="error">{error}</Notice>
-        <p className="mb-4 text-sm text-ink-600 leading-relaxed">
-          We pay after your footage is reviewed.
-          {payout?.method === "bank"
-            ? " Each payment shows its bank reference, so you can match it to your statement."
-            : " Each payment shows its M-Pesa transaction code, so you can match it to the message on your phone."}
-        </p>
         {!loaded ? (
           <Spinner />
         ) : payments.length === 0 ? (
@@ -75,11 +83,21 @@ export default function PortalPayments() {
             {payments.map((p) => (
               <li key={p.id} className="flex items-start justify-between gap-4 py-3 first:pt-0 last:pb-0">
                 <div>
-                  <p className="text-sm font-medium text-ink-900">{formatDate(p.paid_on)}</p>
+                  <p className="text-sm font-medium text-ink-900">
+                    {formatDate(p.paid_on)}
+                    {p.period && <span className="font-normal text-ink-500"> · for {periodLabel(p.period)}</span>}
+                  </p>
                   <p className="text-xs text-ink-500">
                     {p.method}
                     {p.reference && ` · ${p.reference}`}
                   </p>
+                  {p.local_amount && (
+                    <p className="mt-0.5 text-xs text-ink-500">
+                      Sent as {formatMoney(p.local_amount, p.local_currency)}
+                      {p.exchange_rate && ` at ${Number(p.exchange_rate)}`}
+                      {p.rate_source && ` (${p.rate_source})`}
+                    </p>
+                  )}
                   {p.note && <p className="mt-1 text-sm text-ink-700">{p.note}</p>}
                 </div>
                 <p className="font-display text-base font-semibold text-ink-950 tabular-nums">

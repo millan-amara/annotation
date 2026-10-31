@@ -65,6 +65,22 @@ export const ROSTER_CONSENT = {
  * keeps the footage outside the Data Protection Act while registration with
  * the ODPC is pending.
  */
+/**
+ * How and when contributors are paid, the same for every project. Work counts
+ * towards the month we accept it in review (not when the client accepts it),
+ * and each month is paid by `payDay` of the following month. Amounts are in
+ * USD; local payouts are converted at the rate named in `rateSource`.
+ */
+export const PAYMENT_TERMS = {
+  currency: "USD",
+  payDay: 15,
+  rateSource: "Central Bank of Kenya mean rate on the day we pay",
+  summary:
+    "Paid monthly in US dollars. Everything we accept in a calendar month is paid by the 15th of the next month, by M-Pesa or bank transfer.",
+  conversion:
+    "M-Pesa and Kenyan bank payments are sent in KES, converted at the Central Bank of Kenya mean rate on the day we pay. Each payment shows the rate used. We cover the transfer fees.",
+};
+
 const SCENES_WITHOUT_PEOPLE = [
   "Animals",
   "Nature",
@@ -108,8 +124,7 @@ export const PROJECTS = [
       },
     ],
     // CONFIRM: set once the pilot has shown real cost per accepted hour.
-    payment:
-      "Paid per accepted hour of footage, by M-Pesa or bank transfer, after review. Your rate is confirmed with you before you start recording.",
+    payment: `Paid per accepted hour of footage, in US dollars. Your rate is confirmed with you before you start recording. ${PAYMENT_TERMS.summary}`,
     spec: [
       ["Resolution", "1080p or higher, recorded natively. Do not upscale."],
       ["Frame rate", "24 fps or higher."],
@@ -123,7 +138,7 @@ export const PROJECTS = [
       ["Files", "Upload the original files from your camera roll. Do not send through WhatsApp: it compresses video and the clip will fail review."],
     ],
     consent: {
-      version: "1.2",
+      version: "1.3",
       notice: [
         {
           heading: "What the project involves",
@@ -145,7 +160,7 @@ export const PROJECTS = [
         },
         {
           heading: "Payment",
-          body: "Paid per accepted hour of footage, by M-Pesa or bank transfer, after review. Your payment does not depend on the optional box below.",
+          body: `Paid per accepted hour of footage, in US dollars, for footage that passes our review. ${PAYMENT_TERMS.summary} ${PAYMENT_TERMS.conversion} Your payment does not depend on the optional box below.`,
         },
         {
           heading: "Withdrawing",

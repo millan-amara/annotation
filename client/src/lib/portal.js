@@ -79,12 +79,51 @@ export function formatHours(minutes) {
   return `${hours.toFixed(1)} h`;
 }
 
-export function formatMoney(amount, currency = "KES") {
+export function formatMoney(amount, currency = "USD") {
+  // Shillings are paid in whole units; dollars to the cent.
+  const digits = currency === "KES" ? 0 : 2;
   return new Intl.NumberFormat("en-KE", {
     style: "currency",
     currency,
-    maximumFractionDigits: 0,
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
   }).format(Number(amount) || 0);
+}
+
+/** A { currency: amount } map as one string, e.g. "US$40.00 + KES 1,200". */
+export function formatAmounts(byCurrency) {
+  const parts = Object.entries(byCurrency || {})
+    .filter(([, amount]) => Math.abs(amount) >= 0.005)
+    .map(([currency, amount]) => formatMoney(amount, currency));
+  return parts.length ? parts.join(" + ") : formatMoney(0);
+}
+
+/* Pay periods are calendar months in Nairobi time, written "YYYY-MM". */
+
+const NAIROBI_MONTH = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "Africa/Nairobi",
+  year: "numeric",
+  month: "2-digit",
+});
+
+export function periodOf(date = new Date()) {
+  return NAIROBI_MONTH.format(new Date(date));
+}
+
+/** "2026-10" -> "October 2026" */
+export function periodLabel(period) {
+  const [year, month] = period.split("-").map(Number);
+  return new Date(Date.UTC(year, month - 1, 1)).toLocaleDateString("en-GB", {
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
+/** The date a period is paid: `payDay` of the following month. */
+export function payDateFor(period, payDay) {
+  const [year, month] = period.split("-").map(Number);
+  return new Date(Date.UTC(year, month, payDay));
 }
 
 export function formatDate(value) {
