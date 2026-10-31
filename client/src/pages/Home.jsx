@@ -1,21 +1,39 @@
 import React from 'react';
-import { ArrowRight, Check } from 'lucide-react';
+import {
+  ArrowRight,
+  Check,
+  Users,
+  ShieldCheck,
+  FileSignature,
+  AudioLines,
+  Camera,
+  Sparkles,
+} from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import QuickContactForm from '../components/QuickContactForm';
 import HeroSignal from '../components/HeroSignal';
+import { TwoLanes } from '../components/ui/TwoLanes';
+import { LocaleBand } from '../components/ui/LocaleBand';
 import usePageMeta from '../lib/usePageMeta';
 import {
   PROVENANCE,
+  AFRICAN_LANGUAGES_DELIVERED,
+  LOCALES_DELIVERED,
   TRACK_RECORD,
   CASE_STUDIES,
-  LOCALES_DELIVERED,
   OPERATING_MODEL,
   COMPANY,
 } from '../data/company';
 import { Container, Section, SectionHeading, Eyebrow } from '../components/ui/Layout';
 import { SpecTable } from '../components/ui/SpecTable';
 import { ButtonLink } from '../components/ui/Button';
+
+const DISCIPLINE_ICONS = {
+  Speech: AudioLines,
+  Vision: Camera,
+  'Text & safety': Sparkles,
+};
 
 const PeskayaLanding = () => {
   usePageMeta({
@@ -32,16 +50,19 @@ const PeskayaLanding = () => {
         'English-language annotation, transcription, moderation and model-alignment work at volume, and native-speaker collection in African languages. You can hand us either without onboarding a second vendor.',
     },
     {
+      icon: Users,
       title: 'Teams assembled per project',
       description:
-        'We recruit, train and manage the contributors for each engagement, from ten on a focused batch to 150 at peak on a single project, and grow or shrink the roster as your volume changes.',
+        'We staff each engagement ourselves, from ten contributors on a focused batch to 150 at peak. The roster grows or shrinks with your volume.',
     },
     {
+      icon: ShieldCheck,
       title: 'QA built into delivery',
       description:
         'Contributor training and certification, spot checks during collection, peer review, and a final pass before anything ships to you.',
     },
     {
+      icon: FileSignature,
       title: 'One supplier, whole workforce',
       description:
         'We handle recruitment, contracts, payment and day-to-day support for every contributor. You manage one relationship instead of a hundred and fifty.',
@@ -49,9 +70,9 @@ const PeskayaLanding = () => {
   ];
 
   const assurances = [
-    'We only take on work we can staff to standard, and say so at scoping when we cannot',
+    'We only take work we can staff to standard, and say so at scoping when we cannot',
     'Batches are QA-ed against your spec by us, and reworked on our side before delivery',
-    'Contributors recruited, contracted and paid by us, not subcontracted on',
+    'Contributors recruited, contracted and paid by us directly',
     'Signed confidentiality and IP assignment with every contributor',
   ];
 
@@ -86,8 +107,8 @@ const PeskayaLanding = () => {
       {/* Hero */}
       <Section size="hero">
         <Container>
-          <div className="grid lg:grid-cols-12 gap-14 lg:gap-10 lg:items-center">
-            <div className="lg:col-span-7">
+          <div className="grid md:grid-cols-12 gap-10 md:gap-8 md:items-center">
+            <div className="md:col-span-7">
               <Eyebrow>AI training data</Eyebrow>
               <h1 className="text-5xl md:text-6xl font-semibold text-ink-950 leading-[1.05]">
                 Managed data teams for multilingual AI
@@ -108,28 +129,27 @@ const PeskayaLanding = () => {
               </div>
             </div>
 
-            <div className="hidden lg:flex lg:col-span-5 justify-center">
+            <div className="hidden md:flex md:col-span-5 justify-center">
               <HeroSignal />
             </div>
           </div>
-        </Container>
-      </Section>
 
-      {/* Track record */}
-      <Section tone="muted" size="compact">
-        <Container>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
-            {TRACK_RECORD.map((item) => (
-              <div key={item.label}>
-                <div className="font-display text-2xl md:text-3xl font-semibold text-ink-950">
-                  {item.value}
+          <div className="mt-16 rounded-lg border border-ink-200 bg-white">
+            <dl className="grid grid-cols-2 lg:grid-cols-4 divide-y divide-x divide-ink-200 [&>div]:p-6 lg:[&>div]:py-7">
+              {TRACK_RECORD.map((item) => (
+                <div key={item.label}>
+                  <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-ink-500">
+                    {item.label}
+                  </dt>
+                  <dd className="mt-2 font-display text-3xl lg:text-4xl font-semibold text-ink-950 tracking-tight">
+                    {item.value}
+                  </dd>
+                  <dd className="mt-1.5 text-sm text-ink-500 leading-relaxed">
+                    {item.detail}
+                  </dd>
                 </div>
-                <div className="mt-1 text-sm font-medium text-ink-700">{item.label}</div>
-                <div className="mt-1 text-sm text-ink-500 leading-relaxed">
-                  {item.detail}
-                </div>
-              </div>
-            ))}
+              ))}
+            </dl>
           </div>
         </Container>
       </Section>
@@ -142,17 +162,19 @@ const PeskayaLanding = () => {
               <SectionHeading
                 eyebrow="How we work"
                 title="A single supplier that owns the workforce"
-                lede="We are based in Nairobi and recruit across Africa. Rather than routing you to a freelancer pool, we assemble a named team for your project and stay accountable for what it delivers."
+                lede="Based in Nairobi, recruiting across Africa. You get a named team for your project and one supplier accountable for what it delivers."
               />
             </div>
             <div className="lg:col-span-7">
-              <SpecTable
-                rows={OPERATING_MODEL.map((item) => ({
-                  label: item.label,
-                  value: item.value,
-                  detail: item.detail,
-                }))}
-              />
+              <div className="rounded-lg border border-ink-200 bg-white px-6 [&_dl>div:first-child]:pt-0 [&_dl>div:last-child]:pb-0 py-2">
+                <SpecTable
+                  rows={OPERATING_MODEL.map((item) => ({
+                    label: item.label,
+                    value: item.value,
+                    detail: item.detail,
+                  }))}
+                />
+              </div>
             </div>
           </div>
         </Container>
@@ -163,15 +185,89 @@ const PeskayaLanding = () => {
         <Container>
           <SectionHeading
             eyebrow="What you get"
-            title="The parts of human-in-the-loop data work that are hardest to run remotely"
+            title="Two lanes, one supplier"
+            lede="Hand us either kind of work without onboarding a second vendor."
           />
-          <div className="mt-14 grid md:grid-cols-2 gap-x-12 gap-y-10">
-            {capabilities.map((item) => (
-              <div key={item.title} className="border-t border-ink-300 pt-6">
-                <h3 className="text-lg font-semibold text-ink-950 mb-3">{item.title}</h3>
-                <p className="text-ink-600 leading-relaxed">{item.description}</p>
-              </div>
-            ))}
+
+          <div className="mt-14">
+            <TwoLanes
+              lanes={[
+                {
+                  eyebrow: 'Lane one',
+                  title: 'English-language work at volume',
+                  items: [
+                    'Annotation, grading and relevance work',
+                    'Transcription and segmentation',
+                    'RLHF, prompt and response authoring',
+                    'Content moderation and policy classification',
+                  ],
+                },
+                {
+                  eyebrow: 'Lane two',
+                  title: 'Native-speaker African language work',
+                  items: [
+                    'Swahili and Hausa delivered to date',
+                    'Other locales on a recruitment round',
+                    'Speech collection and transcription',
+                    'Cultural context briefed per task',
+                  ],
+                },
+              ]}
+              outcome={{
+                eyebrow: 'One contract',
+                title: 'Peskaya recruits, contracts, pays and QAs the team',
+                description:
+                  'You manage one supplier and receive one invoice. We stay accountable for what the team delivers.',
+              }}
+            />
+          </div>
+
+          <div className="mt-14 grid md:grid-cols-3 gap-5">
+            {capabilities.slice(1).map((item) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={item.title}
+                  className="rounded-lg border border-ink-200 bg-white p-6"
+                >
+                  <span className="mb-4 flex h-10 w-10 items-center justify-center rounded-md bg-accent-50">
+                    <Icon size={18} className="text-accent-600" aria-hidden="true" />
+                  </span>
+                  <h3 className="text-lg font-semibold text-ink-950 mb-2">{item.title}</h3>
+                  <p className="text-sm text-ink-600 leading-relaxed">{item.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </Container>
+      </Section>
+
+      {/* Locale coverage */}
+      <Section tone="accent">
+        <Container>
+          <div className="max-w-3xl mb-12">
+            <div className="text-xs font-semibold uppercase tracking-[0.14em] text-accent-200 mb-4">
+              Coverage
+            </div>
+            <h2 className="text-3xl md:text-4xl font-semibold mb-4">
+              Locales we have delivered in
+            </h2>
+            <p className="text-lg text-accent-100 leading-relaxed">
+              Shipped work, not a coverage claim. For anything outside this list we run a
+              recruitment round and tell you what we can staff before you commit.
+            </p>
+          </div>
+
+          <LocaleBand
+            locales={LOCALES_DELIVERED}
+            africanDelivered={AFRICAN_LANGUAGES_DELIVERED}
+          />
+
+          <div className="mt-10">
+            <ButtonLink to="/capabilities#languages" variant="onDark">
+              See the full language table
+              <ArrowRight size={16} />
+            </ButtonLink>
           </div>
         </Container>
       </Section>
@@ -182,40 +278,76 @@ const PeskayaLanding = () => {
           <SectionHeading
             eyebrow="Selected work"
             title="What we have delivered"
-            lede={PROVENANCE + ' Clients are covered by NDA and are not named, but we can describe scope, volume and duration under NDA.'}
+            lede="Three programmes, with the scope and volume we can evidence. Clients are under NDA and are not named."
           />
 
-          <div className="mt-14 divide-y divide-ink-200 border-t border-ink-200">
-            {CASE_STUDIES.map((study) => (
-              <article key={study.title} className="py-10 grid lg:grid-cols-12 gap-6 lg:gap-12">
-                <div className="lg:col-span-5">
-                  <div className="text-xs font-semibold uppercase tracking-[0.14em] text-accent-600 mb-3">
-                    {study.discipline}
+          <div className="mt-14 space-y-5">
+            {CASE_STUDIES.map((study) => {
+              const Icon = DISCIPLINE_ICONS[study.discipline] || Sparkles;
+              const [headline, ...rest] = study.facts;
+              return (
+                <article
+                  key={study.title}
+                  className="rounded-lg border border-ink-200 bg-white p-6 lg:p-8"
+                >
+                  <div className="flex items-center gap-3 mb-6">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-accent-50">
+                      <Icon size={17} className="text-accent-600" aria-hidden="true" />
+                    </span>
+                    <span className="text-xs font-semibold uppercase tracking-[0.14em] text-accent-600">
+                      {study.discipline}
+                    </span>
                   </div>
-                  <h3 className="text-xl font-semibold text-ink-950 mb-4 leading-snug">
-                    {study.title}
-                  </h3>
-                  <p className="text-ink-600 leading-relaxed">{study.summary}</p>
-                </div>
-                <dl className="lg:col-span-7 lg:pt-1 divide-y divide-ink-100">
-                  {study.facts.map((fact) => (
-                    <div key={fact.label} className="py-3 grid sm:grid-cols-3 gap-1 sm:gap-6">
-                      <dt className="text-sm font-medium text-ink-500">{fact.label}</dt>
-                      <dd className="sm:col-span-2 text-sm text-ink-800 leading-relaxed">
-                        {fact.value}
-                      </dd>
+
+                  <div className="grid lg:grid-cols-12 gap-6 lg:gap-12">
+                    <div className="lg:col-span-5">
+                      <h3 className="text-lg font-semibold text-ink-950 mb-3 leading-snug">
+                        {study.title}
+                      </h3>
+                      <p className="text-sm text-ink-600 leading-relaxed">{study.summary}</p>
                     </div>
-                  ))}
-                </dl>
-              </article>
-            ))}
+
+                    <div className="lg:col-span-7">
+                      {/* The strongest fact is the one a buyer scans for, so it
+                          gets weight instead of sitting in a uniform list. */}
+                      <div className="rounded-md bg-ink-50 px-5 py-4 mb-4">
+                        <div className="text-xs font-semibold uppercase tracking-[0.12em] text-ink-500">
+                          {headline.label}
+                        </div>
+                        <div className="mt-1 font-display text-lg font-semibold text-ink-950 leading-snug">
+                          {headline.value}
+                        </div>
+                      </div>
+
+                      <dl className="divide-y divide-ink-100">
+                        {rest.map((fact) => (
+                          <div
+                            key={fact.label}
+                            className="py-3 grid sm:grid-cols-3 gap-1 sm:gap-6"
+                          >
+                            <dt className="text-sm font-medium text-ink-500">{fact.label}</dt>
+                            <dd className="sm:col-span-2 text-sm text-ink-800 leading-relaxed">
+                              {fact.value}
+                            </dd>
+                          </div>
+                        ))}
+                      </dl>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
           </div>
 
-          <div className="mt-12 pt-8 border-t border-ink-200 flex flex-col md:flex-row md:items-baseline gap-3 md:gap-10">
-            <div className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-500 shrink-0">
-              Locales delivered in
-            </div>
-            <p className="text-ink-700">{LOCALES_DELIVERED.join(' · ')}</p>
+          {/* Provenance, after the evidence. Leading with the caveat buried the
+              proof behind seventy words of disclaimer. */}
+          <div className="mt-8 rounded-lg border border-ink-200 bg-ink-50 p-6">
+            <h3 className="text-sm font-semibold text-ink-950 mb-2">
+              Whose record this is
+            </h3>
+            <p className="text-sm text-ink-600 leading-relaxed">
+              {PROVENANCE} We can describe scope, volume and duration under NDA.
+            </p>
           </div>
         </Container>
       </Section>

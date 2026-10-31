@@ -144,11 +144,11 @@ export const CASE_STUDIES = [
     title: 'Multilingual transcription and segmentation',
     discipline: 'Speech',
     summary:
-      'Conversational and scripted audio transcribed, segmented and time-aligned to client schema, including IPA-level phonetic transcription for pronunciation modelling. Work ran continuously across multiple locales rather than as a one-off batch.',
+      'Conversational and scripted audio transcribed, segmented and time-aligned to client schema, including IPA-level phonetic transcription for pronunciation modelling. Continuous work across multiple locales, not a one-off batch.',
     facts: [
-      { label: 'Locales', value: 'English (US, UK, CA, AU, IN), Spanish, French, German, Swahili, Hausa' },
-      { label: 'Volume', value: 'Part of ~20,000 audio hours delivered since 2017' },
+      { label: 'Volume', value: '~20,000 audio hours since 2017' },
       { label: 'Team', value: 'Scaled to 150 contributors at peak' },
+      { label: 'Locales', value: 'English (US, UK, CA, AU, IN), Spanish, French, German, Swahili, Hausa' },
       { label: 'Specialist work', value: 'IPA phonetic transcription, speaker segmentation' },
     ],
   },
@@ -168,9 +168,10 @@ export const CASE_STUDIES = [
     title: 'Model alignment and content review',
     discipline: 'Text & safety',
     summary:
-      'Human feedback work for model training: preference ranking and RLHF tasks, prompt and response authoring, and rubric-based grading. Separately, content moderation queues classifying policy-violating material, staffed with briefed reviewers on a rotation.',
+      'Preference ranking and RLHF tasks, prompt and response authoring, and rubric-based grading. Separately, content moderation queues classifying policy-violating material, staffed on a rotation.',
     facts: [
-      { label: 'Task types', value: 'RLHF preference ranking, prompt and response authoring, relevance grading' },
+      { label: 'Scope', value: 'RLHF, prompt authoring and content moderation' },
+      { label: 'Task types', value: 'Preference ranking, prompt and response authoring, relevance grading' },
       { label: 'Trust & safety', value: 'Content moderation and policy-violation classification' },
       { label: 'Locales', value: 'English variants, plus French and Swahili' },
       { label: 'Delivery', value: 'Rubric calibration and inter-reviewer checks before volume' },
@@ -185,7 +186,7 @@ export const CASE_STUDIES = [
 export const OPERATING_MODEL = [
   {
     label: 'Team size per project',
-    value: '10–150',
+    value: '10-150',
     detail: 'Contributors recruited, trained and managed by us for each engagement',
   },
   {
@@ -228,13 +229,11 @@ export const OPERATING_MODEL = [
  */
 export const ACCEPTANCE = {
   selection:
-    'We only take on work we can staff to the standard the project needs. If we cannot ' +
-    'recruit the locale, hit the volume or meet the deadline, we say so at scoping rather ' +
-    'than discovering it halfway through delivery.',
+    'We only take work we can staff to the standard the project needs. If we cannot ' +
+    'recruit the locale, hit the volume or meet the deadline, we say so at scoping.',
   qaGate:
-    'Batches are reviewed against your specification by us before they reach you, and ' +
-    'anything that misses is reworked on our side. Rework happens before delivery rather ' +
-    'than after rejection.',
+    'We review batches against your specification before they reach you, and rework ' +
+    'anything that misses. That happens on our side, before delivery.',
 };
 
 /**

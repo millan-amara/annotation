@@ -10,9 +10,23 @@ import {
   AFRICAN_LANGUAGES_DELIVERED,
 } from '../data/company';
 import { Container, Section, SectionHeading, Eyebrow } from '../components/ui/Layout';
-import { StepList } from '../components/ui/SpecTable';
+import { ProcessFlow, QualityGate } from '../components/ui/ProcessFlow';
 import { ButtonLink } from '../components/ui/Button';
-import { Database, Mic, Image, FileText, Shield, Zap, Users, ArrowRight, ChevronDown, ChevronUp, Target } from 'lucide-react';
+import {
+  Image,
+  Mic,
+  FileText,
+  Database,
+  ArrowRight,
+  ChevronDown,
+  ChevronUp,
+  AudioLines,
+  Search,
+  ShieldCheck,
+  Sparkles,
+  Camera,
+  ScanLine,
+} from 'lucide-react';
 
 
 const CapabilitiesPage = () => {
@@ -129,61 +143,62 @@ const CapabilitiesPage = () => {
 
   const workflowSteps = [
     {
-      number: "01",
-      title: "Consultation & Scoping",
-      description: "We analyze your AI model requirements and design a custom data collection and annotation strategy.",
-      icon: Target
+      title: "Scoping",
+      description:
+        "You send locales, volume and timeline. We come back with what we can staff and at what rate, or say we cannot.",
     },
     {
-      number: "02",
-      title: "Team Assembly",
-      description: "We recruit and train specialized teams matched to your project's language, domain, and quality standards.",
-      icon: Users
+      title: "Recruitment",
+      description:
+        "We source native speakers for the locale and qualify them on a paid task against your guidelines. A few days to two weeks.",
     },
     {
-      number: "03",
-      title: "Data Collection",
-      description: "Our global network collects diverse, representative data following strict protocols and ethical guidelines.",
-      icon: Database
+      title: "Pilot batch",
+      description:
+        "A paid sample you check against your own acceptance criteria before any volume is committed.",
     },
     {
-      number: "04",
-      title: "Quality Assurance",
-      description: "Multi-tier validation ensures accuracy, consistency, and compliance with your specifications.",
-      icon: Shield
+      title: "Delivery",
+      description:
+        "Collection or annotation runs, sampled in flight so drift is caught in days instead of at the end.",
     },
     {
-      number: "05",
-      title: "Delivery & Iteration",
-      description: "Version-controlled datasets delivered in your preferred format, with ongoing support for refinements.",
-      icon: Zap
-    }
+      title: "Handover",
+      description:
+        "Batches ship in your format with documentation and a schema definition, and we rework anything that misses.",
+    },
   ];
 
   const useCases = [
     {
-      title: "Autonomous Vehicles",
-      description: "LiDAR annotation, road scene understanding, and pedestrian detection across diverse African and global environments."
+      icon: AudioLines,
+      title: "Speech recognition",
+      description: "Native-speaker recordings, transcription and segmentation, including IPA-level phonetic work for pronunciation models."
     },
     {
-      title: "Voice Assistants",
-      description: "Natural speech datasets with authentic accents and dialects for inclusive voice AI systems."
+      icon: Mic,
+      title: "Voice assistants",
+      description: "Speech datasets carrying authentic accents and dialects, so the assistant understands the people it ships to."
     },
     {
-      title: "Content Moderation",
-      description: "Cultural context-aware annotation for social media, e-commerce, and digital platform safety."
+      icon: Search,
+      title: "Search and recommendation",
+      description: "Relevance grading and side-by-side comparison across multiple locales, scored against your rubric."
     },
     {
-      title: "Search & Recommendation",
-      description: "Relevance grading and side-by-side comparison work across multiple locales, to your rubric."
+      icon: Sparkles,
+      title: "Model alignment",
+      description: "RLHF preference ranking, prompt and response authoring, and rubric-based grading by briefed reviewers."
     },
     {
-      title: "Document & Menu Capture",
-      description: "Structured image collection in the field (menus, signage, receipts and forms) with metadata captured at source."
+      icon: ShieldCheck,
+      title: "Trust and safety",
+      description: "Content moderation and policy-violation classification, staffed on a rotation with cultural context briefed per queue."
     },
     {
-      title: "E-commerce",
-      description: "Product categorization, visual search training data, and multilingual product descriptions."
+      icon: ScanLine,
+      title: "Document and object capture",
+      description: "Structured image collection in the field: menus, signage, receipts, forms and product categories, with metadata captured at source."
     }
   ];
 
@@ -213,11 +228,11 @@ const CapabilitiesPage = () => {
   const faqs = [
     {
       question: "Which languages can you actually staff?",
-      answer: "We recruit native speakers rather than translators, and we confirm coverage per project rather than claiming a fixed list. Our base is East Africa, where sourcing is fastest: Swahili and the major Kenyan, Tanzanian and Ugandan languages. For languages outside that base we run a recruitment round first and tell you what we can staff, at what volume, before you commit. If we cannot source a language to your standard, we say so."
+      answer: "Our base is East Africa, so Swahili and the major Kenyan, Tanzanian and Ugandan languages source fastest. We recruit native speakers, not translators. For anything outside that base we run a recruitment round and tell you what we can staff, at what volume, before you commit. If we cannot source a language to your standard, we say so."
     },
     {
       question: "Who employs the contributors?",
-      answer: "We do. We recruit them, contract them directly, train them, pay them and handle day-to-day support. Every contributor signs confidentiality and IP assignment terms before touching project data. You contract one supplier and receive one invoice, rather than managing dozens of individual freelancers across jurisdictions."
+      answer: "We do. We recruit, contract, train and pay them directly, and handle day-to-day support. Every contributor signs confidentiality and IP assignment terms before touching project data. You contract one supplier and get one invoice."
     },
     {
       question: "What happens if a batch does not meet spec?",
@@ -225,11 +240,11 @@ const CapabilitiesPage = () => {
     },
     {
       question: "How do you ensure data quality?",
-      answer: "Four checkpoints: a paid qualification task before anyone joins the roster, sampling while collection is running, peer review of sampled output by a second qualified contributor, and a final pass against your spec before delivery. We report results against your acceptance criteria on each batch and rework what misses."
+      answer: "Four checkpoints: a paid qualification task before anyone joins the roster, sampling during collection, peer review by a second qualified contributor, and a final pass against your spec. We report against your acceptance criteria on each batch and rework what misses."
     },
     {
       question: "What's your typical project timeline?",
-      answer: "Delivery has run from a few days on a focused batch to a couple of months on a large programme. It depends on volume and how hard the locale is to source. Recruiting and qualifying a team usually takes a few days to two weeks. We give you a dated plan with a pilot batch before full delivery, so you can check quality early rather than at the end."
+      answer: "From a few days on a focused batch to a couple of months on a large programme, depending on volume and how hard the locale is to source. Recruiting and qualifying a team takes a few days to two weeks. You get a dated plan and a pilot batch before full delivery, so quality is checked early."
     },
     {
       question: "Do you handle personal data?",
@@ -237,11 +252,11 @@ const CapabilitiesPage = () => {
     },
     {
       question: "How large a project can you take on?",
-      answer: "We have run teams from ten contributors on a focused batch up to 150 on a single project, and have delivered roughly 20,000 audio hours and over 100,000 collected items since 2017. For a new locale we would still rather run a pilot, show you the delivery, and scale from there than promise a headcount we have not yet recruited. Ask us for a reference on a comparable project and we will put you in touch."
+      answer: "Teams have run from ten contributors on a focused batch up to 150 on a single project, across roughly 20,000 audio hours and over 100,000 collected items since 2017. For a new locale we start with a pilot and scale from there, because we will not promise a headcount we have not recruited. Ask for a reference on a comparable project and we will put you in touch."
     },
     {
       question: "What data formats do you deliver?",
-      answer: "Standard formats: JSON, CSV, XML, COCO, Pascal VOC, YOLO and custom schemas. Audio as WAV, FLAC or MP3 with timestamps; images as JPEG or PNG with metadata. We deliver with documentation and a schema definition, and we will match an existing pipeline format if you send the spec."
+      answer: "JSON, CSV, XML, COCO, Pascal VOC, YOLO and custom schemas. Audio as WAV, FLAC or MP3 with timestamps; images as JPEG or PNG with metadata. Everything ships with documentation and a schema definition. Send us your pipeline spec and we will match it."
     }
   ];
 
@@ -278,7 +293,7 @@ const CapabilitiesPage = () => {
       </Section>
 
       {/* Data modalities */}
-      <Section tone="muted">
+      <Section id="data-types" tone="muted">
         <Container>
           <SectionHeading
             eyebrow="Data types"
@@ -297,7 +312,7 @@ const CapabilitiesPage = () => {
                   <div className="md:col-span-5">
                     <div className="flex items-center gap-3 mb-3">
                       <Icon size={20} className="text-accent-600 shrink-0" />
-                      <h3 className="text-xl font-semibold text-ink-950">
+                      <h3 className="text-lg font-semibold text-ink-950">
                         {modality.title}
                       </h3>
                     </div>
@@ -321,7 +336,7 @@ const CapabilitiesPage = () => {
       </Section>
 
       {/* Languages we recruit for */}
-      <Section tone="accent">
+      <Section id="languages" tone="accent">
         <Container>
           <div className="max-w-3xl mb-12">
             <div className="text-xs font-semibold uppercase tracking-[0.14em] text-accent-200 mb-4">
@@ -403,15 +418,14 @@ const CapabilitiesPage = () => {
             title="How a project runs"
             lede="Five stages from first call to delivered dataset."
           />
-          <div className="mt-12">
-
-            <StepList steps={workflowSteps} />
+          <div className="mt-14">
+            <ProcessFlow steps={workflowSteps} />
           </div>
         </Container>
       </Section>
 
       {/* Use Cases */}
-      <Section tone="muted">
+      <Section id="applications" tone="muted">
         <Container>
           <SectionHeading
             eyebrow="Applications"
@@ -419,23 +433,32 @@ const CapabilitiesPage = () => {
             lede="Project types we have delivered or can staff for."
           />
 
-          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-9">
-            {useCases.map((useCase, idx) => (
-              <div key={idx} className="border-t border-ink-300 pt-5">
-                <h3 className="text-base font-semibold text-ink-950 mb-2">
-                  {useCase.title}
-                </h3>
-                <p className="text-sm text-ink-600 leading-relaxed">
-                  {useCase.description}
-                </p>
-              </div>
-            ))}
+          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {useCases.map((useCase) => {
+              const Icon = useCase.icon;
+              return (
+                <div
+                  key={useCase.title}
+                  className="rounded-lg border border-ink-200 bg-white p-6"
+                >
+                  <span className="mb-4 flex h-10 w-10 items-center justify-center rounded-md bg-accent-50">
+                    <Icon size={18} className="text-accent-600" aria-hidden="true" />
+                  </span>
+                  <h3 className="text-lg font-semibold text-ink-950 mb-2">
+                    {useCase.title}
+                  </h3>
+                  <p className="text-sm text-ink-600 leading-relaxed">
+                    {useCase.description}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </Container>
       </Section>
 
       {/* Quality */}
-      <Section tone="dark">
+      <Section id="quality" tone="dark">
         <Container>
           <SectionHeading
             tone="dark"
@@ -444,26 +467,21 @@ const CapabilitiesPage = () => {
             lede="Four checkpoints between a contributor and your dataset."
           />
 
-          <div className="mt-12 border-t border-white/10">
-            <StepList
-              tone="dark"
+          <div className="mt-14">
+            <QualityGate
               steps={qualitySteps.map((item) => ({
                 title: item.metric,
                 description: item.description,
               }))}
+              outcome="Anything that misses your spec goes back through the checkpoints before the batch ships. You see the result, not the rework."
             />
           </div>
 
-          <div className="max-w-3xl mt-12 space-y-4 text-ink-400 leading-relaxed">
-            <p>
-              Rework happens on our side, before delivery, rather than after a rejection.
-              We report results against your acceptance criteria on every batch.
-            </p>
-            <p>
-              We would rather decline a project at scoping than deliver one we cannot
-              staff to the standard it needs.
-            </p>
-          </div>
+          <p className="max-w-3xl mt-12 text-ink-400 leading-relaxed">
+            We report against your acceptance criteria on every batch, and we would
+            decline a project at scoping before delivering one we cannot staff to the
+            standard it needs.
+          </p>
         </Container>
       </Section>
 

@@ -42,39 +42,3 @@ export function SpecTable({ rows, placeholder = 'Available on request', tone = '
     </dl>
   );
 }
-
-/**
- * Numbered list of steps, rendered as rules rather than cards.
- */
-export function StepList({ steps, tone = 'light' }) {
-  const dark = tone === 'dark';
-  return (
-    <ol className={`divide-y ${dark ? 'divide-white/10' : 'divide-ink-200'}`}>
-      {steps.map((step, idx) => (
-        <li key={step.title} className="py-6 grid md:grid-cols-12 gap-3 md:gap-8">
-          <div
-            className={`md:col-span-1 font-display text-sm tabular-nums pt-0.5 ${
-              dark ? 'text-accent-300' : 'text-accent-600'
-            }`}
-          >
-            {String(idx + 1).padStart(2, '0')}
-          </div>
-          <h3
-            className={`md:col-span-3 text-lg font-semibold ${
-              dark ? 'text-white' : 'text-ink-950'
-            }`}
-          >
-            {step.title}
-          </h3>
-          <p
-            className={`md:col-span-8 leading-relaxed ${
-              dark ? 'text-ink-300' : 'text-ink-600'
-            }`}
-          >
-            {step.description}
-          </p>
-        </li>
-      ))}
-    </ol>
-  );
-}

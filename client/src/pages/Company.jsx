@@ -102,7 +102,7 @@ const CompanyPage = () => {
       </Section>
 
       {/* Legal entity */}
-      <Section>
+      <Section id="entity">
         <Container>
           <div className="grid lg:grid-cols-12 gap-12">
             <div className="lg:col-span-4">
@@ -122,7 +122,7 @@ const CompanyPage = () => {
       </Section>
 
       {/* Terms of engagement */}
-      <Section tone="muted">
+      <Section id="terms-of-engagement" tone="muted">
         <Container>
           <SectionHeading
             eyebrow="Terms of engagement"
@@ -153,7 +153,7 @@ const CompanyPage = () => {
       </Section>
 
       {/* Delivery history */}
-      <Section>
+      <Section id="track-record">
         <Container>
           <SectionHeading
             eyebrow="Track record"
@@ -177,7 +177,7 @@ const CompanyPage = () => {
                 <div className="text-xs font-semibold uppercase tracking-[0.14em] text-accent-600 mb-3">
                   {study.discipline}
                 </div>
-                <h3 className="text-base font-semibold text-ink-950 mb-3 leading-snug">
+                <h3 className="text-lg font-semibold text-ink-950 mb-3 leading-snug">
                   {study.title}
                 </h3>
                 <ul className="space-y-2">

@@ -69,7 +69,7 @@ const ContactPage = () => {
       ? [{ label: 'LinkedIn', value: COMPANY.linkedin.replace(/^https?:\/\/(www\.)?/, '') }]
       : []),
     { label: 'Based in', value: `${COMPANY.city}, ${COMPANY.country}` },
-    { label: 'Working hours', value: '9:00–18:00 EAT', detail: 'Monday to Friday' },
+    { label: 'Working hours', value: '9:00-18:00 EAT', detail: 'Monday to Friday' },
   ];
 
   const whatHappens = [
@@ -274,7 +274,7 @@ const ContactPage = () => {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
             <SectionHeading
               title="Running supplier diligence?"
-              lede="Entity details, workforce contracts, data protection posture and commercial terms are set out on the company page. Send us your questionnaire and we will return it completed within one business day."
+              lede="Entity details, contracts, data protection and commercial terms are on the company page. Send your questionnaire and we return it completed within one business day."
               className="mb-0"
             />
             <div className="flex flex-wrap gap-3 shrink-0">

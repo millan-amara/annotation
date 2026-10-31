@@ -1,10 +1,10 @@
-# Contributor consent — Peskaya
+# Contributor consent: Peskaya
 
 **Status: draft for legal review. Not yet in use.**
 
 Written against the Kenya Data Protection Act, 2019 and GDPR-style expectations, because
 clients will be outside Kenya. A Kenyan data protection practitioner should review it
-before it goes live — see *Notes for the reviewer* at the end for the specific questions
+before it goes live: see *Notes for the reviewer* at the end for the specific questions
 to put to them.
 
 ---
@@ -14,11 +14,11 @@ to put to them.
 There are **two separate consent events**, and collapsing them into one form is the most
 common mistake:
 
-| | **Form A — joining the roster** | **Form B — joining a project** |
+| | **Form A: joining the roster** | **Form B: joining a project** |
 |---|---|---|
 | When | Someone registers interest | A specific project starts |
 | Data | Name, contact, languages, country, availability, experience | Whatever the project collects: voice, face images, text, device data |
-| Sensitivity | Ordinary personal data | Often **biometric** — sensitive personal data |
+| Sensitivity | Ordinary personal data | Often **biometric**: sensitive personal data |
 | Who is it shared with | Nobody | The client, named or described |
 | Consent standard | Informed consent | **Explicit, specific consent** |
 
@@ -32,7 +32,7 @@ single "I agree to the terms" checkbox is the thing most likely to be judged inv
 
 ---
 
-## Form A — Roster registration
+## Form A: Roster registration
 
 > ### About this registration
 >
@@ -46,7 +46,7 @@ single "I agree to the terms" checkbox is the thing most likely to be judged inv
 >
 > ### What we collect and why
 >
-> Your name, contact details, country, languages and relevant experience — so we can tell
+> Your name, contact details, country, languages and relevant experience: so we can tell
 > whether you fit a project when one comes in, and contact you if you do.
 >
 > ### How long we keep it
@@ -64,7 +64,7 @@ single "I agree to the terms" checkbox is the thing most likely to be judged inv
 > ### Your rights
 >
 > You can ask us for a copy of your information, correct it, delete it, or object to how we
-> use it — email contact@peskaya.com. You can also complain to the Office of the
+> use it: email contact@peskaya.com. You can also complain to the Office of the
 > Data Protection Commissioner in Kenya.
 >
 > ### Please confirm
@@ -81,13 +81,13 @@ single "I agree to the terms" checkbox is the thing most likely to be judged inv
 
 ---
 
-## Form B — Project participation
+## Form B: Project participation
 
 Fill the bracketed fields per project. Do not reuse a previous project's form.
 
-> ### [Project name] — consent to take part
+> ### [Project name]: consent to take part
 >
-> **What the project involves:** [plain description of the task — e.g. "recording yourself
+> **What the project involves:** [plain description of the task: e.g. "recording yourself
 > reading 300 short sentences in Swahili using your own phone"]
 >
 > **What is collected:** [e.g. "audio recordings of your voice, and the text you read"]
@@ -95,11 +95,11 @@ Fill the bracketed fields per project. Do not reuse a previous project's form.
 > **What it is used for:** [e.g. "training and testing speech recognition software"]
 >
 > **Who receives it:** [name the client if permitted; otherwise "a technology company
-> outside Kenya, whose identity we are contractually unable to disclose" — and see the
+> outside Kenya, whose identity we are contractually unable to disclose": and see the
 > reviewer note on whether that is sufficient]
 >
 > **Where it goes:** Your data will be transferred outside Kenya to [country/region]. We
-> transfer it under [safeguard — e.g. standard contractual clauses in our agreement with
+> transfer it under [safeguard: e.g. standard contractual clauses in our agreement with
 > the client].
 >
 > **How long it is kept:** [retention, e.g. "by the client indefinitely as part of their
@@ -108,7 +108,7 @@ Fill the bracketed fields per project. Do not reuse a previous project's form.
 > **Payment:** [rate and terms]. Your payment does not depend on which optional boxes you
 > tick below.
 >
-> ### Please confirm — each box separately
+> ### Please confirm: each box separately
 >
 > ☐ **(required)** I agree to take part in this project as described above.
 >
@@ -144,7 +144,7 @@ Fill the bracketed fields per project. Do not reuse a previous project's form.
 
 Keep, for every contributor and every project: who consented, to exactly which items, the
 form version and wording they saw, and the timestamp. If a regulator or a client asks you
-to evidence consent, "they ticked a box" is not an answer — you need to show *what* they
+to evidence consent, "they ticked a box" is not an answer: you need to show *what* they
 ticked and *what it said at the time*.
 
 Version the wording. Never edit a live form in place; publish a new version and keep the
@@ -173,7 +173,7 @@ Specific questions worth putting to a Kenyan data protection practitioner:
 
 1. **Registration.** Does Peskaya's activity fall under the mandatory registration
    schedule in the Data Protection (Registration of Data Controllers and Data Processors)
-   Regulations, 2021 regardless of turnover and headcount — given that (a) data processing
+   Regulations, 2021 regardless of turnover and headcount: given that (a) data processing
    is the service sold, and (b) biometric data is processed? Does registration need to
    cover both controller and processor roles?
 2. **DPIA.** Does collection of facial images and voice recordings for AI training require
