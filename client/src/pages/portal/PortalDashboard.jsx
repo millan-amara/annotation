@@ -11,6 +11,7 @@ import {
 import { useContributorData } from "../../lib/usePortalData";
 import { PROJECTS } from "../../data/portal";
 import PortalLayout from "../../components/portal/PortalLayout";
+import { GettingStarted, HelpCard } from "../../components/portal/DashboardAside";
 import { Notice, Panel, Stat, StatusPill } from "../../components/portal/Controls";
 import { ButtonLink } from "../../components/ui/Button";
 
@@ -73,9 +74,45 @@ export default function PortalDashboard() {
   const approvedAny = applications.some((a) => a.status === "approved");
   const shown = PROJECTS.filter((p) => p.open || applicationFor(applications, p.slug));
   const hasActivity = approvedAny || totals.minutesSubmitted > 0;
+  const appliedAny = applications.some((a) => a.status !== "withdrawn");
+  const firstOpen = PROJECTS.find((p) => p.open);
+
+  const steps = [
+    { label: "Create your account", done: true },
+    {
+      label: "Apply to a project",
+      done: appliedAny,
+      to: firstOpen ? `/user/projects/${firstOpen.slug}` : undefined,
+      hint: "Read the brief, answer a few questions and agree to the terms.",
+    },
+    {
+      label: "Get accepted",
+      done: approvedAny,
+      hint: "We review applications and message you on WhatsApp.",
+    },
+    {
+      label: "Add your payment details",
+      done: Boolean(payout),
+      to: "/user/payments",
+      hint: "M-Pesa or bank, so we can pay you.",
+    },
+    {
+      label: "Log your first batch",
+      done: totals.minutesSubmitted > 0,
+      to: "/user/submissions",
+      hint: "Upload to your folder, then log it here for review.",
+    },
+  ];
+
+  const aside = (
+    <>
+      <GettingStarted steps={steps} />
+      <HelpCard />
+    </>
+  );
 
   return (
-    <PortalLayout title={`Hello, ${firstName}`}>
+    <PortalLayout title={`Hello, ${firstName}`} aside={aside}>
       <Notice tone="error">{error}</Notice>
 
       {approvedAny && !payout && (
