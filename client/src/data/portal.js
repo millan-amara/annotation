@@ -106,6 +106,15 @@ export const PROJECTS = [
       "Original footage you filmed yourself, with no people or music in it",
       "A Google account, to upload to your Drive folder",
     ],
+    // The few rules most often failed, shown beside the submission form.
+    checklist: [
+      "1080p or higher, at least 1 minute per clip",
+      "Steady 2-second shot at the start and end",
+      "Original sound kept; no music playing",
+      "No recognisable faces or voices",
+      "Original files uploaded, not copies sent through WhatsApp",
+      "Everything in your folder before you log it",
+    ],
     // Asked when someone applies; answers are stored on their application.
     questions: [
       {

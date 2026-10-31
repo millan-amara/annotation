@@ -50,28 +50,31 @@ export default function PortalPayments() {
   const { profile } = useAuth();
   const { payments, totals, loaded, error } = useContributorData(profile.id);
 
-  return (
-    <PortalLayout title="Payments">
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+  const aside = (
+    <>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-1">
         <NextPaymentStat totals={totals} />
         <Stat label="Earned" value={formatAmounts(totals.earned)} hint="all time" />
         <Stat label="Paid" value={formatAmounts(totals.paid)} hint="all time" />
       </div>
-
-      <Notice tone="error">{error}</Notice>
-
       <Panel title="How you're paid">
         <div className="space-y-2 text-sm text-ink-700 leading-relaxed">
           <p>{PAYMENT_TERMS.summary}</p>
           <p>{PAYMENT_TERMS.conversion}</p>
         </div>
       </Panel>
+    </>
+  );
+
+  return (
+    <PortalLayout title="Payments" aside={aside} asideFirst>
+      <Notice tone="error">{error}</Notice>
+
+      <PayoutPanel />
 
       <Panel title="Monthly statement">
         {!loaded ? <Spinner /> : <Statement lines={totals.statement} />}
       </Panel>
-
-      <PayoutPanel />
 
       <Panel title="Payment history">
         {!loaded ? (

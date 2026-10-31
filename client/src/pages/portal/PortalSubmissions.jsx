@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ExternalLink, Trash2 } from "lucide-react";
+import { Check, ExternalLink, Trash2 } from "lucide-react";
 import { supabase } from "../../lib/supabase";
 import { useAuth, applicationFor, hasConsented, formatDate, formatHours, formatMoney } from "../../lib/portal";
 import { useContributorData } from "../../lib/usePortalData";
@@ -145,8 +145,29 @@ export default function PortalSubmissions() {
     reload();
   };
 
+  const checklistProjects = active.filter((p) => p.checklist?.length);
+  const aside = checklistProjects.length ? (
+    <>
+      {checklistProjects.map((p) => (
+        <Panel key={p.slug} title="Before you log a batch">
+          <ul className="space-y-2.5">
+            {p.checklist.map((item) => (
+              <li key={item} className="flex items-start gap-2.5 text-sm text-ink-700">
+                <Check size={16} className="mt-0.5 shrink-0 text-accent-600" aria-hidden="true" />
+                {item}
+              </li>
+            ))}
+          </ul>
+          <Link to={`/user/projects/${p.slug}`} className="mt-4 inline-block text-sm font-medium text-accent-700 hover:underline">
+            Full specification
+          </Link>
+        </Panel>
+      ))}
+    </>
+  ) : null;
+
   return (
-    <PortalLayout title="Submissions">
+    <PortalLayout title="Submissions" aside={aside}>
       <Panel title="Log a new batch">
         {active.length > 0 ? (
           <SubmissionForm projects={active} onSaved={reload} />

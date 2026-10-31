@@ -27,9 +27,10 @@ function Brand() {
 /**
  * Shell for every signed-in portal page. A sidebar from `md` up; below that a
  * slim header and a bottom tab bar, since contributors are mostly on phones.
- * `aside` adds a right-hand column on large screens, stacked below on phones.
+ * `aside` adds a right-hand column on large screens, stacked below on phones
+ * (or above, with `asideFirst`, when it holds the page's headline figures).
  */
-export default function PortalLayout({ title, children, wide = false, aside = null }) {
+export default function PortalLayout({ title, children, wide = false, aside = null, asideFirst = false }) {
   usePortalTitle(title);
   const { profile, signOut } = useAuth();
   const navigate = useNavigate();
@@ -92,7 +93,9 @@ export default function PortalLayout({ title, children, wide = false, aside = nu
           {aside ? (
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
               <div className="space-y-6">{children}</div>
-              <aside className="space-y-6 lg:sticky lg:top-10">{aside}</aside>
+              <aside className={`space-y-6 lg:sticky lg:top-10 ${asideFirst ? "order-first lg:order-none" : ""}`}>
+                {aside}
+              </aside>
             </div>
           ) : (
             <div className="space-y-6">{children}</div>
