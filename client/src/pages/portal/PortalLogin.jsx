@@ -5,6 +5,7 @@ import { COMPANY } from "../../data/company";
 import { useAuth } from "../../lib/portal";
 import { AuthShell } from "../../components/portal/PortalLayout";
 import { Field, Input, Notice, PasswordInput, Spinner } from "../../components/portal/Controls";
+import { MailCheck } from "lucide-react";
 import { Button } from "../../components/ui/Button";
 
 const TITLES = {
@@ -12,6 +13,65 @@ const TITLES = {
   signup: "Create an account",
   forgot: "Reset your password",
 };
+
+// Where each kind of email link lands.
+const signupRedirect = () => `${window.location.origin}/user/onboarding`;
+const resetRedirect = () => `${window.location.origin}/user/reset-password`;
+
+/**
+ * Shown in place of the form once an email has gone out, so the form can't be
+ * submitted twice and the next step is the only thing on screen.
+ */
+function EmailSent({ kind, email, onBack }) {
+  const [busy, setBusy] = useState(false);
+  const [status, setStatus] = useState({ tone: "success", text: "" });
+
+  const resend = async () => {
+    setBusy(true);
+    const { error } =
+      kind === "signup"
+        ? await supabase.auth.resend({
+            type: "signup",
+            email,
+            options: { emailRedirectTo: signupRedirect() },
+          })
+        : await supabase.auth.resetPasswordForEmail(email, { redirectTo: resetRedirect() });
+    setBusy(false);
+    setStatus(
+      error
+        ? { tone: "error", text: error.message }
+        : { tone: "success", text: "Sent again." }
+    );
+  };
+
+  return (
+    <AuthShell title="Check your email">
+      <div className="space-y-4">
+        <MailCheck size={32} className="text-accent-600" aria-hidden="true" />
+        <p className="text-sm text-ink-700 leading-relaxed">
+          {kind === "signup" ? (
+            <>We've sent a confirmation link to <strong className="text-ink-950">{email}</strong>. Open it to finish creating your account.</>
+          ) : (
+            <>If <strong className="text-ink-950">{email}</strong> has an account, we've sent it a link to choose a new password.</>
+          )}
+        </p>
+        <p className="text-sm text-ink-500 leading-relaxed">
+          It can take a few minutes to arrive. If you can't find it, check your spam
+          or promotions folder.
+        </p>
+        <Notice tone={status.tone}>{status.text}</Notice>
+        <div className="flex flex-col gap-3 pt-2 sm:flex-row">
+          <Button variant="secondary" onClick={resend} loading={busy}>
+            Resend email
+          </Button>
+          <Button variant="secondary" onClick={onBack}>
+            {kind === "signup" ? "Use a different email" : "Back to sign in"}
+          </Button>
+        </div>
+      </div>
+    </AuthShell>
+  );
+}
 
 export default function PortalLogin({ initialMode = "signin" }) {
   const { user, loading } = useAuth();
@@ -22,23 +82,33 @@ export default function PortalLogin({ initialMode = "signin" }) {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
+  const [sent, setSent] = useState(null); // "signup" | "reset" once an email is out
 
   if (loading) return <Spinner />;
   if (user) return <Navigate to={location.state?.from || "/user/dashboard"} replace />;
 
+  if (sent) {
+    return (
+      <EmailSent
+        kind={sent}
+        email={email}
+        onBack={() => {
+          setSent(null);
+          setMode(sent === "signup" ? "signup" : "signin");
+        }}
+      />
+    );
+  }
+
   const switchTo = (next) => {
     setMode(next);
     setError("");
-    setMessage("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setBusy(true);
     setError("");
-    setMessage("");
-    const origin = window.location.origin;
 
     let result;
     if (mode === "signin") {
@@ -48,19 +118,15 @@ export default function PortalLogin({ initialMode = "signin" }) {
       result = await supabase.auth.signUp({
         email,
         password,
-        options: { emailRedirectTo: `${origin}/user/onboarding` },
+        options: { emailRedirectTo: signupRedirect() },
       });
       // With email confirmation on, there is no session until the link is clicked.
-      if (!result.error && !result.data.session) {
-        setMessage(`We've sent a confirmation link to ${email}. Open it to finish creating your account.`);
-      }
+      if (!result.error && !result.data.session) setSent("signup");
     } else {
       result = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${origin}/user/reset-password`,
+        redirectTo: resetRedirect(),
       });
-      if (!result.error) {
-        setMessage(`If ${email} has an account, a reset link is on its way.`);
-      }
+      if (!result.error) setSent("reset");
     }
 
     if (result.error) setError(result.error.message);
@@ -99,7 +165,6 @@ export default function PortalLogin({ initialMode = "signin" }) {
         )}
 
         <Notice tone="error">{error}</Notice>
-        <Notice tone="success">{message}</Notice>
 
         <Button type="submit" loading={busy} className="w-full">
           {mode === "signin" && "Sign in"}
