@@ -123,7 +123,7 @@ export const PROJECTS = [
       ["Files", "Upload the original files from your camera roll. Do not send through WhatsApp: it compresses video and the clip will fail review."],
     ],
     consent: {
-      version: "1.1",
+      version: "1.2",
       notice: [
         {
           heading: "What the project involves",
@@ -141,7 +141,7 @@ export const PROJECTS = [
           // CONFIRM with the reviewer: see question 4 in
           // docs/contributor-consent.md on undisclosed recipients.
           heading: "Who receives it and where it goes",
-          body: "A technology company outside Kenya. Your name and contact details are not sent with the footage.",
+          body: "A technology company, which may be based in another country. Your name and contact details are not sent with the footage.",
         },
         {
           heading: "Payment",
@@ -171,7 +171,7 @@ export const PROJECTS = [
         {
           key: "transfer",
           required: true,
-          text: "I understand the footage will be delivered to a company outside Kenya and that, once delivered, it may not be possible to remove it from their dataset.",
+          text: "I understand the footage may be delivered to a company in another country and that, once delivered, it may not be possible to remove it from their dataset.",
         },
         {
           key: "quality_sample",

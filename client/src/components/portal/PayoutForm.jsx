@@ -93,8 +93,8 @@ export default function PayoutForm({ userId, phone, payout, onSaved, onCancel })
             My M-Pesa number is my WhatsApp number, {phone}
           </Checkbox>
           {!sameAsWhatsApp && (
-            <Field label="M-Pesa number">
-              <Input required type="tel" value={values.mpesa_number} onChange={set("mpesa_number")} placeholder="+254 7XX XXX XXX" />
+            <Field label="M-Pesa number" hint="Include your country code.">
+              <Input required type="tel" value={values.mpesa_number} onChange={set("mpesa_number")} />
             </Field>
           )}
           <Field
@@ -120,7 +120,7 @@ export default function PayoutForm({ userId, phone, payout, onSaved, onCancel })
           <Field label="Account number">
             <Input required inputMode="numeric" value={values.account_number} onChange={set("account_number")} />
           </Field>
-          <Field label="SWIFT / BIC code" hint="Only needed for banks outside Kenya." optional>
+          <Field label="SWIFT / BIC code" hint="Needed for international transfers: we pay from Kenya, so add it if your bank is elsewhere." optional>
             <Input value={values.swift_code} onChange={set("swift_code")} />
           </Field>
         </div>

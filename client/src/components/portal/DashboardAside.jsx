@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Check, Mail, Phone, ShieldCheck } from "lucide-react";
+import { Check, Mail, ShieldCheck } from "lucide-react";
 import { COMPANY } from "../../data/company";
 import { Panel } from "./Controls";
 
@@ -61,12 +61,6 @@ export function HelpCard() {
           <Mail size={16} className="text-ink-400" aria-hidden="true" />
           {COMPANY.email}
         </a>
-        {COMPANY.phone && (
-          <a href={`tel:${COMPANY.phone.replace(/\s/g, "")}`} className="flex items-center gap-2 text-ink-700 hover:text-accent-700">
-            <Phone size={16} className="text-ink-400" aria-hidden="true" />
-            {COMPANY.phone}
-          </a>
-        )}
       </div>
       <div className="mt-4 flex gap-3 rounded-md bg-ink-50 p-3">
         <ShieldCheck size={18} className="mt-0.5 shrink-0 text-signal-success" aria-hidden="true" />

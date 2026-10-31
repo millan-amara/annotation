@@ -11,13 +11,12 @@ export default function ProfileFields({ values, onChange }) {
         <Input required value={values.full_name} onChange={set("full_name")} autoComplete="name" />
       </Field>
 
-      <Field label="WhatsApp number" hint="We use this to brief you and send feedback.">
+      <Field label="WhatsApp number" hint="Include your country code, e.g. +254. We use this to brief you and send feedback.">
         <Input
           required
           type="tel"
           value={values.phone}
           onChange={set("phone")}
-          placeholder="+254 7XX XXX XXX"
           autoComplete="tel"
         />
       </Field>
