@@ -7,6 +7,11 @@ import { X, Check, ArrowRight, ChevronRight } from 'lucide-react';
 import { Container, Section, SectionHeading, Eyebrow } from '../components/ui/Layout';
 import { SpecTable } from '../components/ui/SpecTable';
 import { ButtonLink } from '../components/ui/Button';
+import { PROJECTS } from '../data/portal';
+import { PORTAL_ENABLED, PORTAL_SIGNIN, PORTAL_SIGNUP } from '../lib/portalEnabled';
+
+// Projects contributors can sign up for today, through the contributor portal.
+const OPEN_PROJECTS = PORTAL_ENABLED ? PROJECTS.filter((p) => p.open) : [];
 
 
 const JobsPage = () => {
@@ -29,7 +34,7 @@ const JobsPage = () => {
         "Spanish (Mexico) · es_MX",
         "French (Canada) · fr_CA",
         "Hebrew (Israel) · he_IL",
-        "Hindi (India – Devanagari) · hi_IN",
+        "Hindi (India - Devanagari) · hi_IN",
         "Hindi (Latin / Hinglish) · hi_Latn",
         "Japanese (Japan) · ja_JP",
         "Korean (South Korea) · ko_KR",
@@ -54,7 +59,7 @@ const JobsPage = () => {
       compensation: "$10-24/hour",
       duration: "Long-term",
       requirements: [
-        "Minimum availability of 20–30 hours per week",
+        "Minimum availability of 20-30 hours per week",
         "Complete a few paid tests",
         "Be physically based in the desired country",
       ],
@@ -102,7 +107,7 @@ const JobsPage = () => {
       compensation: "$10-24/hour",
       duration: "Long-term",
       requirements: [
-        "Minimum availability of 20–30 hours per week",
+        "Minimum availability of 20-30 hours per week",
       ],
       description: "This project focuses on enhancing AI capabilities in understanding diverse accents and speech patterns across multiple languages.",
       benefits: [
@@ -353,14 +358,90 @@ const JobsPage = () => {
               contracted and paid by us directly, and we never charge a fee to apply.
             </p>
             <p className="mt-6 text-ink-400 leading-relaxed border-l-2 border-accent-300 pl-5">
-              We are not running an intake for a specific project right now. The work below
-              is the kind we staff for. Register your languages and country, and we will
-              contact you when a matching project starts. Rates shown are indicative of past
-              projects, not an offer.
+              {OPEN_PROJECTS.length > 0
+                ? 'One project is taking contributors now: see Open now, below. The rest of the work on this page is the kind we staff for; register for it and we will contact you when a matching project starts. Rates shown there are indicative of past projects, not an offer.'
+                : 'We are not running an intake for a specific project right now. The work below is the kind we staff for. Register your languages and country, and we will contact you when a matching project starts. Rates shown are indicative of past projects, not an offer.'}
             </p>
           </div>
         </Container>
       </Section>
+
+      {/* Open projects, signed up for through the contributor portal */}
+      {OPEN_PROJECTS.length > 0 && (
+        <Section size="compact" tone="muted">
+          <Container>
+            <SectionHeading
+              eyebrow="Open now"
+              title="Taking contributors today"
+              lede="Create a contributor account, complete your profile, and we will contact you on WhatsApp when you are approved to start. Your submissions, reviews and M-Pesa payments are all tracked in your account."
+            />
+            <div className="mt-10 space-y-6">
+              {OPEN_PROJECTS.map((project) => (
+                <article key={project.slug} className="bg-white border border-ink-200 rounded-lg p-6 md:p-8">
+                  <div className="text-xs font-semibold uppercase tracking-[0.12em] text-accent-600 mb-1.5">
+                    Video collection · Kenya
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-semibold text-ink-950">{project.title}</h3>
+                  <p className="mt-4 text-ink-700 leading-relaxed max-w-3xl">{project.summary}</p>
+
+                  <div className="mt-6 grid gap-6 md:grid-cols-2">
+                    <div>
+                      <h4 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink-500 mb-3">
+                        What you film
+                      </h4>
+                      <ul className="space-y-2">
+                        {project.categories.map((category) => (
+                          <li key={category} className="flex items-start gap-3 text-ink-700">
+                            <Check className="text-accent-600 w-4 h-4 shrink-0 mt-1" />
+                            {category}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink-500 mb-3">
+                        What you need
+                      </h4>
+                      <ul className="space-y-2">
+                        {[
+                          'A phone or camera that records 1080p video',
+                          'Steady hands, or a simple stand',
+                          'Original footage you filmed yourself, with no people or music in it',
+                          'A Google account, to upload to your Drive folder',
+                        ].map((item) => (
+                          <li key={item} className="flex items-start gap-3 text-ink-700">
+                            <Check className="text-accent-600 w-4 h-4 shrink-0 mt-1" />
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <p className="mt-6 text-sm text-ink-600">
+                    <span className="font-medium text-ink-900">Payment: </span>
+                    {project.payment}
+                  </p>
+
+                  <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-4">
+                    <ButtonLink to={PORTAL_SIGNUP} size="lg">
+                      Create a contributor account
+                      <ArrowRight size={18} />
+                    </ButtonLink>
+                    <ButtonLink to={PORTAL_SIGNIN} variant="secondary" size="lg">
+                      Sign in
+                    </ButtonLink>
+                  </div>
+                  <p className="text-sm text-ink-500 mt-4">
+                    We never charge a fee at any stage. If anyone asks you to pay to join,
+                    it is not us.
+                  </p>
+                </article>
+              ))}
+            </div>
+          </Container>
+        </Section>
+      )}
 
       {/* Roles */}
       <Section>

@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
@@ -6,27 +7,18 @@ import Capabilities from './pages/Capabilities';
 import Company from "./pages/Company";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
-import WorkerDashboard from "./pages/WorkerDashboard";
-import WorkerJobs from "./pages/WorkerJobs";
-import JobDetails from "./pages/JobDetails";
-import Payments from "./pages/Payments";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from './components/ScrollToTop.jsx';
 import LocaleProvider from './i18n/LocaleProvider';
 import { ENABLED_LOCALES } from './i18n/translations';
+import { PORTAL_ENABLED } from './lib/portalEnabled';
 
 /**
- * The contributor portal is still a mock-data prototype: no authentication, no
- * real balances, a logout button that does nothing. Serving it publicly meant
- * anyone could open /user/payments and see invented earnings and a working
- * "Withdraw" button.
- *
- * It stays in the codebase and stays routable in development, but it is off in
- * production until it has real auth behind it. Set VITE_ENABLE_PORTAL=true in
- * the environment to turn it on.
+ * The contributor portal (/user/*): Supabase auth, profiles, consent records,
+ * submissions and payments. Setup is in docs/portal-setup.md. Lazy-loaded, so
+ * the public pages never download the Supabase client.
  */
-const PORTAL_ENABLED =
-  import.meta.env.VITE_ENABLE_PORTAL === 'true' || import.meta.env.DEV;
+const Portal = lazy(() => import("./pages/portal/Portal"));
 
 /**
  * The public pages, mounted once per locale. English is served unprefixed at
@@ -45,16 +37,6 @@ function LocalisedSite({ locale }) {
         <Route path="/jobs" element={<Jobs />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
-
-        {PORTAL_ENABLED && (
-          <>
-            <Route path="/user/dashboard" element={<WorkerDashboard />} />
-            <Route path="/user/payments" element={<Payments />} />
-            <Route path="/workerjobs" element={<WorkerJobs />} />
-            <Route path="/workerjobs/show" element={<JobDetails />} />
-          </>
-        )}
-
         <Route path="*" element={<NotFound />} />
       </Routes>
     </LocaleProvider>
@@ -66,6 +48,16 @@ function App() {
     <Router>
       <ScrollToTop />
       <Routes>
+        {PORTAL_ENABLED && (
+          <Route
+            path="/user/*"
+            element={
+              <Suspense fallback={null}>
+                <Portal />
+              </Suspense>
+            }
+          />
+        )}
         {ENABLED_LOCALES.includes('zh') && (
           <Route path="/zh/*" element={<LocalisedSite locale="zh" />} />
         )}

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Mail, Linkedin, MapPin } from 'lucide-react';
 import { COMPANY } from '../data/company';
 import { useT, useLocalePath } from '../i18n/LocaleContext';
+import { PORTAL_ENABLED, PORTAL_SIGNIN } from '../lib/portalEnabled';
 
 /**
  * Site-wide footer. Previously each page carried its own copy of a single
@@ -27,8 +28,10 @@ const Footer = () => {
       links: [
         { label: t('footer.supplierInfo'), to: lp('/company') },
         { label: t('footer.openRoles'), to: lp('/jobs') },
+        // The portal is English-only, so this link carries no locale prefix.
+        PORTAL_ENABLED && { label: t('footer.contributorSignIn'), to: PORTAL_SIGNIN },
         { label: t('footer.contact'), to: lp('/contact') },
-      ],
+      ].filter(Boolean),
     },
   ];
 
