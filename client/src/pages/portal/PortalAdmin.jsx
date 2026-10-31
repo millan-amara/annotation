@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { supabase } from "../../lib/supabase";
-import { formatDate, formatHours, formatMoney } from "../../lib/portal";
+import { describePayout, formatDate, formatHours, formatMoney } from "../../lib/portal";
 import { summarise } from "../../lib/usePortalData";
 import PortalLayout from "../../components/portal/PortalLayout";
 import { Field, Input, Notice, Panel, Select, Spinner, StatusPill, Textarea } from "../../components/portal/Controls";
@@ -21,20 +21,22 @@ function whatsappLink(phone) {
 }
 
 function useAdminData() {
-  const [data, setData] = useState({ profiles: [], submissions: [], payments: [], loaded: false, error: "" });
+  const [data, setData] = useState({ profiles: [], submissions: [], payments: [], payouts: {}, loaded: false, error: "" });
 
   const reload = useCallback(async () => {
-    const [pr, su, pa] = await Promise.all([
+    const [pr, su, pa, po] = await Promise.all([
       supabase.from("profiles").select("*").order("created_at", { ascending: false }),
       supabase.from("submissions").select("*").order("created_at", { ascending: false }),
       supabase.from("payments").select("*").order("paid_on", { ascending: false }),
+      supabase.from("payout_details").select("*"),
     ]);
     setData({
       profiles: pr.data ?? [],
       submissions: su.data ?? [],
       payments: pa.data ?? [],
+      payouts: Object.fromEntries((po.data ?? []).map((row) => [row.user_id, row])),
       loaded: true,
-      error: pr.error?.message || su.error?.message || pa.error?.message || "",
+      error: pr.error?.message || su.error?.message || pa.error?.message || po.error?.message || "",
     });
   }, []);
 
@@ -47,7 +49,7 @@ function useAdminData() {
 
 /* ------------------------------------------------------------------------ */
 
-function ContributorRow({ profile, onSaved }) {
+function ContributorRow({ profile, payout, onSaved }) {
   const [status, setStatus] = useState(profile.status);
   const [folder, setFolder] = useState(profile.drive_folder_url || "");
   const [busy, setBusy] = useState(false);
@@ -88,7 +90,7 @@ function ContributorRow({ profile, onSaved }) {
               {profile.phone}
             </a>
           </p>
-          <p>M-Pesa: {profile.mpesa_number}</p>
+          <p>{payout ? describePayout(payout) : <span className="text-ink-500">No payment details yet</span>}</p>
           <p>{[profile.city, profile.country].filter(Boolean).join(", ")}</p>
           <p>{profile.weekly_hours ?? "?"} h/week</p>
           <p className="sm:col-span-2 text-ink-600">{profile.categories.join(", ")}</p>
@@ -111,7 +113,7 @@ function ContributorRow({ profile, onSaved }) {
   );
 }
 
-function ContributorsTab({ profiles, reload }) {
+function ContributorsTab({ profiles, payouts, reload }) {
   const [filter, setFilter] = useState("applied");
   const shown = filter === "all" ? profiles : profiles.filter((p) => p.status === filter);
 
@@ -128,7 +130,7 @@ function ContributorsTab({ profiles, reload }) {
         <p className="text-sm text-ink-500">None.</p>
       ) : (
         <ul className="divide-y divide-ink-100">
-          {shown.map((p) => <ContributorRow key={p.id} profile={p} onSaved={reload} />)}
+          {shown.map((p) => <ContributorRow key={p.id} profile={p} payout={payouts[p.id]} onSaved={reload} />)}
         </ul>
       )}
     </Panel>
@@ -239,7 +241,7 @@ function ReviewTab({ submissions, byId, reload }) {
 
 const EMPTY_PAYMENT = { user_id: "", amount: "", reference: "", paid_on: "", note: "" };
 
-function PaymentsTab({ profiles, submissions, payments, byId, reload }) {
+function PaymentsTab({ profiles, submissions, payments, payouts, byId, reload }) {
   const [form, setForm] = useState(EMPTY_PAYMENT);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -260,11 +262,14 @@ function PaymentsTab({ profiles, submissions, payments, byId, reload }) {
     [profiles, submissions, payments]
   );
 
+  const payee = payouts[form.user_id];
+
   const save = async (e) => {
     e.preventDefault();
     setBusy(true);
     const { error: insertError } = await supabase.from("payments").insert({
       user_id: form.user_id,
+      method: payee?.method === "bank" ? "Bank transfer" : "M-Pesa",
       amount: Number(form.amount),
       reference: form.reference.trim().toUpperCase() || null,
       paid_on: form.paid_on || undefined,
@@ -290,7 +295,8 @@ function PaymentsTab({ profiles, submissions, payments, byId, reload }) {
                 <div>
                   <p className="text-sm font-medium text-ink-900">{b.profile.full_name}</p>
                   <p className="text-xs text-ink-500">
-                    Earned {formatMoney(b.earned)} · paid {formatMoney(b.paid)} · M-Pesa {b.profile.mpesa_number}
+                    Earned {formatMoney(b.earned)} · paid {formatMoney(b.paid)} ·{" "}
+                    {payouts[b.profile.id] ? describePayout(payouts[b.profile.id]) : "no payment details yet"}
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
@@ -313,16 +319,23 @@ function PaymentsTab({ profiles, submissions, payments, byId, reload }) {
             <Select required value={form.user_id} onChange={set("user_id")}>
               <option value="">Choose</option>
               {profiles.filter((p) => p.full_name).map((p) => (
-                <option key={p.id} value={p.id}>{p.full_name} ({p.mpesa_number})</option>
+                <option key={p.id} value={p.id}>{p.full_name}</option>
               ))}
             </Select>
           </Field>
+          {form.user_id && (
+            <Notice tone={payee ? "info" : "error"}>
+              {payee
+                ? `Pay to: ${describePayout(payee)}`
+                : "This contributor hasn't added payment details yet."}
+            </Notice>
+          )}
           <div className="grid gap-4 sm:grid-cols-3">
             <Field label="Amount (KES)">
               <Input type="number" required min="1" step="1" value={form.amount} onChange={set("amount")} />
             </Field>
-            <Field label="M-Pesa code">
-              <Input value={form.reference} onChange={set("reference")} placeholder="e.g. SJK3XXXXXX" />
+            <Field label={payee?.method === "bank" ? "Bank reference" : "M-Pesa code"}>
+              <Input value={form.reference} onChange={set("reference")} placeholder={payee?.method === "bank" ? "" : "e.g. SJK3XXXXXX"} />
             </Field>
             <Field label="Date paid" hint="Leave blank for today.">
               <Input type="date" value={form.paid_on} onChange={set("paid_on")} />
@@ -396,7 +409,7 @@ export default function PortalAdmin() {
         <Spinner />
       ) : (
         <>
-          {tab === "contributors" && <ContributorsTab profiles={data.profiles} reload={data.reload} />}
+          {tab === "contributors" && <ContributorsTab profiles={data.profiles} payouts={data.payouts} reload={data.reload} />}
           {tab === "review" && <ReviewTab submissions={data.submissions} byId={byId} reload={data.reload} />}
           {tab === "payments" && <PaymentsTab {...data} byId={byId} />}
         </>

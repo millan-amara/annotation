@@ -1,5 +1,6 @@
 import { VIDEO_CATEGORIES } from "../../data/portal";
-import { Field, Input } from "./Controls";
+import { COUNTRIES, PINNED_COUNTRIES } from "../../data/countries";
+import { Field, Input, RequiredNote, Select } from "./Controls";
 
 export default function ProfileFields({ values, onChange }) {
   const set = (key) => (e) => onChange({ ...values, [key]: e.target.value });
@@ -16,35 +17,34 @@ export default function ProfileFields({ values, onChange }) {
 
   return (
     <div className="space-y-4">
+      <RequiredNote />
       <Field label="Full name">
         <Input required value={values.full_name} onChange={set("full_name")} autoComplete="name" />
       </Field>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="WhatsApp number" hint="We use this to brief you and send feedback.">
-          <Input
-            required
-            type="tel"
-            value={values.phone}
-            onChange={set("phone")}
-            placeholder="+254 7XX XXX XXX"
-            autoComplete="tel"
-          />
-        </Field>
-        <Field label="M-Pesa number" hint="Where your payments are sent.">
-          <Input
-            required
-            type="tel"
-            value={values.mpesa_number}
-            onChange={set("mpesa_number")}
-            placeholder="+254 7XX XXX XXX"
-          />
-        </Field>
-      </div>
+      <Field label="WhatsApp number" hint="We use this to brief you and send feedback.">
+        <Input
+          required
+          type="tel"
+          value={values.phone}
+          onChange={set("phone")}
+          placeholder="+254 7XX XXX XXX"
+          autoComplete="tel"
+        />
+      </Field>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Country">
-          <Input required value={values.country} onChange={set("country")} autoComplete="country-name" />
+          <Select required value={values.country} onChange={set("country")} autoComplete="country-name">
+            <option value="">Choose your country</option>
+            {PINNED_COUNTRIES.map((c) => (
+              <option key={`pinned-${c}`} value={c}>{c}</option>
+            ))}
+            <option disabled>──────────</option>
+            {COUNTRIES.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </Select>
         </Field>
         <Field label="Town or city">
           <Input required value={values.city} onChange={set("city")} />
@@ -54,6 +54,7 @@ export default function ProfileFields({ values, onChange }) {
       <Field
         label="Hours of footage you could film per week"
         hint="A realistic estimate. It helps us plan; it is not a commitment."
+        optional
       >
         <Input
           type="number"
@@ -66,7 +67,9 @@ export default function ProfileFields({ values, onChange }) {
       </Field>
 
       <fieldset className="space-y-2">
-        <legend className="text-sm font-medium text-ink-800">Categories you can film</legend>
+        <legend className="text-sm font-medium text-ink-800">
+          Categories you can film <span className="font-normal text-ink-500">(choose at least one)</span>
+        </legend>
         <div className="flex flex-wrap gap-2 pt-1">
           {VIDEO_CATEGORIES.map((category) => {
             const on = values.categories.includes(category);

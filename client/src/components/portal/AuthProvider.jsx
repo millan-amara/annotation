@@ -7,6 +7,7 @@ export default function AuthProvider({ children }) {
   const [session, setSession] = useState(undefined);
   const [profile, setProfile] = useState(null);
   const [consents, setConsents] = useState([]);
+  const [payout, setPayout] = useState(null);
   const [loadedFor, setLoadedFor] = useState(null);
   const [error, setError] = useState(null);
 
@@ -22,17 +23,19 @@ export default function AuthProvider({ children }) {
 
   const refresh = useCallback(async () => {
     if (!userId) return;
-    const [p, c] = await Promise.all([
+    const [p, c, pay] = await Promise.all([
       supabase.from("profiles").select("*").eq("id", userId).single(),
       supabase
         .from("consents")
         .select("*")
         .eq("user_id", userId)
         .order("created_at"),
+      supabase.from("payout_details").select("*").eq("user_id", userId).maybeSingle(),
     ]);
-    setError(p.error || c.error || null);
+    setError(p.error || c.error || pay.error || null);
     setProfile(p.data ?? null);
     setConsents(c.data ?? []);
+    setPayout(pay.data ?? null);
     setLoadedFor(userId);
   }, [userId]);
 
@@ -45,6 +48,7 @@ export default function AuthProvider({ children }) {
     user: session?.user ?? null,
     profile,
     consents,
+    payout,
     error,
     refresh,
     loading: session === undefined || (userId !== null && loadedFor !== userId),

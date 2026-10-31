@@ -2,9 +2,9 @@
 
 The portal lives at `/user/*` (`/user/login` to start). Contributors sign up,
 complete a profile, agree to the roster and project terms, log footage batches
-they have uploaded to Drive, and see their reviews and M-Pesa payments. Admins
-approve contributors, review submissions and record payments, all from
-`/user/admin`.
+they have uploaded to Drive, choose to be paid by M-Pesa or bank, and see their
+reviews and payments. Admins approve contributors, review submissions and
+record payments, all from `/user/admin`.
 
 Footage itself never touches the portal: it stays in Google Drive.
 
@@ -16,6 +16,13 @@ Footage itself never touches the portal: it stays in Google Drive.
 2. **SQL Editor -> New query**, paste all of `supabase/schema.sql`, **Run**.
 3. **Project Settings -> API**: copy the project URL and the anon (publishable)
    key.
+
+### Updating an existing database
+
+If you ran an earlier `schema.sql`, apply the files in `supabase/migrations/`
+that came after it, in order, the same way (SQL Editor -> paste -> Run).
+`001_payout_details.sql` moves payment details off the profile into their own
+table and carries over any M-Pesa numbers already entered.
 
 ## 2. Configure sign-in
 
@@ -70,9 +77,11 @@ Sign out and back in; an **Admin** tab appears.
 3. **Review**: Admin -> Review lists pending batches. Open the files, check
    each clip against the spec, then record minutes accepted, amount earned and
    feedback. The contributor sees this immediately.
-4. **Pay**: Admin -> Payments shows balances due. Send by M-Pesa, then record
-   the payment with the M-Pesa transaction code. The contributor sees the code
-   and can match it to the SMS on their phone.
+4. **Pay**: Admin -> Payments shows balances due and where each person wants
+   to be paid. For M-Pesa, check that the name M-Pesa shows matches the
+   registered name they gave before confirming. Then record the payment with
+   the M-Pesa code or bank reference. The contributor sees the reference
+   and can match it to their M-Pesa message or bank statement.
 
 ## Data protection notes
 

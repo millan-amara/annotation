@@ -20,9 +20,10 @@ const STATUS_MESSAGES = {
 };
 
 export default function PortalDashboard() {
-  const { profile, consents } = useAuth();
+  const { profile, consents, payout } = useAuth();
   const { totals, error } = useContributorData(profile.id);
   const firstName = profile.full_name.split(" ")[0];
+  const joinedAny = PROJECTS.some((p) => hasConsented(consents, p.slug, p.consent));
 
   return (
     <PortalLayout title={`Hello, ${firstName}`}>
@@ -33,6 +34,15 @@ export default function PortalDashboard() {
       </Panel>
 
       <Notice tone="error">{error}</Notice>
+
+      {joinedAny && !payout && (
+        <Notice>
+          Add your payment details so we can pay you for accepted footage.{" "}
+          <Link to="/user/payments" className="font-medium text-accent-700 hover:underline">
+            Add payment details
+          </Link>
+        </Notice>
+      )}
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <Stat label="Submitted" value={formatHours(totals.minutesSubmitted)} hint="of footage" />

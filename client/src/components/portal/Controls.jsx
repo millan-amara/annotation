@@ -11,10 +11,17 @@ import { Eye, EyeOff } from "lucide-react";
 const inputClass =
   "w-full rounded-md border border-ink-300 bg-white px-3 py-2.5 text-base text-ink-900 placeholder:text-ink-400 focus:border-accent-600 focus:outline-none focus:ring-2 focus:ring-accent-200 disabled:bg-ink-50";
 
-export function Field({ label, hint, children }) {
+/**
+ * Forms say "All fields are required unless marked optional" once at the top,
+ * then mark only the exceptions: lighter than an asterisk on nearly every field.
+ */
+export function Field({ label, hint, optional = false, children }) {
   return (
     <label className="block space-y-1.5">
-      <span className="text-sm font-medium text-ink-800">{label}</span>
+      <span className="text-sm font-medium text-ink-800">
+        {label}
+        {optional && <span className="font-normal text-ink-500"> (optional)</span>}
+      </span>
       {children}
       {hint && <span className="block text-xs text-ink-500">{hint}</span>}
     </label>
@@ -60,7 +67,12 @@ export function Textarea(props) {
   return <textarea rows={3} className={inputClass} {...props} />;
 }
 
-export function Checkbox({ checked, onChange, children, required }) {
+/**
+ * Consent-style checkbox: labelled "(required)" or "(optional)", since each
+ * consent item has to say which it is. `plain` drops the label for ordinary
+ * form choices.
+ */
+export function Checkbox({ checked, onChange, children, required, plain = false }) {
   return (
     <label className="flex gap-3 items-start rounded-md border border-ink-200 bg-white p-3 cursor-pointer hover:border-ink-300">
       <input
@@ -70,11 +82,12 @@ export function Checkbox({ checked, onChange, children, required }) {
         className="mt-1 h-4 w-4 shrink-0 accent-accent-600"
       />
       <span className="text-sm text-ink-800 leading-relaxed">
-        {required ? (
-          <strong className="font-semibold">(required) </strong>
-        ) : (
-          <em className="text-ink-500">(optional) </em>
-        )}
+        {!plain &&
+          (required ? (
+            <strong className="font-semibold">(required) </strong>
+          ) : (
+            <em className="text-ink-500">(optional) </em>
+          ))}
         {children}
       </span>
     </label>
@@ -86,6 +99,12 @@ const noticeTones = {
   success: "bg-signal-success-soft text-signal-success border-signal-success/20",
   info: "bg-ink-50 text-ink-700 border-ink-200",
 };
+
+export function RequiredNote() {
+  return (
+    <p className="text-sm text-ink-500">All fields are required unless marked optional.</p>
+  );
+}
 
 export function Notice({ tone = "info", children }) {
   if (!children) return null;

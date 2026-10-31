@@ -30,7 +30,7 @@ export const VIDEO_CATEGORIES = [
 
 export const ROSTER_CONSENT = {
   form: "roster",
-  version: "1.0",
+  version: "1.1",
   notice: [
     {
       heading: "About this registration",
@@ -38,7 +38,7 @@ export const ROSTER_CONSENT = {
     },
     {
       heading: "What we collect and why",
-      body: "Your name, contact details, M-Pesa number, location, the categories you can film and your weekly availability: so we can match you to projects, contact you, and pay you.",
+      body: "Your name, WhatsApp number, location, the categories you can film and your weekly availability: so we can match you to projects and contact you. If you join a project, we also ask for your M-Pesa or bank details so we can pay you.",
     },
     {
       heading: "How long we keep it",
@@ -89,7 +89,7 @@ export const PROJECTS = [
     ],
     // CONFIRM: set once the pilot has shown real cost per accepted hour.
     payment:
-      "Paid per accepted hour of footage, by M-Pesa, after review. Your rate is confirmed with you before you start recording.",
+      "Paid per accepted hour of footage, by M-Pesa or bank transfer, after review. Your rate is confirmed with you before you start recording.",
     spec: [
       ["Resolution", "1080p or higher, recorded natively. Do not upscale."],
       ["Frame rate", "24 fps or higher."],
@@ -103,7 +103,7 @@ export const PROJECTS = [
       ["Files", "Upload the original files from your camera roll. Do not send through WhatsApp: it compresses video and the clip will fail review."],
     ],
     consent: {
-      version: "1.0",
+      version: "1.1",
       notice: [
         {
           heading: "What the project involves",
@@ -125,7 +125,7 @@ export const PROJECTS = [
         },
         {
           heading: "Payment",
-          body: "Paid per accepted hour of footage, by M-Pesa, after review. Your payment does not depend on the optional box below.",
+          body: "Paid per accepted hour of footage, by M-Pesa or bank transfer, after review. Your payment does not depend on the optional box below.",
         },
         {
           heading: "Withdrawing",

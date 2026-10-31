@@ -60,7 +60,18 @@ export function consentRows(userId, form, definition, answers) {
 }
 
 export function isProfileComplete(profile) {
-  return Boolean(profile?.full_name && profile?.phone && profile?.mpesa_number);
+  return Boolean(
+    profile?.full_name && profile?.phone && profile?.country && profile?.city
+  );
+}
+
+/** One-line description of where a contributor's payments go. */
+export function describePayout(payout) {
+  if (!payout) return "";
+  if (payout.method === "mpesa") {
+    return `M-Pesa ${payout.mpesa_number} (${payout.mpesa_name})`;
+  }
+  return `${payout.bank_name}, ${payout.account_name}, account ${payout.account_number}`;
 }
 
 export function formatHours(minutes) {
@@ -98,8 +109,7 @@ export function useConsentAnswers(definition) {
 export const EMPTY_PROFILE = {
   full_name: "",
   phone: "",
-  mpesa_number: "",
-  country: "Kenya",
+  country: "",
   city: "",
   categories: [],
   weekly_hours: "",
@@ -122,7 +132,6 @@ export function profileUpdate(values) {
     ...values,
     full_name: values.full_name.trim(),
     phone: values.phone.trim(),
-    mpesa_number: values.mpesa_number.trim(),
     city: values.city.trim(),
     weekly_hours: values.weekly_hours === "" ? null : Number(values.weekly_hours),
   };

@@ -11,6 +11,7 @@
 --   - A contributor can log submissions, but cannot set review results.
 --   - Consent records are append-only. Withdrawal is a new row, never an edit,
 --     so there is always a record of what was agreed and when.
+--   - Payout details (M-Pesa or bank) are readable by their owner and admins.
 --   - Payments are written by admins only.
 
 -- ---------------------------------------------------------------------------
@@ -22,7 +23,6 @@ create table public.profiles (
   email text,
   full_name text,
   phone text,
-  mpesa_number text,
   country text,
   city text,
   categories text[] not null default '{}',
@@ -209,6 +209,55 @@ create policy "Withdraw own pending submission" on public.submissions
   );
 
 -- ---------------------------------------------------------------------------
+-- Payout details: how a contributor wants to be paid. One row per contributor,
+-- kept apart from the profile so bank details are only loaded where needed.
+-- ---------------------------------------------------------------------------
+
+create table public.payout_details (
+  user_id uuid primary key default auth.uid()
+    references public.profiles (id) on delete cascade,
+  method text not null check (method in ('mpesa', 'bank')),
+  mpesa_number text,
+  mpesa_name text,             -- as registered with M-Pesa, checked when sending
+  bank_name text,
+  bank_branch text,
+  account_name text,
+  account_number text,
+  swift_code text,             -- only needed for banks outside Kenya
+  updated_at timestamptz not null default now(),
+  check (
+    (method = 'mpesa' and mpesa_number is not null and mpesa_name is not null)
+    or (method = 'bank' and bank_name is not null and account_name is not null
+        and account_number is not null)
+  )
+);
+
+create function public.touch_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at := now();
+  return new;
+end;
+$$;
+
+create trigger touch_payout_details
+  before insert or update on public.payout_details
+  for each row execute function public.touch_updated_at();
+
+alter table public.payout_details enable row level security;
+
+create policy "Read own payout details, admins read all" on public.payout_details
+  for select using (user_id = auth.uid() or public.is_admin());
+
+create policy "Add own payout details" on public.payout_details
+  for insert with check (user_id = auth.uid());
+
+create policy "Update own payout details" on public.payout_details
+  for update using (user_id = auth.uid()) with check (user_id = auth.uid());
+
+-- ---------------------------------------------------------------------------
 -- Payments: written by admins, visible to the contributor they were paid to.
 -- ---------------------------------------------------------------------------
 
@@ -219,7 +268,7 @@ create table public.payments (
   user_id uuid not null references public.profiles (id) on delete restrict,
   amount numeric(10, 2) not null check (amount > 0),
   currency text not null default 'KES',
-  method text not null default 'M-Pesa',
+  method text not null default 'M-Pesa',  -- 'M-Pesa' or 'Bank transfer'
   reference text,
   paid_on date not null default current_date,
   note text,

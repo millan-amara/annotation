@@ -373,7 +373,7 @@ const JobsPage = () => {
             <SectionHeading
               eyebrow="Open now"
               title="Taking contributors today"
-              lede="Create a contributor account, complete your profile, and we will contact you on WhatsApp when you are approved to start. Your submissions, reviews and M-Pesa payments are all tracked in your account."
+              lede="Create a contributor account, complete your profile, and we will contact you on WhatsApp when you are approved to start. Your submissions, reviews and payments are all tracked in your account."
             />
             <div className="mt-10 space-y-6">
               {OPEN_PROJECTS.map((project) => (
