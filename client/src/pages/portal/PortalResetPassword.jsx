@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import { useAuth } from "../../lib/portal";
 import { AuthShell } from "../../components/portal/PortalLayout";
-import { Field, Input, Notice, Spinner } from "../../components/portal/Controls";
+import { Field, Notice, PasswordInput, Spinner } from "../../components/portal/Controls";
 import { Button } from "../../components/ui/Button";
 
 /**
@@ -43,8 +43,7 @@ export default function PortalResetPassword() {
     <AuthShell title="Choose a new password">
       <form onSubmit={handleSubmit} className="space-y-4">
         <Field label="New password" hint="At least 8 characters.">
-          <Input
-            type="password"
+          <PasswordInput
             required
             minLength={8}
             value={password}

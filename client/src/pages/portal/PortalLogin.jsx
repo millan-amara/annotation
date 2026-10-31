@@ -4,7 +4,7 @@ import { supabase } from "../../lib/supabase";
 import { COMPANY } from "../../data/company";
 import { useAuth } from "../../lib/portal";
 import { AuthShell } from "../../components/portal/PortalLayout";
-import { Field, Input, Notice, Spinner } from "../../components/portal/Controls";
+import { Field, Input, Notice, PasswordInput, Spinner } from "../../components/portal/Controls";
 import { Button } from "../../components/ui/Button";
 
 const TITLES = {
@@ -88,8 +88,7 @@ export default function PortalLogin({ initialMode = "signin" }) {
 
         {mode !== "forgot" && (
           <Field label="Password" hint={mode === "signup" ? "At least 8 characters." : undefined}>
-            <Input
-              type="password"
+            <PasswordInput
               required
               minLength={mode === "signup" ? 8 : undefined}
               value={password}

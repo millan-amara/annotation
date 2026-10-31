@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+
 /**
  * Form and display primitives for the contributor portal. Built for phones
  * first: most contributors will sign up, log submissions and check payments
@@ -20,6 +23,29 @@ export function Field({ label, hint, children }) {
 
 export function Input(props) {
   return <input className={inputClass} {...props} />;
+}
+
+/** Password input with a show/hide toggle, for typing on a phone keyboard. */
+export function PasswordInput(props) {
+  const [visible, setVisible] = useState(false);
+  return (
+    <div className="relative">
+      <input
+        type={visible ? "text" : "password"}
+        className={`${inputClass} pr-11`}
+        {...props}
+      />
+      <button
+        type="button"
+        onClick={() => setVisible((v) => !v)}
+        aria-label={visible ? "Hide password" : "Show password"}
+        aria-pressed={visible}
+        className="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-ink-500 hover:text-ink-800"
+      >
+        {visible ? <EyeOff size={18} aria-hidden="true" /> : <Eye size={18} aria-hidden="true" />}
+      </button>
+    </div>
+  );
 }
 
 export function Select({ children, ...props }) {
