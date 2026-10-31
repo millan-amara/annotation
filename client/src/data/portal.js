@@ -78,7 +78,8 @@ export const PROJECTS = [
     slug: "video-collection-1",
     title: "Video collection: scenes without people",
     kind: "Video collection",
-    location: "Kenya",
+    // Optional `location: "Kenya"` for projects limited to one place; shown
+    // next to `kind` wherever the project is listed.
     open: true,
     summary:
       "Film original video on your own phone or camera in the categories below. Upload each batch to your Drive folder and log it here. Every clip is reviewed against the specification; you are paid for the minutes that pass.",

@@ -34,7 +34,7 @@ function Brief({ project }) {
     <>
       <Panel title="The brief">
         <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent-600">
-          {project.kind} · {project.location}
+          {[project.kind, project.location].filter(Boolean).join(" · ")}
         </p>
         <p className="mt-2 text-sm text-ink-700 leading-relaxed">{project.summary}</p>
         <p className="mt-3 text-sm text-ink-700">

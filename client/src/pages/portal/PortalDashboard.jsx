@@ -25,7 +25,7 @@ function ProjectCard({ project, application, consents, profile }) {
       action={status ? <StatusPill status={status} /> : <span className="text-xs text-ink-500">Not applied</span>}
     >
       <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent-600">
-        {project.kind} · {project.location}
+        {[project.kind, project.location].filter(Boolean).join(" · ")}
       </p>
       <p className="mt-2 text-sm text-ink-700 leading-relaxed">{project.summary}</p>
       {status && <p className="mt-3 text-sm text-ink-900">{applicationMessage(application, profile)}</p>}

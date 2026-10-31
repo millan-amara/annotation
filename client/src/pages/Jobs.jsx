@@ -379,7 +379,7 @@ const JobsPage = () => {
               {OPEN_PROJECTS.map((project) => (
                 <article key={project.slug} className="bg-white border border-ink-200 rounded-lg p-6 md:p-8">
                   <div className="text-xs font-semibold uppercase tracking-[0.12em] text-accent-600 mb-1.5">
-                    {project.kind} · {project.location}
+                    {[project.kind, project.location].filter(Boolean).join(" · ")}
                   </div>
                   <h3 className="text-xl md:text-2xl font-semibold text-ink-950">{project.title}</h3>
                   <p className="mt-4 text-ink-700 leading-relaxed max-w-3xl">{project.summary}</p>
