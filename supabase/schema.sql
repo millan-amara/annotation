@@ -6,9 +6,12 @@
 -- Access model, enforced here rather than in the browser (the browser is not
 -- trusted; anyone can call the API with the public key):
 --   - A contributor can read their own rows and nothing else.
---   - A contributor can edit their own profile details, but not their status,
---     admin flag or Drive folder.
---   - A contributor can log submissions, but cannot set review results.
+--   - A contributor can edit their own profile details, but not their admin
+--     flag.
+--   - A contributor applies to each project separately; approval and the
+--     Drive folder are set per project, by an admin.
+--   - A contributor can log submissions only for projects they're approved
+--     on, and cannot set review results.
 --   - Consent records are append-only. Withdrawal is a new row, never an edit,
 --     so there is always a record of what was agreed and when.
 --   - Payout details (M-Pesa or bank) are readable by their owner and admins.
@@ -25,11 +28,6 @@ create table public.profiles (
   phone text,
   country text,
   city text,
-  categories text[] not null default '{}',
-  weekly_hours numeric(5, 1) check (weekly_hours >= 0),
-  status text not null default 'applied'
-    check (status in ('applied', 'approved', 'paused', 'rejected')),
-  drive_folder_url text,
   is_admin boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -74,9 +72,7 @@ language plpgsql
 as $$
 begin
   if auth.uid() is not null and not public.is_admin() then
-    if new.status is distinct from old.status
-      or new.is_admin is distinct from old.is_admin
-      or new.drive_folder_url is distinct from old.drive_folder_url
+    if new.is_admin is distinct from old.is_admin
       or new.email is distinct from old.email then
       raise exception 'Only an administrator can change that field';
     end if;
@@ -139,6 +135,75 @@ create policy "Record own consent" on public.consents
   for insert with check (user_id = auth.uid());
 
 -- ---------------------------------------------------------------------------
+-- Applications: one per contributor per project. Approval, the contributor's
+-- Drive folder and their answers to the project's questions live here, so
+-- being approved for one project says nothing about the next.
+-- ---------------------------------------------------------------------------
+
+create table public.applications (
+  id bigint generated always as identity primary key,
+  user_id uuid not null default auth.uid()
+    references public.profiles (id) on delete cascade,
+  project text not null,       -- a project slug from client/src/data/portal.js
+  answers jsonb not null default '{}',
+  status text not null default 'applied'
+    check (status in ('applied', 'approved', 'paused', 'rejected', 'withdrawn')),
+  drive_folder_url text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (user_id, project)
+);
+
+create index applications_project_idx on public.applications (project, status);
+
+-- A contributor may edit their answers, withdraw, and re-apply after
+-- withdrawing. Everything else (approval, Drive folder) is an admin's call.
+-- auth.uid() is null in the SQL editor, which is trusted like an admin.
+create function public.guard_application()
+returns trigger
+language plpgsql
+as $$
+declare
+  contributor boolean := auth.uid() is not null and not public.is_admin();
+begin
+  if tg_op = 'INSERT' then
+    new.created_at := now();
+    if contributor then
+      new.status := 'applied';
+      new.drive_folder_url := null;
+    end if;
+  elsif contributor then
+    if new.user_id is distinct from old.user_id
+      or new.project is distinct from old.project
+      or new.drive_folder_url is distinct from old.drive_folder_url
+      or (new.status is distinct from old.status and not (
+        (new.status = 'withdrawn' and old.status in ('applied', 'approved', 'paused'))
+        or (new.status = 'applied' and old.status = 'withdrawn')
+      )) then
+      raise exception 'Only an administrator can change that field';
+    end if;
+  end if;
+  new.updated_at := now();
+  return new;
+end;
+$$;
+
+create trigger guard_application
+  before insert or update on public.applications
+  for each row execute function public.guard_application();
+
+alter table public.applications enable row level security;
+
+create policy "Read own applications, admins read all" on public.applications
+  for select using (user_id = auth.uid() or public.is_admin());
+
+create policy "Apply to projects" on public.applications
+  for insert with check (user_id = auth.uid());
+
+create policy "Update own application, admins update all" on public.applications
+  for update using (user_id = auth.uid() or public.is_admin());
+
+-- ---------------------------------------------------------------------------
 -- Submissions: a contributor logs a batch of footage they uploaded to Drive;
 -- an admin reviews it and records accepted minutes, amount and feedback.
 -- ---------------------------------------------------------------------------
@@ -197,8 +262,16 @@ alter table public.submissions enable row level security;
 create policy "Read own submissions, admins read all" on public.submissions
   for select using (user_id = auth.uid() or public.is_admin());
 
-create policy "Log own submissions" on public.submissions
-  for insert with check (user_id = auth.uid());
+create policy "Log submissions for approved projects" on public.submissions
+  for insert with check (
+    user_id = auth.uid()
+    and exists (
+      select 1 from public.applications a
+      where a.user_id = auth.uid()
+        and a.project = submissions.project
+        and a.status = 'approved'
+    )
+  );
 
 create policy "Admins review submissions" on public.submissions
   for update using (public.is_admin());

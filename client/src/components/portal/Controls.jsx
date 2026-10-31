@@ -149,6 +149,7 @@ const pillTones = {
   partial: "bg-accent-50 text-accent-700",
   paused: "bg-ink-100 text-ink-600",
   rejected: "bg-signal-error-soft text-signal-error",
+  withdrawn: "bg-ink-100 text-ink-500",
 };
 
 export function StatusPill({ status }) {

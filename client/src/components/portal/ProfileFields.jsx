@@ -1,19 +1,8 @@
-import { VIDEO_CATEGORIES } from "../../data/portal";
 import { COUNTRIES, PINNED_COUNTRIES } from "../../data/countries";
 import { Field, Input, RequiredNote, Select } from "./Controls";
 
 export default function ProfileFields({ values, onChange }) {
   const set = (key) => (e) => onChange({ ...values, [key]: e.target.value });
-
-  const toggleCategory = (category) => {
-    const has = values.categories.includes(category);
-    onChange({
-      ...values,
-      categories: has
-        ? values.categories.filter((c) => c !== category)
-        : [...values.categories, category],
-    });
-  };
 
   return (
     <div className="space-y-4">
@@ -50,47 +39,6 @@ export default function ProfileFields({ values, onChange }) {
           <Input required value={values.city} onChange={set("city")} />
         </Field>
       </div>
-
-      <Field
-        label="Hours of footage you could film per week"
-        hint="A realistic estimate. It helps us plan; it is not a commitment."
-        optional
-      >
-        <Input
-          type="number"
-          min="0"
-          step="0.5"
-          inputMode="decimal"
-          value={values.weekly_hours}
-          onChange={set("weekly_hours")}
-        />
-      </Field>
-
-      <fieldset className="space-y-2">
-        <legend className="text-sm font-medium text-ink-800">
-          Categories you can film <span className="font-normal text-ink-500">(choose at least one)</span>
-        </legend>
-        <div className="flex flex-wrap gap-2 pt-1">
-          {VIDEO_CATEGORIES.map((category) => {
-            const on = values.categories.includes(category);
-            return (
-              <button
-                key={category}
-                type="button"
-                onClick={() => toggleCategory(category)}
-                aria-pressed={on}
-                className={`rounded-md border px-3 py-1.5 text-sm transition-colors ${
-                  on
-                    ? "border-accent-600 bg-accent-50 text-accent-700"
-                    : "border-ink-300 bg-white text-ink-700 hover:bg-ink-50"
-                }`}
-              >
-                {category}
-              </button>
-            );
-          })}
-        </div>
-      </fieldset>
     </div>
   );
 }

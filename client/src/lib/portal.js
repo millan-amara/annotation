@@ -111,8 +111,6 @@ export const EMPTY_PROFILE = {
   phone: "",
   country: "",
   city: "",
-  categories: [],
-  weekly_hours: "",
 };
 
 /** The editable subset of a profile row, ready for a form. */
@@ -133,6 +131,64 @@ export function profileUpdate(values) {
     full_name: values.full_name.trim(),
     phone: values.phone.trim(),
     city: values.city.trim(),
-    weekly_hours: values.weekly_hours === "" ? null : Number(values.weekly_hours),
   };
+}
+
+/** The contributor's application to a project, or undefined. */
+export function applicationFor(applications, slug) {
+  return applications.find((a) => a.project === slug);
+}
+
+/** One line explaining where an application stands. */
+export function applicationMessage(application, profile) {
+  switch (application?.status) {
+    case "applied":
+      return `Application received. We'll message you on WhatsApp at ${profile.phone} once we've reviewed it.`;
+    case "approved":
+      return "You're in. Work to the brief, upload to your folder, and log each batch under Submissions.";
+    case "paused":
+      return "Your place on this project is paused, so new batches can't be logged for now.";
+    case "rejected":
+      return "We couldn't offer you a place on this project. We'll let you know about others.";
+    case "withdrawn":
+      return "You withdrew from this project. You can apply again while it's open.";
+    default:
+      return "";
+  }
+}
+
+/** An application that is live: not withdrawn and not turned down. */
+export function isActiveApplication(application) {
+  return Boolean(application) && !["withdrawn", "rejected"].includes(application.status);
+}
+
+/** Starting values for a project's questions, from a previous application if any. */
+export function initialAnswers(project, previous = {}) {
+  const answers = {};
+  for (const q of project.questions) {
+    answers[q.key] = previous[q.key] ?? (q.type === "multi" ? [] : "");
+  }
+  return answers;
+}
+
+/** First unanswered required question's message, or "" when all are answered. */
+export function missingAnswer(project, answers) {
+  for (const q of project.questions) {
+    if (q.optional) continue;
+    const value = answers[q.key];
+    if (q.type === "multi" ? !value?.length : value === "" || value === null) {
+      return q.type === "multi" ? `${q.label} Choose at least one.` : `Please answer: ${q.label}`;
+    }
+  }
+  return "";
+}
+
+/** Answers shaped for storage: numbers as numbers, blanks as null. */
+export function cleanAnswers(project, answers) {
+  const out = {};
+  for (const q of project.questions) {
+    const value = answers[q.key];
+    out[q.key] = q.type === "number" ? (value === "" ? null : Number(value)) : value;
+  }
+  return out;
 }

@@ -25,10 +25,6 @@ export default function PortalOnboarding() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (values.categories.length === 0) {
-      setError("Choose at least one category you can film.");
-      return;
-    }
     setBusy(true);
     setError("");
 
@@ -58,18 +54,19 @@ export default function PortalOnboarding() {
           <ProfileFields values={values} onChange={setValues} />
         </Panel>
 
-        <Panel title="How we use your information">
+        <Panel title="Privacy">
           <ConsentForm
             definition={ROSTER_CONSENT}
             answers={consent.answers}
             onChange={consent.set}
+            collapsible
           />
         </Panel>
 
         <Notice tone="error">{error}</Notice>
 
         <Button type="submit" size="lg" loading={busy} disabled={!consent.canSubmit} className="w-full sm:w-auto">
-          Join the roster
+          Continue
         </Button>
       </form>
     </PortalLayout>

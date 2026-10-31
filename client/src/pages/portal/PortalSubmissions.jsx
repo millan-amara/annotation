@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ExternalLink, Trash2 } from "lucide-react";
 import { supabase } from "../../lib/supabase";
-import { useAuth, hasConsented, formatDate, formatHours, formatMoney } from "../../lib/portal";
+import { useAuth, applicationFor, hasConsented, formatDate, formatHours, formatMoney } from "../../lib/portal";
 import { useContributorData } from "../../lib/usePortalData";
 import { PROJECTS, findProject } from "../../data/portal";
 import PortalLayout from "../../components/portal/PortalLayout";
@@ -127,11 +127,16 @@ function SubmissionItem({ submission, onDelete }) {
 }
 
 export default function PortalSubmissions() {
-  const { profile, consents } = useAuth();
+  const { profile, consents, applications } = useAuth();
   const { submissions, loaded, error, reload } = useContributorData(profile.id);
   const [deleteError, setDeleteError] = useState("");
-  const joined = PROJECTS.filter((p) => p.open && hasConsented(consents, p.slug, p.consent));
-  const canSubmit = profile.status === "approved" && joined.length > 0;
+  // Projects this contributor is approved on, with the current terms agreed.
+  const active = PROJECTS.filter(
+    (p) =>
+      p.open &&
+      applicationFor(applications, p.slug)?.status === "approved" &&
+      hasConsented(consents, p.slug, p.consent)
+  );
 
   const handleDelete = async (submission) => {
     if (!window.confirm("Remove this submission? It hasn't been reviewed yet.")) return;
@@ -143,13 +148,12 @@ export default function PortalSubmissions() {
   return (
     <PortalLayout title="Submissions">
       <Panel title="Log a new batch">
-        {canSubmit ? (
-          <SubmissionForm projects={joined} onSaved={reload} />
+        {active.length > 0 ? (
+          <SubmissionForm projects={active} onSaved={reload} />
         ) : (
           <p className="text-sm text-ink-700">
-            {profile.status !== "approved"
-              ? "You can log submissions once your account is approved."
-              : <>Join a project first, from your <Link to="/user/dashboard" className="text-accent-700 hover:underline">home page</Link>.</>}
+            You can log work once you've been accepted on a project. See open projects on
+            your <Link to="/user/dashboard" className="text-accent-700 hover:underline">home page</Link>.
           </p>
         )}
       </Panel>

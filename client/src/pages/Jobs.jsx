@@ -373,13 +373,13 @@ const JobsPage = () => {
             <SectionHeading
               eyebrow="Open now"
               title="Taking contributors today"
-              lede="Create a contributor account, complete your profile, and we will contact you on WhatsApp when you are approved to start. Your submissions, reviews and payments are all tracked in your account."
+              lede="Create a contributor account, then apply to a project from your dashboard. We contact you on WhatsApp once we have reviewed your application, and your work, reviews and payments are all tracked in your account."
             />
             <div className="mt-10 space-y-6">
               {OPEN_PROJECTS.map((project) => (
                 <article key={project.slug} className="bg-white border border-ink-200 rounded-lg p-6 md:p-8">
                   <div className="text-xs font-semibold uppercase tracking-[0.12em] text-accent-600 mb-1.5">
-                    Video collection · Kenya
+                    {project.kind} · {project.location}
                   </div>
                   <h3 className="text-xl md:text-2xl font-semibold text-ink-950">{project.title}</h3>
                   <p className="mt-4 text-ink-700 leading-relaxed max-w-3xl">{project.summary}</p>
@@ -403,12 +403,7 @@ const JobsPage = () => {
                         What you need
                       </h4>
                       <ul className="space-y-2">
-                        {[
-                          'A phone or camera that records 1080p video',
-                          'Steady hands, or a simple stand',
-                          'Original footage you filmed yourself, with no people or music in it',
-                          'A Google account, to upload to your Drive folder',
-                        ].map((item) => (
+                        {project.needs.map((item) => (
                           <li key={item} className="flex items-start gap-3 text-ink-700">
                             <Check className="text-accent-600 w-4 h-4 shrink-0 mt-1" />
                             {item}

@@ -1,8 +1,11 @@
 import { COMPANY } from "./company";
 
 /**
- * Content for the contributor portal: categories, projects and the consent
- * wording contributors agree to.
+ * Content for the contributor portal: projects, the questions each one asks,
+ * and the consent wording contributors agree to.
+ *
+ * Adding a project means adding an entry to PROJECTS: its brief, its
+ * questions, its spec and its terms. The pages render whatever is here.
  *
  * Consent wording follows docs/contributor-consent.md (Form A for the roster,
  * Form B per project) and is still a draft for legal review. The exact text of
@@ -11,34 +14,23 @@ import { COMPANY } from "./company";
  * are asked to agree again whenever the version changes.
  */
 
-export const VIDEO_CATEGORIES = [
-  "Human discussions",
-  "Human action",
-  "Human interacting with items",
-  "Sports",
-  "Music shows and performances",
-  "Animals",
-  "Nature",
-  "Cities and buildings",
-  "Transportation",
-  "Industry",
-  "Food and cooking",
-  "Products and displays",
-  "Animation (non-AI-generated)",
-  "Video games (non-AI-generated)",
-];
-
+/**
+ * Account-level consent, asked once at sign-up. It covers holding someone's
+ * contact details, nothing project-specific: each project asks for its own
+ * consent when someone applies.
+ */
 export const ROSTER_CONSENT = {
   form: "roster",
-  version: "1.1",
+  version: "2.0",
+  noticeTitle: "How we use your information",
   notice: [
     {
-      heading: "About this registration",
-      body: `${COMPANY.name} recruits and manages contributors for data collection projects. Registering puts you on our roster so we can contact you when a project matches your location and the categories you can film. It is not an offer of work.`,
+      heading: "What this account is for",
+      body: `${COMPANY.name} runs paid data projects with contributors. Your account lets you apply to open projects and lets us contact you about them. Creating one is not an offer of work.`,
     },
     {
       heading: "What we collect and why",
-      body: "Your name, WhatsApp number, location, the categories you can film and your weekly availability: so we can match you to projects and contact you. If you join a project, we also ask for your M-Pesa or bank details so we can pay you.",
+      body: "Your name, WhatsApp number and location, so we can contact you and match you to projects. When you apply to a project we ask that project's own questions, and if you're accepted we ask for M-Pesa or bank details so we can pay you.",
     },
     {
       heading: "How long we keep it",
@@ -46,7 +38,7 @@ export const ROSTER_CONSENT = {
     },
     {
       heading: "Who sees it",
-      body: "Only us. We do not share roster information with clients and we never sell it. If you join a project we tell you at that point what is shared and with whom, and ask you separately.",
+      body: "Only us. We do not share your account details with clients and we never sell them. If a project involves sharing anything, its terms say what and with whom, and you agree to them separately.",
     },
     {
       heading: "Your rights",
@@ -57,12 +49,12 @@ export const ROSTER_CONSENT = {
     {
       key: "roster",
       required: true,
-      text: `I have read the above and agree that ${COMPANY.name} may hold the information on this form to consider me for future projects.`,
+      text: `${COMPANY.name} may hold the details on this form so I can apply to projects and be contacted about them.`,
     },
     {
-      key: "other_projects",
+      key: "new_projects",
       required: false,
-      text: `${COMPANY.name} may contact me about projects outside the categories I listed, if something else suitable comes up.`,
+      text: `${COMPANY.name} may message me on WhatsApp when new projects open.`,
     },
   ],
 };
@@ -73,19 +65,46 @@ export const ROSTER_CONSENT = {
  * keeps the footage outside the Data Protection Act while registration with
  * the ODPC is pending.
  */
+const SCENES_WITHOUT_PEOPLE = [
+  "Animals",
+  "Nature",
+  "Cities and buildings",
+  "Transportation",
+  "Food and cooking",
+];
+
 export const PROJECTS = [
   {
     slug: "video-collection-1",
     title: "Video collection: scenes without people",
+    kind: "Video collection",
+    location: "Kenya",
     open: true,
     summary:
       "Film original video on your own phone or camera in the categories below. Upload each batch to your Drive folder and log it here. Every clip is reviewed against the specification; you are paid for the minutes that pass.",
-    categories: [
-      "Animals",
-      "Nature",
-      "Cities and buildings",
-      "Transportation",
-      "Food and cooking",
+    categories: SCENES_WITHOUT_PEOPLE,
+    needs: [
+      "A phone or camera that records 1080p video",
+      "Steady hands, or a simple stand",
+      "Original footage you filmed yourself, with no people or music in it",
+      "A Google account, to upload to your Drive folder",
+    ],
+    // Asked when someone applies; answers are stored on their application.
+    questions: [
+      {
+        key: "categories",
+        type: "multi",
+        label: "Which of these can you film?",
+        hint: "Choose at least one.",
+        options: SCENES_WITHOUT_PEOPLE,
+      },
+      {
+        key: "weekly_hours",
+        type: "number",
+        label: "Hours of footage you could film per week",
+        hint: "A realistic estimate. It helps us plan; it is not a commitment.",
+        optional: true,
+      },
     ],
     // CONFIRM: set once the pilot has shown real cost per accepted hour.
     payment:

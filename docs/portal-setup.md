@@ -21,8 +21,11 @@ Footage itself never touches the portal: it stays in Google Drive.
 
 If you ran an earlier `schema.sql`, apply the files in `supabase/migrations/`
 that came after it, in order, the same way (SQL Editor -> paste -> Run).
-`001_payout_details.sql` moves payment details off the profile into their own
-table and carries over any M-Pesa numbers already entered.
+- `001_payout_details.sql` moves payment details off the profile into their
+  own table and carries over any M-Pesa numbers already entered.
+- `002_applications.sql` moves approval, Drive folders and project answers
+  from the profile to per-project applications, carrying existing profiles
+  over as applications to the first video project.
 
 ## 2. Configure sign-in
 
@@ -60,24 +63,41 @@ Then in the SQL editor:
 
 ```sql
 update public.profiles
-set is_admin = true, status = 'approved'
+set is_admin = true
 where email = 'you@example.com';
 ```
 
 Sign out and back in; an **Admin** tab appears.
 
+## Adding a project
+
+Projects are defined in `client/src/data/portal.js`, in `PROJECTS`. Each one
+has its brief, its `questions` (asked when someone applies; answers are stored
+on the application), its spec and its consent terms. Copy the existing entry,
+give it a new `slug`, and set `open: true`. The portal pages, the Jobs page and
+the admin filters pick it up from there. Changing an existing project's terms
+means bumping its `consent.version`; approved contributors are then asked to
+agree again before logging more work.
+
 ## Day-to-day
 
-1. **New sign-ups** appear under Admin -> Contributors, filtered to `applied`.
-   Check the profile, message them on WhatsApp (the number is a link), then set
-   status to `approved` and paste in their Drive folder link.
-   - Create one Drive folder per contributor, shared with them as editor.
-2. **Contributors join a project** by reading the brief and ticking the
-   project terms. Only approved contributors who have joined can log batches.
-3. **Review**: Admin -> Review lists pending batches. Open the files, check
+1. **Sign-up** asks only for name, WhatsApp number and location, plus a
+   general consent to hold those details. Nothing project-specific.
+2. **Applying**: contributors pick an open project from their home page, read
+   the brief, answer the project's questions and agree to its terms.
+3. **Approving**: applications appear under Admin -> Applications, filtered to
+   `applied`. Check the answers, message them on WhatsApp (the number is a
+   link), then set the status to `approved` and paste in their Drive folder
+   link. Approval is per project; approving someone for one project gives
+   them nothing on another.
+   - Create one Drive folder per contributor per project, shared with them as
+     editor.
+   - Only approved contributors can log batches for that project; the
+     database enforces it.
+4. **Review**: Admin -> Review lists pending batches. Open the files, check
    each clip against the spec, then record minutes accepted, amount earned and
    feedback. The contributor sees this immediately.
-4. **Pay**: Admin -> Payments shows balances due and where each person wants
+5. **Pay**: Admin -> Payments shows balances due and where each person wants
    to be paid. For M-Pesa, check that the name M-Pesa shows matches the
    registered name they gave before confirming. Then record the payment with
    the M-Pesa code or bank reference. The contributor sees the reference
