@@ -67,6 +67,7 @@ export default function Portal() {
     <AuthProvider>
       <Routes>
         <Route path="login" element={<PortalLogin />} />
+        <Route path="signup" element={<PortalLogin initialMode="signup" />} />
         <Route path="reset-password" element={<PortalResetPassword />} />
         <Route
           path="onboarding"

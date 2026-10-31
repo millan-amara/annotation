@@ -6,5 +6,5 @@
 export const PORTAL_ENABLED =
   import.meta.env.VITE_ENABLE_PORTAL === "true" || import.meta.env.DEV;
 
-export const PORTAL_SIGNUP = "/user/login?mode=signup";
+export const PORTAL_SIGNUP = "/user/signup";
 export const PORTAL_SIGNIN = "/user/login";

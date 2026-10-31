@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Navigate, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
+import { COMPANY } from "../../data/company";
 import { useAuth } from "../../lib/portal";
 import { AuthShell } from "../../components/portal/PortalLayout";
 import { Field, Input, Notice, Spinner } from "../../components/portal/Controls";
@@ -8,18 +9,15 @@ import { Button } from "../../components/ui/Button";
 
 const TITLES = {
   signin: "Sign in",
-  signup: "Create your contributor account",
+  signup: "Create an account",
   forgot: "Reset your password",
 };
 
-export default function PortalLogin() {
+export default function PortalLogin({ initialMode = "signin" }) {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [searchParams] = useSearchParams();
-  const [mode, setMode] = useState(
-    searchParams.get("mode") === "signup" ? "signup" : "signin"
-  );
+  const [mode, setMode] = useState(initialMode);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -73,9 +71,7 @@ export default function PortalLogin() {
     <AuthShell title={TITLES[mode]}>
       {mode === "signup" && (
         <p className="mb-5 text-sm text-ink-600 leading-relaxed">
-          Paid video collection projects, filmed on your own phone. Create an
-          account, complete your profile, and we'll contact you on WhatsApp
-          when you're approved to start.
+          Join {COMPANY.name} as a contributor to take part in our data projects.
         </p>
       )}
 
